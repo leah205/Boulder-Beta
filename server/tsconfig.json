@@ -1,0 +1,21 @@
+{
+  "extends": "@tsconfig/node12/tsconfig.json",
+
+  "compilerOptions": {
+    // "module": "NodeNext",
+    // "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+
+    "baseUrl": "./",
+    "ignoreDeprecations": "6.0",
+    "target": "ES2022",
+    "esModuleInterop": true,
+    "strict": true,
+    "types": ["jest", "passport", "passport-local", "express"]
+    "paths": { "*": ["*.d.ts"], "@/*": ["src/*"], "@shared/*": ["shared/*"] }
+
+    //"noImplicitAny": false
+  },
+  "include": ["src", "type-defs"]
+}
