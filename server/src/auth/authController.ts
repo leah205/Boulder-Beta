@@ -62,9 +62,14 @@ const userController = {
   },
 
   logout: {
-    get: async (req: Request, res: Response) => {
-      // add in logout frontend logic
-      res.json({ logout: "success" });
+    post: async (req: Request, res: Response, next: NextFunction) => {
+      req.logout(function (err) {
+        if (err) {
+          return next(err);
+        }
+
+        res.json({ logout: "success" });
+      });
     },
   },
 

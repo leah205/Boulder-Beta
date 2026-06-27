@@ -44,11 +44,11 @@ model User {
 model Climb {
   id    Int     @id @default(autoincrement()) 
   caption   String?
-  clip Clip[]
+  uploadedAt DateTime @default(now())
   rating Int?
   grade String?
   claps Clap[]
-  attempts Int?
+  attempts Attempt[]
   published Boolean @default(false)
   sent Boolean @default(false)
   creator   User    @relation(fields: [creatorId], references: [id])
@@ -57,14 +57,19 @@ model Climb {
   @@map("climbs")
 }
 
-model Clip {
-  uploadedAt DateTime @default(now())
-  attachment String?
-  id    Int     @id @default(autoincrement()) 
-  climb Climb  @relation(fields: [climbId], references: [id])
-  climbId Int
-
+model Attempt {
+    id    Int     @id @default(autoincrement()) 
+    clip String?
+    climbId Int
+    climb Climb @relation(fields: [climbId], references: [id])
+    send Boolean @default(false)
+    fallReason String?
+    notes String?
 }
+
+
+
+
 
 model Beta {
   id    Int     @id @default(autoincrement()) 

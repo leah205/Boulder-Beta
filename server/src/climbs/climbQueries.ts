@@ -16,14 +16,6 @@ const climbQueries = {
       data: data,
     });
   },
-
-  getMyClimbs: async (creatorId: number) => {
-    return await prisma.climb.findMany({
-      where: {
-        creatorId: creatorId,
-      },
-    });
-  },
 };
 
 export default climbQueries;

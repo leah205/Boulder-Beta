@@ -7,8 +7,9 @@ import climbController from "./climbController";
 //is logged in middleware
 climb_router.post("/", climbController.createClimb);
 
-//get my climbs
-climb_router.get("/me", climbController.getMyClimbs);
+// get all climbs
+// climb_router.get("/feed", climb);
+// climb_router.get("/clim");
 
 //climb_router.get("/:id/posted", climb_router.getUserClimbs);
 
