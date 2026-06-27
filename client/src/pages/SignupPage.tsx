@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import InputField from "../components/InputField";
 import ValidationError from "../components/ValidationError";
 import { useSignup } from "../features/authentication/useSignup";
+import { Link } from "react-router-dom";
 
 export default function SignupPage() {
   const [username, setUsername] = useState("");
@@ -49,6 +50,9 @@ export default function SignupPage() {
         <Button type="submit" className="auth_btn" onClick={handleSubmit}>
           Sign up
         </Button>
+        <Link to="/signin">
+          Already have an account? <b>Sign in</b>
+        </Link>
       </Form>
     </>
   );

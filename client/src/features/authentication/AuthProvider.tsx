@@ -15,7 +15,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       let userData = null;
       try {
         userData = await authService.getUserFromToken();
-      } catch {
+      } catch (err) {
+        console.log(err);
         console.log("no valid token set");
       } finally {
         setLoading(false);
@@ -47,12 +48,12 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   const signout = async () => {
     setUser(null);
     try {
-      //await authService.signout();
+      await authService.logout();
     } catch (error) {
       console.error(error);
       throw error;
     }
-    navigate("/login");
+    navigate("/signin");
     localStorage.removeItem("token");
   };
 

@@ -1,59 +1,47 @@
 import useAuth from "../features/authentication/useAuth";
-
+import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function NavLink({ children }: { children: React.ReactNode }) {
   return (
-    <li className=" text-mist-500 hover:text-mist-700 px-5  hover:bg-mist-100 rounded-sm py-5">
+    <li className=" gap-10 text-mist-500 hover:text-mist-700 px-5 hover:bg-mist-100 rounded-sm py-5">
       {children}
     </li>
   );
 }
 
 function NavList({ children }: { children: React.ReactNode }) {
-  return <ul className="flex-1 flex-row flex max-w-fit ">{children}</ul>;
+  return <ul className="flex-1 flex-col flex ">{children}</ul>;
 }
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated, signout } = useAuth();
+export default function AppLayout() {
+  const { signout } = useAuth();
 
   return (
     <>
-      <nav className="mb-10 flex justify-between">
-        <NavList>
-          <NavLink>
-            <Link to="about">Logo</Link>
-          </NavLink>
-          <NavLink>
-            <Link to="about">About</Link>
-          </NavLink>
-          <NavLink>
-            <Link to="posts">Posts</Link>
-          </NavLink>
-        </NavList>
-
-        <NavList>
-          {!isAuthenticated && (
-            <>
-              <NavLink>
-                <Link to="signup">Register</Link>
-              </NavLink>
-              <NavLink>
-                <Link to="signin">Login</Link>
-              </NavLink>
-            </>
-          )}
-          {isAuthenticated && (
+      <main className="flex h-screen box-border p-20">
+        <nav className="w-1/5 flex flex-col justify-between b-3 rounded-sm h-full">
+          <NavList>
+            <NavLink>
+              <Link to="about">Logo</Link>
+            </NavLink>
+            <NavLink>
+              <Link to="log-climb">Log Climb</Link>
+            </NavLink>
+            <NavLink>
+              <Link to="my-climbs"> My Climbs</Link>
+            </NavLink>
             <NavLink>
               <Link onClick={signout} to="/">
                 Signout
               </Link>
             </NavLink>
-          )}
-        </NavList>
-      </nav>
-
-      <div>{children}</div>
+          </NavList>
+        </nav>
+        <div>
+          <Outlet />
+        </div>
+      </main>
     </>
   );
 }

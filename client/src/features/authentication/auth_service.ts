@@ -44,6 +44,11 @@ const api = {
     return response.data;
   },
 
+  logout: async () => {
+    const response = await http.post(`${API_URL}/logout`);
+    console.log(response);
+  },
+
   getUserFromToken: async () => {
     const response = await http.get<User>(`${API_URL}/userFromToken`, {});
     return response.data;

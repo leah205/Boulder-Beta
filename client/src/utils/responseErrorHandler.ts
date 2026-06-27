@@ -5,7 +5,6 @@ import axios from "axios";
 import { CustomValidationError } from "../Error";
 
 export default function responseErrorHandler(error: AxiosError) {
-  console.log(error);
   if (axios.isAxiosError(error)) {
     const response = error?.response;
     if (error.code == "ERR_NETWORK") {
@@ -24,21 +23,25 @@ export default function responseErrorHandler(error: AxiosError) {
             data.errors as ValidationError[],
           );
         }
-        throw new Error("Bad Request");
+        throw new Error("User request malfigured");
       }
       if (statusCode == 401) {
         throw new Error("Unauthorized");
       }
       if (statusCode == 403) {
-        throw new Error("Forbidden");
+        throw new Error(
+          "Forbidden. User does not have authorization to access this resource",
+        );
       }
       if (statusCode == 404) {
         throw new Error("Requested resource does not exists");
       } else {
-        throw new Error("Server error");
+        throw new Error("Server Error");
       }
     }
   }
 
-  throw new Error("sorry something went wrong. please try again later");
+  throw new Error(
+    "Sorry, something went wrong on our end. Please try again later",
+  );
 }
