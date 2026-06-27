@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import authRouter from "./auth/auth_routes";
+import climbRouter from "./climbs/climbRoutes";
 import passport from "./auth/passport_config";
 import prisma from "./db/prisma_client";
 import session from "express-session";
@@ -39,9 +40,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/climbs", climbRouter);
 
 app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
+  console.log("error handling");
   res.status(err.statusCode || 500).json(err.message);
   next();
 });

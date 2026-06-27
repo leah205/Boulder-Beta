@@ -19,9 +19,80 @@ model Session {
   expiresAt   DateTime
 }
 
+
+// add profile photo
 model User { 
   id    Int     @id @default(autoincrement()) 
   username String  @unique
   password String
+  grade Int?
+  profilePicture String?
+  climbs Climb[]
+  claps Clap[]
+  betas Beta[]
+  emphases Emphasis[]
+  followedBy User[]  @relation("UserFollows")
+  following  User[]  @relation("UserFollows")
+  private Boolean @default(false)
   @@map("users")
 } 
+
+// add in a series of videos or just an image
+
+
+
+model Climb {
+  id    Int     @id @default(autoincrement()) 
+  caption   String?
+  clip Clip[]
+  rating Int?
+  grade String?
+  claps Clap[]
+  attempts Int?
+  published Boolean @default(false)
+  sent Boolean @default(false)
+  creator   User    @relation(fields: [creatorId], references: [id])
+  betas Beta[]
+  creatorId Int
+  @@map("climbs")
+}
+
+model Clip {
+  uploadedAt DateTime @default(now())
+  attachment String?
+  id    Int     @id @default(autoincrement()) 
+  climb Climb  @relation(fields: [climbId], references: [id])
+  climbId Int
+
+}
+
+model Beta {
+  id    Int     @id @default(autoincrement()) 
+  content String
+  uploadedAt DateTime @default(now())
+  author    User    @relation(fields: [userId], references: [id])
+  climb      Climb    @relation(fields: [climbId], references: [id])
+  starred Boolean @default(false)
+  emphases Emphasis[]
+  userId Int
+  climbId Int
+  @@map("betas")
+}
+
+model Clap {
+  id Int @id @default(autoincrement()) 
+  post Climb @relation(fields: [climbId], references: [id]) 
+  user  User    @relation(fields: [userId], references: [id])
+  userId Int
+  climbId Int
+  @@map("claps")
+}
+
+model Emphasis {
+  id Int @id @default(autoincrement()) 
+  beta Beta @relation(fields: [betaId], references: [id]) 
+  betaId Int
+  user  User    @relation(fields: [userId], references: [id])
+  userId Int
+  @@map("emphases")
+}
