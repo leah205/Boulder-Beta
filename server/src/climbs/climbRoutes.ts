@@ -3,7 +3,12 @@ const climb_router = express.Router();
 import climbController from "./climbController";
 
 //create new climb
+
+//is logged in middleware
 climb_router.post("/", climbController.createClimb);
+
+//get my climbs
+climb_router.get("/me", climbController.getMyClimbs);
 
 //climb_router.get("/:id/posted", climb_router.getUserClimbs);
 

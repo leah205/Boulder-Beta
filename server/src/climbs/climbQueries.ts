@@ -12,11 +12,17 @@ const climbQueries = {
         },
       },
     };
-    const climb_obj = await prisma.climb.create({
+    return await prisma.climb.create({
       data: data,
     });
-    console.log(climb_obj);
-    return climb_obj;
+  },
+
+  getMyClimbs: async (creatorId: number) => {
+    return await prisma.climb.findMany({
+      where: {
+        creatorId: creatorId,
+      },
+    });
   },
 };
 
