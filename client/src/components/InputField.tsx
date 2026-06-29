@@ -14,7 +14,7 @@ export default function InputField(props: Props) {
         {props.label}:
       </label>
       <input
-        className={`border-mist-300  border-2 rounded-xs shadow-xs ml-6 w-2/3 max-[800px]:w-4/5 items-center ${props.className}`}
+        className={`border-mist-300  border-2 rounded-xs shadow-xs ml-3 w-2/3 max-[800px]:w-5/6 items-center ${props.className}`}
         type="text"
         onChange={props.onChange}
         id={props.name}

@@ -10,8 +10,20 @@ function NavLink({ children }: { children: React.ReactNode }) {
   );
 }
 
-function NavList({ children }: { children: React.ReactNode }) {
-  return <ul className="flex-1 flex-col flex ">{children}</ul>;
+function TopNav({ children }: { children: React.ReactNode }) {
+  return (
+    <nav className=" w-full top-0 fixed  border-b-1 border-b-mist-300">
+      <ul className="flex-1 flex ">{children}</ul>
+    </nav>
+  );
+}
+
+function BottomNav({ children }: { children: React.ReactNode }) {
+  return (
+    <nav className=" w-full bottom-0 fixed border-t-1 border-t-mist-300">
+      <ul className="flex-1 flex ">{children}</ul>
+    </nav>
+  );
 }
 
 export default function AppLayout() {
@@ -19,25 +31,25 @@ export default function AppLayout() {
 
   return (
     <>
-      <main className="flex h-screen box-border p-20">
-        <nav className="w-1/5 flex flex-col justify-between b-3 rounded-sm h-full">
-          <NavList>
-            <NavLink>
-              <Link to="about">Logo</Link>
-            </NavLink>
-            <NavLink>
-              <Link to="log-climb">Log Climb</Link>
-            </NavLink>
-            <NavLink>
-              <Link to="my-climbs"> My Climbs</Link>
-            </NavLink>
-            <NavLink>
-              <Link onClick={signout} to="/">
-                Signout
-              </Link>
-            </NavLink>
-          </NavList>
-        </nav>
+      <main className="flex h-screen box-border">
+        <TopNav>
+          <NavLink>
+            <Link onClick={signout} to="/">
+              Signout
+            </Link>
+          </NavLink>
+        </TopNav>
+        <BottomNav>
+          <NavLink>
+            <Link to="log-climb">+</Link>
+          </NavLink>
+          <NavLink>
+            <Link to="my-climbs">My Climbs</Link>
+          </NavLink>
+          {/* <NavLink>
+            <Link to="home">Home</Link>
+          </NavLink> */}
+        </BottomNav>
         <div>
           <Outlet />
         </div>

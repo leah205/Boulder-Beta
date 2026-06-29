@@ -50,7 +50,7 @@ export default function SignupPage() {
         <Button type="submit" className="auth_btn" onClick={handleSubmit}>
           Sign up
         </Button>
-        <Link to="/signin">
+        <Link className="block" to="/signin">
           Already have an account? <b>Sign in</b>
         </Link>
       </Form>

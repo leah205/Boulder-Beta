@@ -46,7 +46,7 @@ export default function SigninPage() {
         <Button type="submit" className="auth_btn" onClick={handleSubmit}>
           Sign In
         </Button>
-        <Link to="/signup">
+        <Link className="block" to="/signup">
           Don't have an account? <b>Sign up</b>
         </Link>
       </Form>
