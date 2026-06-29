@@ -15,9 +15,9 @@ import {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route element={<PrivateRoutes />}>
-        <Route index element={<AppLayout />}></Route>
-      </Route>
+      {/* <Route element={<PrivateRoutes />}> */}
+      <Route index element={<AppLayout />}></Route>
+      {/* </Route> */}
 
       <Route element={<AuthLayout />}>
         <Route path="signin" element={<SigninPage />}></Route>

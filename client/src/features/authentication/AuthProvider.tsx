@@ -11,19 +11,26 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    console.log("holllaaa");
     const initializeAuth = async () => {
       let userData = null;
       try {
         userData = await authService.getUserFromToken();
+        console.log("in use effect");
+        console.log(userData);
       } catch (err) {
         console.log(err);
         console.log("no valid token set");
+        navigate("/signin");
       } finally {
         setLoading(false);
       }
       if (userData) {
         setUser(userData);
-      } else setUser(null);
+      } else {
+        setUser(null);
+        navigate("/signin");
+      }
       setLoading(false);
     };
 
