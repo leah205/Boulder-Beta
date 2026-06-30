@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Form from "@/components/Form";
 import InputField from "@/components/InputField";
 import type { Climb } from "@shared/types";
@@ -17,14 +17,14 @@ export default function LogClimbPage() {
   return (
     <>
       {isPending && <Spinner></Spinner>}
-      <ul>
-        {errors &&
-          errors.map((error) => {
-            return <ValidationError key={error}>{error}</ValidationError>;
-          })}
-      </ul>
+
       <Form>
-        <ul></ul>
+        <ul>
+          {errors &&
+            errors.map((error) => {
+              return <ValidationError key={error}>{error}</ValidationError>;
+            })}
+        </ul>
         <InputField
           value={formData.grade}
           onChange={(e) => setFormData({ ...formData, grade: e.target.value })}
@@ -38,7 +38,7 @@ export default function LogClimbPage() {
           onChange={(e) =>
             setFormData({ ...formData, attempt_num: Number(e.target.value) })
           }
-          name="attempts"
+          name="attempt_num"
           type="number"
           label="Attempts"
         ></InputField>
@@ -48,7 +48,7 @@ export default function LogClimbPage() {
           onChange={(e) =>
             setFormData({
               ...formData,
-              sent: e.target.value == "on" ? true : false,
+              sent: e.target.value == "off" ? true : false,
             })
           }
           name="sent"

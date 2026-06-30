@@ -11,12 +11,14 @@ import {
   Route,
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
 } from "react-router-dom";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route element={<AppLayout />}>
+        <Route index element={<Navigate to="my-climbs" />}></Route>
         <Route path="log-climb" element={<LogClimbPage />}></Route>
         <Route path="my-climbs" element={<MyClimbsPage />}></Route>
       </Route>

@@ -28,15 +28,11 @@ function BottomNav({ children }: { children: React.ReactNode }) {
 }
 
 export default function AppLayout() {
-  const navigate = useNavigate();
   const { signout, isAuthenticated } = useAuth();
-  if (!isAuthenticated) {
-    navigate("/signin");
-  }
 
   return (
     <>
-      <main className="flex h-screen box-border">
+      <main className="flex h-screen box-border pt-16 pb-16">
         <TopNav>
           <NavLink>
             <Link onClick={signout} to="/">
@@ -44,6 +40,9 @@ export default function AppLayout() {
             </Link>
           </NavLink>
         </TopNav>
+        <div>
+          <Outlet />
+        </div>
         <BottomNav>
           <NavLink>
             <Link to="log-climb">+</Link>
@@ -55,9 +54,6 @@ export default function AppLayout() {
             <Link to="home">Home</Link>
           </NavLink> */}
         </BottomNav>
-        <div>
-          <Outlet />
-        </div>
       </main>
     </>
   );
