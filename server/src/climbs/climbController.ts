@@ -7,9 +7,11 @@ const climbController = {
   createClimb: async (req: Request, res: Response) => {
     //remove when add in authentication
     const id = 1;
-    const { grade } = req.body.climb;
+    const { grade, sent, rating } = req.body.climb;
     const climb_obj: Climb = await climbQueries.createClimb(id, {
       grade,
+      sent,
+      rating: Number(rating),
     });
     return res.json({ data: climb_obj });
   },

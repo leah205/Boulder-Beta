@@ -37,13 +37,9 @@ model User {
   @@map("users")
 } 
 
-// add in a series of videos or just an image
-
-
-
+// add tags(crimpy inclined)
 model Climb {
   id    Int     @id @default(autoincrement()) 
-  caption   String?
   uploadedAt DateTime @default(now())
   rating Int?
   grade String?

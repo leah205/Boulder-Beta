@@ -27,13 +27,6 @@ const validation = {
       })
       .withMessage("Password fields must match"),
   ],
-  createPost: [
-    body("title").trim().notEmpty().withMessage("Post must have title"),
-    body("content").trim().notEmpty().withMessage("Post must have content"),
-  ],
-  createComment: [
-    body("content").trim().notEmpty().withMessage("Comment must have content"),
-  ],
 };
 
 export default validation;
