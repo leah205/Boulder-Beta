@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Form from "../components/Form";
-import Button from "../components/Button";
+import Button from "@/components/Button";
 import InputField from "../components/InputField";
 import ValidationError from "../components/ValidationError";
 import { useSignup } from "../features/authentication/useSignup";
