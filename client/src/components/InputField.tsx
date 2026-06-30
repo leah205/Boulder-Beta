@@ -1,7 +1,7 @@
 interface Props {
   label: string;
   type: string;
-  value?: string | null | number;
+  value?: string | number | null;
   className?: string;
   name: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
@@ -32,7 +32,7 @@ export default function InputField(props: Props) {
         onChange={props.onChange}
         id={props.name}
         name={props.name}
-        value={props.value}
+        value={props.value || ""}
       />
     </div>
   );

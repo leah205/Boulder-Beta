@@ -5,6 +5,7 @@ import type { Climb } from "@shared/types";
 import Button from "@/components/Button";
 import { useClimbLog } from "@/features/climbs/useLogClimb";
 import ValidationError from "@/components/ValidationError";
+import Spinner from "@/components/Spinner";
 
 export default function LogClimbPage() {
   const [formData, setFormData] = useState<Partial<Climb>>({});
@@ -15,7 +16,7 @@ export default function LogClimbPage() {
 
   return (
     <>
-      {isPending && <p>loading...</p>}
+      {isPending && <Spinner></Spinner>}
       <ul>
         {errors &&
           errors.map((error) => {
@@ -43,7 +44,7 @@ export default function LogClimbPage() {
         ></InputField>
 
         <InputField
-          value={formData.sent}
+          value={formData.sent ? "on" : "off"}
           onChange={(e) =>
             setFormData({
               ...formData,

@@ -1,3 +1,4 @@
+import type React from "node_modules/@types/react/index";
 import useAuth from "../features/authentication/useAuth";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";

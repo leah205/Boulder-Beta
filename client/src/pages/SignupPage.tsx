@@ -5,6 +5,7 @@ import InputField from "../components/InputField";
 import ValidationError from "../components/ValidationError";
 import { useSignup } from "../features/authentication/useSignup";
 import { Link } from "react-router-dom";
+import Spinner from "@/components/Spinner";
 
 export default function SignupPage() {
   const [username, setUsername] = useState("");
@@ -18,7 +19,7 @@ export default function SignupPage() {
   }
   return (
     <>
-      {isPending && <p>loading...</p>}
+      {isPending && <Spinner></Spinner>}
       <Form>
         <ul>
           {errors &&

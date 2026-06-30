@@ -6,6 +6,7 @@ import ValidationError from "../components/ValidationError";
 import useAuth from "../features/authentication/useAuth";
 import { useSignin } from "../features/authentication/useSignin";
 import { Link } from "react-router-dom";
+import Spinner from "@/components/Spinner";
 
 export default function SigninPage() {
   const [username, setUsername] = useState("");
@@ -21,7 +22,7 @@ export default function SigninPage() {
 
   return (
     <>
-      {isPending && <p>loading...</p>}
+      {isPending && <Spinner></Spinner>}
       <Form>
         <ul>
           {errors &&
