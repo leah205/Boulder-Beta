@@ -15,13 +15,13 @@ type climbCardProps = {
 function ClimbCard(props: climbCardProps) {
   const climb = props.climb;
   return (
-    <div className=" text-center hover:bg-mist-50 p-6 rounded-md border-1 border-mist-400 shadow-sm w-50 h-50">
-      <h2 className="text-xl">
+    <div className=" text-center hover:bg-mist-50 p-6 rounded-md border-1 border-mist-300 shadow-sm w-50 h-50">
+      {/* <h2 className="text-xl">
         <Link to={`${climb.id}`}>View Log</Link>
-      </h2>
-      {climb.grade && <p>{climb.grade}</p>}
-      {climb.rating && <p>{climb.rating}</p>}
-      {climb.attempt_num && <p>{climb.attempt_num}</p>}
+      </h2> */}
+      {climb.grade && <p>Grade: {climb.grade}</p>}
+      {climb.rating && <p>Rating: {climb.rating}</p>}
+      {climb.attempt_num && <p>Attempts: {climb.attempt_num}</p>}
       {climb.sent && <p>sent!</p>}
     </div>
   );
@@ -43,9 +43,11 @@ export default function LogClimbPage() {
   const climbs: climbStats[] = data.climbs;
   return (
     <>
-      {climbs.map((climb) => {
-        return <ClimbCard key={climb.id} climb={climb}></ClimbCard>;
-      })}
+      <div className="flex flex-row gap-10 p-5 w-full justify-center flex-wrap">
+        {climbs.map((climb) => {
+          return <ClimbCard key={climb.id} climb={climb}></ClimbCard>;
+        })}
+      </div>
     </>
   );
 }
