@@ -11,7 +11,6 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    console.log("holllaaa");
     const initializeAuth = async () => {
       let userData = null;
       try {
