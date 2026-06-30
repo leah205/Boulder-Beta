@@ -3,7 +3,7 @@ import SigninPage from "./pages/SigninPage";
 import SignupPage from "./pages/SignupPage";
 import AppLayout from "./layouts/AppLayout";
 import AuthLayout from "./layouts/AuthLayout";
-import PrivateRoutes from "./layouts/PrivateRoutes";
+import LogClimbPage from "./pages/LogClimbPage";
 import "./App.css";
 
 import {
@@ -15,9 +15,8 @@ import {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      {/* <Route element={<PrivateRoutes />}> */}
       <Route index element={<AppLayout />}></Route>
-      {/* </Route> */}
+      <Route path="log-climb" element={<LogClimbPage />}></Route>
 
       <Route element={<AuthLayout />}>
         <Route path="signin" element={<SigninPage />}></Route>

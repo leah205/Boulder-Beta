@@ -1,20 +1,5 @@
-import axios from "axios";
 import type { User } from "../../types/auth_types";
-import responseErrorHandler from "../../utils/responseErrorHandler";
-
-const axiosDefaults = {};
-const http = axios.create(axiosDefaults);
-
-http.interceptors.request.use(
-  function (config) {
-    const token = localStorage.getItem("token");
-    config.headers.Authorization = `Bearer ${token}`;
-    return config;
-  },
-  function (error) {
-    return Promise.reject(error);
-  },
-);
+import http from "@/utils/axiosInstance";
 
 const API_URL =
   import.meta.env.VITE_API_URL || "http://localhost:8080/api/v1/auth";
@@ -54,11 +39,6 @@ const api = {
     return response.data;
   },
 };
-
-http.interceptors.response.use((response) => {
-  console.log(response);
-  return response;
-}, responseErrorHandler);
 
 export default api;
 //move

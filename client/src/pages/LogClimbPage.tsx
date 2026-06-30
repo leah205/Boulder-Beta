@@ -2,12 +2,26 @@ import { useState } from "react";
 import Form from "@/components/Form";
 import InputField from "@/components/InputField";
 import type { Climb } from "@shared/types";
+import Button from "@/components/Button";
+import { useClimbLog } from "@/features/climbs/useLogClimb";
+import ValidationError from "@/components/ValidationError";
 
 export default function LogClimbPage() {
   const [formData, setFormData] = useState<Partial<Climb>>({});
+  const { logClimb, isPending, errors } = useClimbLog();
+  function handleSubmit() {
+    logClimb(formData);
+  }
 
   return (
     <>
+      {isPending && <p>loading...</p>}
+      <ul>
+        {errors &&
+          errors.map((error) => {
+            return <ValidationError key={error}>{error}</ValidationError>;
+          })}
+      </ul>
       <Form>
         <ul></ul>
         <InputField
@@ -24,13 +38,18 @@ export default function LogClimbPage() {
             setFormData({ ...formData, attempts: e.target.value })
           }
           name="attempts"
-          type="text"
-          label="Number of attempts"
+          type="number"
+          label="Attempts"
         ></InputField>
 
         <InputField
           value={formData.sent}
-          onChange={(e) => setFormData({ ...formData, sent: e.target.value })}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              sent: e.target.value == "on" ? true : false,
+            })
+          }
           name="sent"
           type="checkbox"
           label="Sent"
@@ -43,10 +62,13 @@ export default function LogClimbPage() {
               setFormData({ ...formData, rating: e.target.value })
             }
             name="rating"
-            type="text"
+            type="number"
             label="rating"
           ></InputField>
         )}
+        <Button type="submit" className="" onClick={handleSubmit}>
+          Log Climb
+        </Button>
       </Form>
     </>
   );
