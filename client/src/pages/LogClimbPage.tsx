@@ -33,9 +33,9 @@ export default function LogClimbPage() {
         ></InputField>
 
         <InputField
-          value={formData.attempts}
+          value={formData.attempt_num}
           onChange={(e) =>
-            setFormData({ ...formData, attempts: e.target.value })
+            setFormData({ ...formData, attempt_num: Number(e.target.value) })
           }
           name="attempts"
           type="number"
@@ -59,7 +59,7 @@ export default function LogClimbPage() {
           <InputField
             value={formData.rating}
             onChange={(e) =>
-              setFormData({ ...formData, rating: e.target.value })
+              setFormData({ ...formData, rating: Number(e.target.value) })
             }
             name="rating"
             type="number"

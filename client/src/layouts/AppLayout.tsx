@@ -1,5 +1,5 @@
 import useAuth from "../features/authentication/useAuth";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function NavLink({ children }: { children: React.ReactNode }) {
@@ -27,7 +27,11 @@ function BottomNav({ children }: { children: React.ReactNode }) {
 }
 
 export default function AppLayout() {
-  const { signout } = useAuth();
+  const navigate = useNavigate();
+  const { signout, isAuthenticated } = useAuth();
+  if (!isAuthenticated) {
+    navigate("/signin");
+  }
 
   return (
     <>

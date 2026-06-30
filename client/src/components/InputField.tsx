@@ -1,7 +1,7 @@
 interface Props {
   label: string;
   type: string;
-  value: string;
+  value?: string | null | number;
   className?: string;
   name: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
