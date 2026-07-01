@@ -15,9 +15,10 @@ export default new JwtStrategy(opts, async function (jwt_payload, done) {
       },
     });
     if (!user) {
-      done(null, false, { message: "user authentication failed" });
+      return done(null, false, { message: "user authentication failed" });
     }
-    return done(null, user);
+
+    return done(null, { id: user.id, username: user.username });
   } catch (err) {
     done(err, false);
   }

@@ -6,7 +6,7 @@ import verifyToken from "../middleware/authenticateToken";
 
 auth_router.post("/signup", validation.signup, authController.signup.post);
 auth_router.post("/login", authController.login.post);
-auth_router.post("/logout", authController.logout.post);
+auth_router.post("/logout", verifyToken, authController.logout.post);
 auth_router.get("/userFromToken", verifyToken, authController.user.get);
 
 export default auth_router;
