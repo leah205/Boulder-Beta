@@ -8,7 +8,7 @@
     "dev": "tsx watch src/app.ts",
     "lint": "eslint 'src/**/*.ts'",
     "populate": "node --loader ts-node/esm src/db/populatedb.ts",
-    "test": "jest --setupFiles=dotenv/config"
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -39,7 +39,8 @@
     "pg": "^8.21.0",
     "prettier": "^3.8.3",
     "ts-node": "^10.9.2",
-    "typescript-eslint": "^8.60.1"
+    "typescript-eslint": "^8.60.1",
+    "vitest": "^4.1.9"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

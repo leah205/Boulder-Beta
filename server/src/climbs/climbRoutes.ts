@@ -1,11 +1,17 @@
 import express from "express";
 const climb_router = express.Router();
 import climbController from "./climbController";
-
+import verifyToken from "@/middleware/authenticateToken";
+import validation from "@/middleware/validation";
 //create new climb
 
 //is logged in middleware
-climb_router.post("/", climbController.createClimb);
+climb_router.post(
+  "/",
+  verifyToken,
+  validation.logclimb,
+  climbController.createClimb,
+);
 
 // get all climbs
 // climb_router.get("/feed", climb);

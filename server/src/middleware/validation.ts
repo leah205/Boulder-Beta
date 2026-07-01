@@ -1,6 +1,13 @@
 import { body } from "express-validator";
 import userQueries from "@/auth/authQueries";
 
+const validGrades = Array(15)
+  .fill("V")
+  .map((ele, index) => {
+    return ele + index;
+  });
+validGrades.unshift("VB");
+
 const validation = {
   signup: [
     body("username")
@@ -26,6 +33,24 @@ const validation = {
         return value == req.body.password;
       })
       .withMessage("Password fields must match"),
+  ],
+
+  logclimb: [
+    body("climb.grade")
+      .trim()
+      .optional()
+      .isIn(validGrades)
+      .withMessage("invalid grade"),
+    body("climb.attempt_num")
+      .optional()
+      .toInt()
+      .isInt({ min: 0 })
+      .withMessage("attempt number must be positive"),
+    body("climb.rating")
+      .optional()
+      .toInt()
+      .isInt({ min: 1, max: 5 })
+      .withMessage("rating must be between 1 and 5"),
   ],
 };
 
