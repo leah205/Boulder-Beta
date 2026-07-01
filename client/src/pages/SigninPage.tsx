@@ -7,6 +7,7 @@ import useAuth from "../features/authentication/useAuth";
 import { useSignin } from "../features/authentication/useSignin";
 import { Link } from "react-router-dom";
 import Spinner from "@/components/Spinner";
+import FormField from "@/components/FormField";
 
 export default function SigninPage() {
   const [username, setUsername] = useState("");
@@ -30,20 +31,22 @@ export default function SigninPage() {
               return <ValidationError key={error}>{error}</ValidationError>;
             })}
         </ul>
-        <InputField
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          name="username"
-          type="text"
-          label="Username"
-        ></InputField>
-        <InputField
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          name="password"
-          type="text"
-          label="Password"
-        ></InputField>
+        <FormField name="username" label="Username">
+          <InputField
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            name="username"
+            type="text"
+          ></InputField>
+        </FormField>
+        <FormField name="password" label="Password">
+          <InputField
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            type="text"
+          ></InputField>
+        </FormField>
         <Button type="submit" className="auth_btn" onClick={handleSubmit}>
           Sign In
         </Button>
