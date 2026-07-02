@@ -43,6 +43,7 @@ export default function LogClimbPage() {
   const climbs: climbStats[] = data.climbs;
   return (
     <>
+      <h1>My Climbs</h1>
       <div className="flex flex-row gap-10 p-5 w-full justify-center flex-wrap">
         {climbs.map((climb) => {
           return <ClimbCard key={climb.id} climb={climb}></ClimbCard>;

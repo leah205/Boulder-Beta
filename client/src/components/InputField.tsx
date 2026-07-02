@@ -9,7 +9,6 @@ type InputProps = {
 };
 
 function getClass(type: string) {
-  console.log(type);
   switch (type) {
     case "text":
       return " w-2/3 max-[800px]:w-5/6";

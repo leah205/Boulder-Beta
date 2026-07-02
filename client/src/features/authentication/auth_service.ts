@@ -35,7 +35,10 @@ const api = {
   },
 
   getUserFromToken: async () => {
-    const response = await http.get<User>(`${API_URL}/userFromToken`, {});
+    const response = await http.get<Partial<User>>(
+      `${API_URL}/userFromToken`,
+      {},
+    );
     return response.data;
   },
 };

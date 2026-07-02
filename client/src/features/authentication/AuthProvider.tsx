@@ -6,29 +6,30 @@ import authService from "./auth_service";
 import AuthContext from "./AuthContext";
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
-  const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
+  console.log("auth provider render");
+  const [user, setUser] = useState<Partial<User> | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    console.log("authprovider mounted");
     const initializeAuth = async () => {
       let userData = null;
       try {
         userData = await authService.getUserFromToken();
-        console.log("in use effect");
         console.log(userData);
       } catch (err) {
         console.log(err);
         console.log("no valid token set");
-        navigate("/signin");
+        //navigate("/signin");
       } finally {
         setLoading(false);
       }
       if (userData) {
+        console.log("dataaaa");
         setUser(userData);
       } else {
         setUser(null);
-        navigate("/signin");
+        //navigate("/signin");
       }
       setLoading(false);
     };
@@ -52,6 +53,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signout = async () => {
+    console.log("signout?");
     setUser(null);
     try {
       await authService.logout();
@@ -59,7 +61,6 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       console.error(error);
       throw error;
     }
-    navigate("/signin");
     localStorage.removeItem("token");
   };
 

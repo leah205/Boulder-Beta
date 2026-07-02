@@ -13,19 +13,22 @@ import {
   createRoutesFromElements,
   Navigate,
 } from "react-router-dom";
+import ProtectedRoute from "./layouts/ProtectedRoute";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
+    <Route path="/">
       <Route element={<AppLayout />}>
-        <Route index element={<Navigate to="my-climbs" />}></Route>
-        <Route path="log-climb" element={<LogClimbPage />}></Route>
-        <Route path="my-climbs" element={<MyClimbsPage />}></Route>
-      </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route index element={<Navigate to="my-climbs" replace />}></Route>
+          <Route path="log-climb" element={<LogClimbPage />}></Route>
+          <Route path="my-climbs" element={<MyClimbsPage />}></Route>
+        </Route>
 
-      <Route element={<AuthLayout />}>
-        <Route path="signin" element={<SigninPage />}></Route>
-        <Route path="signup" element={<SignupPage />}></Route>
+        <Route element={<AuthLayout />}>
+          <Route path="signin" element={<SigninPage />}></Route>
+          <Route path="signup" element={<SignupPage />}></Route>
+        </Route>
       </Route>
     </Route>,
   ),

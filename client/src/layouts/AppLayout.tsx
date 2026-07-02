@@ -28,8 +28,7 @@ function BottomNav({ children }: { children: React.ReactNode }) {
 }
 
 export default function AppLayout() {
-  const { signout, isAuthenticated } = useAuth();
-
+  const { signout } = useAuth();
   return (
     <>
       <main className="flex h-screen box-border pt-16 pb-16">
