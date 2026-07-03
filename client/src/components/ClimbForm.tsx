@@ -20,6 +20,10 @@ function get_ratings() {
   return ratings;
 }
 
+interface FormProps = {
+    onSubmit
+}
+
 export default function LogClimbPage() {
   const [formData, setFormData] = useState<Partial<Climb>>({});
   const { logClimb, isPending, errors } = useClimbLog();
@@ -53,7 +57,7 @@ export default function LogClimbPage() {
           </select>
         </FormField>
 
-        {/* <FormField name="attempt_num" label="Attempts">
+        <FormField name="attempt_num" label="Attempts">
           <InputField
             value={formData.attempt_num}
             onChange={(e) =>
@@ -62,9 +66,9 @@ export default function LogClimbPage() {
             name="attempt_num"
             type="number"
           ></InputField>
-        </FormField> */}
+        </FormField>
 
-        {/* <FormField name="sent" label="Sent">
+        <FormField name="sent" label="Sent">
           <input
             checked={formData.sent}
             type="checkbox"
@@ -76,9 +80,9 @@ export default function LogClimbPage() {
             }}
             name="sent"
           ></input>
-        </FormField> */}
+        </FormField>
 
-        {/* {formData.sent && (
+        {formData.sent && (
           <FormField name="rating" label="Rating">
             <select
               name="rating"
@@ -93,7 +97,7 @@ export default function LogClimbPage() {
               })}
             </select>
           </FormField>
-        )} */}
+        )}
         <Button type="submit" className="" onClick={handleSubmit}>
           Save Climb
         </Button>

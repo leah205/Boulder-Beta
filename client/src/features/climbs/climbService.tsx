@@ -11,6 +11,13 @@ const climbApi = {
     });
     return response.data;
   },
+
+  patch: async (data_obj: Partial<Climb>) => {
+    const response = await http.patch<Climb>(`${API_URL}`, {
+      climb: data_obj,
+    });
+    return response.data;
+  },
 };
 
 export default climbApi;

@@ -6,17 +6,14 @@ import authService from "./auth_service";
 import AuthContext from "./AuthContext";
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
-  console.log("auth provider render");
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    console.log("authprovider mounted");
     const initializeAuth = async () => {
       let userData = null;
       try {
         userData = await authService.getUserFromToken();
-        console.log(userData);
       } catch (err) {
         console.log(err);
         console.log("no valid token set");
