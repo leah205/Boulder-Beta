@@ -7,7 +7,7 @@ import AuthContext from "./AuthContext";
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
   console.log("auth provider render");
-  const [user, setUser] = useState<Partial<User> | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
