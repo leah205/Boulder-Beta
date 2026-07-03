@@ -61,7 +61,9 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       console.error(error);
       throw error;
     }
-    localStorage.removeItem("token");
+    if (localStorage && localStorage.getItem("token")) {
+      localStorage.removeItem("token");
+    }
   };
 
   const value = {

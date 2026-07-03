@@ -4,6 +4,7 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
+import react from "eslint-plugin-react";
 
 export default defineConfig([
   globalIgnores(["dist"]),
@@ -13,6 +14,8 @@ export default defineConfig([
       js.configs.recommended,
       tseslint.configs.recommended,
       reactHooks.configs.flat.recommended,
+      reactHooks.configs,
+      react.configs.flat.recommended,
       reactRefresh.configs.vite,
       "plugin:react/recommended",
       "eslint:recommended",

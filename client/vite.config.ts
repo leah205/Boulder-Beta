@@ -13,6 +13,10 @@ export default defineConfig({
       projects: ["./tsconfig.app.json"],
     }),
   ],
+  test: {
+    environment: "jsdom",
+    setupFiles: "./src/tests/setup.js",
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

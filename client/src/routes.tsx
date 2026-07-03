@@ -7,22 +7,19 @@ import LogClimbPage from "./pages/LogClimbPage";
 import MyClimbsPage from "./pages/MyClimbsPage";
 import "./App.css";
 
-import {
-  Route,
-  createBrowserRouter,
-  createRoutesFromElements,
-  Navigate,
-} from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import ProtectedRoute from "./layouts/ProtectedRoute";
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/">
-      <Route element={<AppLayout />}>
+export default function RouteElements() {
+  return (
+    <Routes>
+      <Route path="/" element={<App />}>
         <Route element={<ProtectedRoute />}>
-          <Route index element={<Navigate to="my-climbs" replace />}></Route>
-          <Route path="log-climb" element={<LogClimbPage />}></Route>
-          <Route path="my-climbs" element={<MyClimbsPage />}></Route>
+          <Route element={<AppLayout />}>
+            <Route index element={<Navigate to="my-climbs" replace />}></Route>
+            <Route path="log-climb" element={<LogClimbPage />}></Route>
+            <Route path="my-climbs" element={<MyClimbsPage />}></Route>
+          </Route>
         </Route>
 
         <Route element={<AuthLayout />}>
@@ -30,8 +27,6 @@ const router = createBrowserRouter(
           <Route path="signup" element={<SignupPage />}></Route>
         </Route>
       </Route>
-    </Route>,
-  ),
-);
-
-export default router;
+    </Routes>
+  );
+}
