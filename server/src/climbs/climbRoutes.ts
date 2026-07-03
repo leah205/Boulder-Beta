@@ -13,6 +13,13 @@ climb_router.post(
   climbController.createClimb,
 );
 
+climb_router.patch(
+  "/:id",
+  verifyToken,
+  validation.logclimb,
+  climbController.patchClimb,
+);
+
 // get all climbs
 // climb_router.get("/feed", climb);
 // climb_router.get("/clim");

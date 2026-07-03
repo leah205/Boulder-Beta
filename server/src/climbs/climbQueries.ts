@@ -16,6 +16,27 @@ const climbQueries = {
       data: data,
     });
   },
+
+  patchClimb: async (
+    creatorId: number,
+    climb: Partial<Prisma.ClimbCreateInput>,
+  ) => {
+    console.log(climb);
+    const data = {
+      ...climb,
+      creator: {
+        connect: {
+          id: creatorId,
+        },
+      },
+    };
+    return await prisma.climb.update({
+      data: data,
+      where: {
+        id: climb.id,
+      },
+    });
+  },
 };
 
 export default climbQueries;

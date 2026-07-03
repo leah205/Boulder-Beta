@@ -6,19 +6,31 @@ import { validationResult } from "express-validator";
 
 const climbController = {
   createClimb: async (req: Request, res: Response) => {
-    console.log(req.body);
     const errors = validationResult(req);
-    console.log(errors);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
     const id = req.user.id;
-    const { grade, sent, rating, attempt_num } = req.body.climb;
+    const { grade } = req.body.climb;
     const climb_obj: Climb = await climbQueries.createClimb(id, {
+      grade,
+    });
+    return res.json({ data: climb_obj });
+  },
+
+  patchClimb: async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const id = req.user.id;
+    const { grade, sent, rating, attempt_num, climb_id } = req.body.climb;
+    const climb_obj: Climb = await climbQueries.patchClimb(id, {
       grade,
       sent,
       rating: Number(rating),
       attempt_num: Number(attempt_num),
+      id: climb_id,
     });
     return res.json({ data: climb_obj });
   },

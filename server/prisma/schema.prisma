@@ -43,7 +43,6 @@ model Climb {
   uploadedAt DateTime @default(now())
   rating Int?
   grade String?
-  attempt_num Int?
   claps Clap[]
   attempts Attempt[]
   published Boolean @default(false)

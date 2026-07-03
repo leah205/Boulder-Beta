@@ -63,8 +63,6 @@ const userController = {
 
   logout: {
     post: async (req: Request, res: Response, next: NextFunction) => {
-      console.log("hiiii");
-      console.log(req.headers);
       req.logout(function (err) {
         if (err) {
           return next(err);
