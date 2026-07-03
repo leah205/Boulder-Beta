@@ -9,7 +9,9 @@ import Spinner from "@/components/Spinner";
 import FormField from "@/components/FormField";
 
 function get_grades() {
-  return new Array(15).fill("V").map((ele, index) => ele + index);
+  const gradeOptions = new Array(15).fill("V").map((ele, index) => ele + index);
+  gradeOptions.unshift("N/A");
+  return gradeOptions;
 }
 
 function get_ratings() {
@@ -21,10 +23,21 @@ function get_ratings() {
 }
 
 export default function LogClimbPage() {
-  const [formData, setFormData] = useState<Partial<Climb>>({});
+  const [formData, setFormData] = useState<Partial<Climb>>({
+    grade: undefined,
+  });
   const { logClimb, isPending, errors } = useClimbLog();
   function handleSubmit() {
+    console.log(formData);
     logClimb(formData);
+  }
+
+  function handleGradeChange(input: string) {
+    let newGrade = undefined;
+    if (newGrade != "N/A") {
+      newGrade = input;
+    }
+    setFormData({ ...formData, grade: newGrade });
   }
 
   return (
@@ -42,10 +55,8 @@ export default function LogClimbPage() {
         <FormField name="grade" label="Grade: ">
           <select
             name="grade"
-            onChange={(e) =>
-              setFormData({ ...formData, grade: e.target.value })
-            }
-            value={formData.grade || "V0"}
+            onChange={(e) => handleGradeChange(e.target.value)}
+            value={formData.grade || "N/A"}
           >
             {get_grades().map((grade) => {
               return <option value={grade}>{grade}</option>;

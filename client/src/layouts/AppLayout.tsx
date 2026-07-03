@@ -39,7 +39,7 @@ export default function AppLayout() {
             </Link>
           </NavLink>
         </TopNav>
-        <div>
+        <div className="w-full">
           <Outlet />
         </div>
         <BottomNav>
@@ -49,9 +49,6 @@ export default function AppLayout() {
           <NavLink>
             <Link to="my-climbs">My Climbs</Link>
           </NavLink>
-          {/* <NavLink>
-            <Link to="home">Home</Link>
-          </NavLink> */}
         </BottomNav>
       </main>
     </>

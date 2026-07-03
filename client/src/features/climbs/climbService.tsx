@@ -6,6 +6,8 @@ const API_URL =
 
 const climbApi = {
   create: async (data_obj: Partial<Climb>) => {
+    console.log(data_obj);
+
     const response = await http.post<Climb>(`${API_URL}`, {
       climb: data_obj,
     });
