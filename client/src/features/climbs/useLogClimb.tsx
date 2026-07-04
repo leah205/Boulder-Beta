@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import type { User } from "../../types/auth_types";
 import { useState } from "react";
 import climbApi from "./climbService";
 import type { Climb } from "@shared/types";

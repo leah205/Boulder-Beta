@@ -1,9 +1,2 @@
-export type JwtUser = {
-  username: string;
-  id: number;
-};
-
-export type User = {
-  username: string;
-  id: number;
-};
+import type { User } from "@shared/types";
+export type UserCredentials = Pick<User, "id" | "username">;

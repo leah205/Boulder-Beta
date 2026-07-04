@@ -1,9 +1,9 @@
 import { createContext } from "react";
-import type { User } from "../../types/auth_types";
+import type { UserCredentials } from "@/types/auth_types";
 
 type AuthContextType = {
-  user: User | null;
-  signin: (username: string, password: string) => Promise<User>;
+  user: UserCredentials | null;
+  signin: (username: string, password: string) => Promise<UserCredentials>;
   signout: () => void;
   loading: boolean;
   isAuthenticated: boolean;

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Form from "@/components/Form";
-import InputField from "@/components/InputField";
-import type { Climb } from "@shared/types";
+
 import Button from "@/components/Button";
 import { useClimbLog } from "@/features/climbs/useLogClimb";
 import ValidationError from "@/components/ValidationError";
@@ -35,7 +34,7 @@ export default function LogClimbPage() {
   }
 
   function handleGradeChange(input: string) {
-    let newGrade = undefined;
+    let newGrade = null;
     if (newGrade != "N/A") {
       newGrade = input;
     }
@@ -76,8 +75,7 @@ export default function LogClimbPage() {
           onChange={(e) => {
             if (e.target.files) {
               setPicture(e.target.files[0]);
-            }
-            setPicture(null);
+            } else setPicture(null);
           }}
         />
 
