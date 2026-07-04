@@ -1,10 +1,6 @@
 import http from "@/utils/axiosInstance";
 import type { Climb } from "@shared/types";
-
-type CreateClimbInput = {
-  grade: string | null;
-  picture: File | null;
-};
+import type { CreateClimbInput } from "@/types/climb_types";
 
 const API_URL =
   import.meta.env.VITE_API_URL || "http://localhost:8080/api/v1/climbs";
@@ -13,8 +9,10 @@ const climbApi = {
   create: async (data_obj: CreateClimbInput) => {
     const formData = new FormData();
     console.log(data_obj);
-    formData.append("grade", data_obj.grade || "");
-    formData.append("picture", data_obj.picture || "");
+    for (const [field, val] of Object.entries(data_obj)) {
+      formData.append(field, val || "");
+    }
+
     const response = await http.post<Climb>(`${API_URL}`, formData);
     return response.data;
   },

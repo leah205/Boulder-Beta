@@ -23,13 +23,14 @@ function get_ratings() {
 
 export default function LogClimbPage() {
   const [grade, setGrade] = useState<string | null>(null);
-
+  const [color, setColor] = useState<string>("black");
   const [picture, setPicture] = useState<File | null>(null);
   const { logClimb, isPending, errors } = useClimbLog();
   function handleSubmit() {
     logClimb({
       grade: grade,
       picture: picture,
+      color: color,
     });
   }
 
@@ -64,37 +65,34 @@ export default function LogClimbPage() {
             })}
           </select>
         </FormField>
-        <label htmlFor="picture">Take a picture of the climb:</label>
 
-        <input
-          type="file"
-          id="picture"
-          name="picture"
-          accept="image/*"
-          capture="environment"
-          onChange={(e) => {
-            if (e.target.files) {
-              setPicture(e.target.files[0]);
-            } else setPicture(null);
-          }}
-        />
+        <FormField name="picture" label="Photo">
+          <input
+            type="file"
+            id="picture"
+            name="picture"
+            accept="image/*"
+            capture="environment"
+            onChange={(e) => {
+              if (e.target.files) {
+                setPicture(e.target.files[0]);
+              } else setPicture(null);
+            }}
+          />
+        </FormField>
 
-        {/* {formData.sent && (
-          <FormField name="rating" label="Rating">
-            <select
-              name="rating"
-              className="block"
-              onChange={(e) =>
-                setFormData({ ...formData, rating: Number(e.target.value[0]) })
-              }
-              value={`${formData.rating}/5` || "1/5"}
-            >
-              {get_ratings().map((rating) => {
-                return <option value={rating}>{rating}</option>;
-              })}
-            </select>
-          </FormField>
-        )} */}
+        <FormField name="color" label="Color">
+          <input
+            type="color"
+            name="color"
+            className="block"
+            value={color}
+            onChange={(e) => {
+              setColor(e.target.value);
+            }}
+          ></input>
+        </FormField>
+
         <Button type="submit" className="" onClick={handleSubmit}>
           Save Climb
         </Button>

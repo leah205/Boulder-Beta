@@ -41,12 +41,12 @@ model User {
 model Climb {
   id    Int     @id @default(autoincrement()) 
   uploadedAt DateTime @default(now())
+  color String
   rating Int?
   grade String?
   claps Clap[]
   attempts Attempt[]
   published Boolean @default(false)
-  sent Boolean @default(false)
   creator   User    @relation(fields: [creatorId], references: [id])
   betas Beta[]
   creatorId Int
@@ -59,6 +59,7 @@ model Attempt {
     clip String?
     climbId Int
     climb Climb @relation(fields: [climbId], references: [id])
+    published Boolean @default(false)
     send Boolean @default(false)
     fallReason String?
     notes String?

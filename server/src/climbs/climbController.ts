@@ -23,6 +23,7 @@ const climbController = {
     const climb_obj: Climb = await climbQueries.createClimb(id, {
       grade,
       picture,
+      color: req.body.color,
     });
     return res.json({ data: climb_obj });
   },

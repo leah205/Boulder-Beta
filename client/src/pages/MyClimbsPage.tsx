@@ -14,11 +14,16 @@ function ClimbCard(props: climbCardProps) {
     : undefined;
   return (
     <div
-      className={`text-center hover:bg-mist-50 p-6 rounded-md border-1 border-mist-300 shadow-sm w-50 h-50`}
-      style={bgStyle}
+      className={`text-center hover:bg-mist-50 p-6 rounded-md border-1 border-mist-300 shadow-sm w-50 h-50 border-5`}
+      style={{ ...bgStyle, borderColor: climb.color }}
     >
       {climb.grade && (
-        <p className="text-white bg-black rounded-sm">{climb.grade}</p>
+        <p
+          className="text-white bg-black rounded-sm"
+          style={{ backgroundColor: climb.color }}
+        >
+          {climb.grade}
+        </p>
       )}
     </div>
   );

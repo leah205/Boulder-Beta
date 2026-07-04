@@ -3,18 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import climbApi from "./climbService";
 import type { Climb } from "@shared/types";
-
-type ClimbInput = {
-  grade: string | null;
-  picture: File | null;
-};
+import type { CreateClimbInput } from "@/types/climb_types";
 
 export function useClimbLog() {
   const navigate = useNavigate();
 
   const [errors, setErrors] = useState<string[]>([]);
   const { mutate: logClimb, isPending } = useMutation({
-    mutationFn: (data_obj: ClimbInput) => climbApi.create(data_obj),
+    mutationFn: (data_obj: CreateClimbInput) => climbApi.create(data_obj),
     onSuccess: (res: Climb) => {
       navigate("/");
       return res;

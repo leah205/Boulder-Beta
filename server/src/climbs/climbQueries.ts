@@ -4,6 +4,7 @@ import prisma from "../db/prisma_client";
 type CreateClimbInput = {
   grade: string | null;
   picture: string | null;
+  color: string;
 };
 
 const climbQueries = {
