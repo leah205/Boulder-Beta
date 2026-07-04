@@ -46,7 +46,6 @@ app.use("/api/v1/users", userRouter);
 
 app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
   console.error(err);
-  console.log("error handling");
   res.status(err.statusCode || 500).json(err.message);
   next();
 });

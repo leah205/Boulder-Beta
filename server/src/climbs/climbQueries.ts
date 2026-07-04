@@ -1,8 +1,13 @@
 import { Prisma } from "generated/prisma/client";
 import prisma from "../db/prisma_client";
 
+type CreateClimbInput = {
+  grade: string | null;
+  picture: string | null;
+};
+
 const climbQueries = {
-  createClimb: async (creatorId: number, climb: Prisma.ClimbCreateInput) => {
+  createClimb: async (creatorId: number, climb: CreateClimbInput) => {
     const data = {
       ...climb,
       creator: {
@@ -20,7 +25,6 @@ const climbQueries = {
     creatorId: number,
     climb: Partial<Prisma.ClimbCreateInput>,
   ) => {
-    console.log(climb);
     const data = {
       ...climb,
       creator: {

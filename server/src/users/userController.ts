@@ -5,10 +5,8 @@ import { getFromCloudinary } from "@/utils/cloudinary";
 const userController = {
   getMyClimbs: async (req: Request, res: Response) => {
     //filter by visibility with authentication
-
     //remove when add in authentication
-
-    const id = req.user.id;
+    const id = req.user!.id;
     const climbs = await prisma.climb.findMany({
       where: {
         creatorId: id,
@@ -25,7 +23,7 @@ const userController = {
       }
     });
 
-    return res.json({ climbs });
+    return res.json(climbs);
   },
 };
 

@@ -7,6 +7,7 @@ const validGrades = Array(15)
     return ele + index;
   });
 validGrades.unshift("VB");
+validGrades.unshift("");
 
 const validation = {
   signup: [

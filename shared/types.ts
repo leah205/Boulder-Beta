@@ -2,8 +2,4 @@
 
 export type { Climb } from "../server/generated/prisma/client";
 
-export interface User {
-  username: string;
-  password: string;
-  id: number;
-}
+export type { User } from "../server/generated/prisma/client";
