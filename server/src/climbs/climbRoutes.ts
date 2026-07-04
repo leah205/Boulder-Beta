@@ -3,12 +3,14 @@ const climb_router = express.Router();
 import climbController from "./climbController";
 import verifyToken from "@/middleware/authenticateToken";
 import validation from "@/middleware/validation";
+import upload from "../middleware/multer.middleware";
 //create new climb
 
 //is logged in middleware
 climb_router.post(
   "/",
   verifyToken,
+  upload.single("picture"),
   validation.logclimb,
   climbController.createClimb,
 );

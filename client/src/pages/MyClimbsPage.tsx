@@ -6,7 +6,7 @@ import Button from "@/components/Button";
 import { useState } from "react";
 import Form from "@/components/Form";
 
-type climbStats = Pick<Climb, "id" | "grade" | "rating" | "sent">;
+type climbStats = Pick<Climb, "id" | "grade" | "rating" | "sent" | "picture">;
 type climbCardProps = {
   climb: climbStats;
 };
@@ -18,9 +18,11 @@ function ClimbCard(props: climbCardProps) {
       {/* <h2 className="text-xl">
         <Link to={`${climb.id}`}>View Log</Link>
       </h2> */}
+      {climb.picture && <img src={climb.picture}></img>}
       {climb.grade && <p>Grade: {climb.grade}</p>}
       {climb.rating && <p>Rating: {climb.rating}</p>}
       {climb.sent && <p>sent!</p>}
+
       {/* <Button type="button" onClick={() => {}}>
         Edit
       </Button> */}

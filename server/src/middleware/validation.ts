@@ -36,21 +36,21 @@ const validation = {
   ],
 
   logclimb: [
-    body("climb.grade")
+    body("grade")
       .trim()
-      .optional()
+      .optional({ nullable: true })
       .isIn(validGrades)
       .withMessage("invalid grade"),
-    body("climb.attempt_num")
-      .optional()
-      .toInt()
-      .isInt({ min: 0 })
-      .withMessage("attempt number must be positive"),
-    body("climb.rating")
-      .optional()
-      .toInt()
-      .isInt({ min: 1, max: 5 })
-      .withMessage("rating must be between 1 and 5"),
+    // body("climb.attempt_num")
+    //   .optional()
+    //   .toInt()
+    //   .isInt({ min: 0 })
+    //   .withMessage("attempt number must be positive"),
+    // body("climb.rating")
+    //   .optional()
+    //   .toInt()
+    //   .isInt({ min: 1, max: 5 })
+    //   .withMessage("rating must be between 1 and 5"),
   ],
 };
 

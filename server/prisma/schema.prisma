@@ -50,6 +50,7 @@ model Climb {
   creator   User    @relation(fields: [creatorId], references: [id])
   betas Beta[]
   creatorId Int
+  picture String?
   @@map("climbs")
 }
 

@@ -4,13 +4,19 @@ import type { User } from "../../types/auth_types";
 import { useState } from "react";
 import climbApi from "./climbService";
 import type { Climb } from "@shared/types";
+
+type ClimbInput = {
+  grade: string | null;
+  picture: File | null;
+};
+
 export function useClimbLog() {
   const navigate = useNavigate();
 
   const [errors, setErrors] = useState<string[]>([]);
   const { mutate: logClimb, isPending } = useMutation({
-    mutationFn: (data_obj: Partial<Climb>) => climbApi.create(data_obj),
-    onSuccess: (res: User) => {
+    mutationFn: (data_obj: ClimbInput) => climbApi.create(data_obj),
+    onSuccess: (res: Climb) => {
       navigate("/");
       return res;
     },

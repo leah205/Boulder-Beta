@@ -3,7 +3,6 @@ import prisma from "../db/prisma_client";
 
 const climbQueries = {
   createClimb: async (creatorId: number, climb: Prisma.ClimbCreateInput) => {
-    console.log(climb);
     const data = {
       ...climb,
       creator: {

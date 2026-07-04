@@ -3,17 +3,27 @@ import climbQueries from "./climbQueries";
 //import { Prisma } from "generated/prisma/client";
 import type { Climb } from "../../generated/prisma/client";
 import { validationResult } from "express-validator";
+import { uploadOnCloudinary } from "@/utils/cloudinary";
 
 const climbController = {
   createClimb: async (req: Request, res: Response) => {
+    console.log("yoohoo");
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
     const id = req.user.id;
-    const { grade } = req.body.climb;
+
+    const picturePath = req.file?.path;
+    console.log("hollllaaaa");
+    console.log(picturePath);
+    let picture = null;
+    if (picturePath) {
+      picture = await uploadOnCloudinary(picturePath, req.body.climb_id);
+    }
     const climb_obj: Climb = await climbQueries.createClimb(id, {
-      grade,
+      grade: req.body.grade,
+      picture,
     });
     return res.json({ data: climb_obj });
   },

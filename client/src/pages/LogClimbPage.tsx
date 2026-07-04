@@ -23,13 +23,15 @@ function get_ratings() {
 }
 
 export default function LogClimbPage() {
-  const [formData, setFormData] = useState<Partial<Climb>>({
-    grade: undefined,
-  });
+  const [grade, setGrade] = useState<string | null>(null);
+
+  const [picture, setPicture] = useState<File | null>(null);
   const { logClimb, isPending, errors } = useClimbLog();
   function handleSubmit() {
-    console.log(formData);
-    logClimb(formData);
+    logClimb({
+      grade: grade,
+      picture: picture,
+    });
   }
 
   function handleGradeChange(input: string) {
@@ -37,14 +39,14 @@ export default function LogClimbPage() {
     if (newGrade != "N/A") {
       newGrade = input;
     }
-    setFormData({ ...formData, grade: newGrade });
+    setGrade(newGrade);
   }
 
   return (
     <>
       {isPending && <Spinner></Spinner>}
 
-      <Form>
+      <Form enctype="multipart/form-data">
         <ul>
           {errors &&
             errors.map((error) => {
@@ -56,38 +58,28 @@ export default function LogClimbPage() {
           <select
             name="grade"
             onChange={(e) => handleGradeChange(e.target.value)}
-            value={formData.grade || "N/A"}
+            value={grade || "N/A"}
           >
             {get_grades().map((grade) => {
               return <option value={grade}>{grade}</option>;
             })}
           </select>
         </FormField>
+        <label htmlFor="picture">Take a picture of the climb:</label>
 
-        {/* <FormField name="attempt_num" label="Attempts">
-          <InputField
-            value={formData.attempt_num}
-            onChange={(e) =>
-              setFormData({ ...formData, attempt_num: Number(e.target.value) })
+        <input
+          type="file"
+          id="picture"
+          name="picture"
+          accept="image/*"
+          capture="environment"
+          onChange={(e) => {
+            if (e.target.files) {
+              setPicture(e.target.files[0]);
             }
-            name="attempt_num"
-            type="number"
-          ></InputField>
-        </FormField> */}
-
-        {/* <FormField name="sent" label="Sent">
-          <input
-            checked={formData.sent}
-            type="checkbox"
-            onChange={(e) => {
-              setFormData({
-                ...formData,
-                sent: e.target.checked,
-              });
-            }}
-            name="sent"
-          ></input>
-        </FormField> */}
+            setPicture(null);
+          }}
+        />
 
         {/* {formData.sent && (
           <FormField name="rating" label="Rating">
