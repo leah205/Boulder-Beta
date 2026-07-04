@@ -18,7 +18,7 @@ const climbController = {
     let picture = null;
     const grade = req.body.grade.length ? req.body.grade : null;
     if (picturePath) {
-      picture = await uploadOnCloudinary(picturePath, req.body.climb_id);
+      picture = await uploadOnCloudinary(picturePath);
     }
     const climb_obj: Climb = await climbQueries.createClimb(id, {
       grade,
