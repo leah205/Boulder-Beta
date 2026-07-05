@@ -6,6 +6,7 @@ const userController = {
   getMyClimbs: async (req: Request, res: Response) => {
     //filter by visibility with authentication
     //remove when add in authentication
+    console.log(req.user);
     const id = req.user!.id;
     const climbs = await prisma.climb.findMany({
       where: {

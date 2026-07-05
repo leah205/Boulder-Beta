@@ -42,6 +42,7 @@ const validation = {
       .optional({ nullable: true })
       .isIn(validGrades)
       .withMessage("invalid grade"),
+    body("color").notEmpty().withMessage("color must be provided"),
     // body("climb.attempt_num")
     //   .optional()
     //   .toInt()

@@ -4,10 +4,17 @@ import config from "@/config";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 import { beforeEach } from "vitest";
 import passport from "@/auth/passport_config";
-import auth_router from "@/auth/auth_routes";
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+import climb_router from "@/climbs/climbRoutes";
+import auth_router from "@/auth/auth_routes";
+import userRouter from "@/users/userRoutes";
+import prisma from "@/db/prisma_client";
+
+app.use("/api/v1/auth", auth_router);
+app.use("/api/v1/climbs", climb_router);
+app.use("/api/v1/users", userRouter);
 
 app.use(
   session({
@@ -26,9 +33,6 @@ app.use(
 );
 
 app.use(passport.session());
-
-app.use("/", auth_router);
-import prisma from "@/db/prisma_client";
 
 beforeEach(async () => {
   await prisma.$transaction([

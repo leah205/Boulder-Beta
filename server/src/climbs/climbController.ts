@@ -7,12 +7,13 @@ import { uploadOnCloudinary } from "@/utils/cloudinary";
 
 const climbController = {
   createClimb: async (req: Request, res: Response) => {
+    console.log("yoohoo");
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
     const id = req.user!.id;
-
+    console.log(req.file);
     const picturePath = req.file?.path;
 
     let picture = null;
@@ -25,7 +26,7 @@ const climbController = {
       picture,
       color: req.body.color,
     });
-    return res.json({ data: climb_obj });
+    return res.json(climb_obj);
   },
 
   patchClimb: async (req: Request, res: Response) => {

@@ -3,9 +3,9 @@ import { it, describe } from "vitest";
 import app from "@/tests/setupTests";
 
 describe("POST /signup", () => {
-  it("returns username when user signs up", () => {
+  it("returns username when user signs up", async () => {
     return request(app)
-      .post("/signup")
+      .post("/api/v1/auth/signup")
       .type("form")
       .send({
         username: "leah",
@@ -19,10 +19,9 @@ describe("POST /signup", () => {
         expect(res.body.username).toEqual("leah");
       });
   });
-
   it("returns errors when fields are empty", () => {
     return request(app)
-      .post("/signup")
+      .post("/api/v1/auth/signup")
       .type("form")
       .send({
         username: "leah",
@@ -35,10 +34,10 @@ describe("POST /signup", () => {
         expect(res.body.errors).toHaveLength(2);
       });
   });
-
   it("returns errors when password does not match confirm password field", () => {
+    console.log("second to alst");
     return request(app)
-      .post("/signup")
+      .post("/api/v1/auth/signup")
       .type("form")
       .send({
         username: "leah",
@@ -56,7 +55,7 @@ describe("POST /signup", () => {
 describe("POST /login", () => {
   it("returns username when user logs in with correct credentials", () => {
     return request(app)
-      .post("/signup")
+      .post("/api/v1/auth/signup")
       .type("form")
       .send({
         username: "leah",
@@ -65,7 +64,7 @@ describe("POST /login", () => {
       })
       .then(() => {
         return request(app)
-          .post("/login")
+          .post("/api/v1/auth/login")
           .send({
             username: "leah",
             password: "tiktin",
@@ -80,7 +79,7 @@ describe("POST /login", () => {
 
   it("returns error when user does not exist", () => {
     return request(app)
-      .post("/login")
+      .post("/api/v1/auth/login")
       .send({
         username: "leah",
         password: "tiktin",
@@ -97,7 +96,7 @@ describe("user token authenication", () => {
   it("gets user from token", () => {
     let token = "";
     return request(app)
-      .post("/signup")
+      .post("/api/v1/auth/signup")
       .type("form")
       .send({
         username: "leah",
@@ -106,7 +105,7 @@ describe("user token authenication", () => {
       })
       .then(() => {
         return request(app)
-          .post("/login")
+          .post("/api/v1/auth/login")
           .send({
             username: "leah",
             password: "tiktin",
@@ -120,8 +119,11 @@ describe("user token authenication", () => {
       })
       .then(() => {
         return request(app)
-          .post("/logout")
+          .post("/api/v1/auth/logout")
           .set("Authorization", `Bearer ${token}`)
+          .then((res) => {
+            console.log(res);
+          })
           .expect(200)
           .expect({ logout: "success" });
       });
