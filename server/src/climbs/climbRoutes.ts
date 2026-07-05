@@ -14,13 +14,16 @@ climb_router.post(
   validation.logclimb,
   climbController.createClimb,
 );
+//TO DO
+climb_router.get("/:id/attempts", verifyToken, climbController.getAttempts);
 
-climb_router.patch(
-  "/:id",
-  verifyToken,
-  validation.logclimb,
-  climbController.patchClimb,
-);
+//TO DO
+// climb_router.patch(
+//   "/:id",
+//   verifyToken,
+//   validation.logclimb,
+//   climbController.patchClimb,
+// );
 
 // get all climbs
 // climb_router.get("/feed", climb);
