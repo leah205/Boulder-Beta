@@ -1,7 +1,8 @@
-import { Prisma } from "generated/prisma/client";
-
-declare module "express" {
+declare namespace Express {
   interface Request {
-    user?: Prisma.User;
+    user?: {
+      username: string;
+      id: number;
+    };
   }
 }

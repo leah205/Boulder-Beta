@@ -1,9 +1,5 @@
-import prisma from "../db/prisma_client";
+// import prisma from "../server/src/db/prisma_client";
 
-export type Climb = prisma.Climb;
+export type { Climb } from "../server/generated/prisma/client";
 
-export interface User {
-  username: string;
-  password: string;
-  id: number;
-}
+export type { User } from "../server/generated/prisma/client";

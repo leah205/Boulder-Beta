@@ -3,12 +3,17 @@ import { NextFunction, Request, Response } from "express";
 import passport from "../auth/passport_config";
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
-import type { User } from "../types";
 import config from "../config";
 
-interface authInfo {
+type authInfo = {
   message?: string;
-}
+};
+
+type LoginUser = {
+  username: string;
+  password: string;
+  id: number;
+};
 
 const userController = {
   signup: {
@@ -33,8 +38,7 @@ const userController = {
       passport.authenticate(
         "local",
         { session: false },
-        (err: Error, user: User, info: authInfo) => {
-          console.error(err);
+        (err: Error, user: LoginUser, info: authInfo) => {
           if (err || !user) {
             return res.status(400).json({
               message: info.message,
@@ -63,8 +67,6 @@ const userController = {
 
   logout: {
     post: async (req: Request, res: Response, next: NextFunction) => {
-      console.log("hiiii");
-      console.log(req.headers);
       req.logout(function (err) {
         if (err) {
           return next(err);

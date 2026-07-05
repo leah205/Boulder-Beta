@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Form from "@/components/Form";
-import InputField from "@/components/InputField";
-import type { Climb } from "@shared/types";
+
 import Button from "@/components/Button";
 import { useClimbLog } from "@/features/climbs/useLogClimb";
 import ValidationError from "@/components/ValidationError";
@@ -9,7 +8,9 @@ import Spinner from "@/components/Spinner";
 import FormField from "@/components/FormField";
 
 function get_grades() {
-  return new Array(15).fill("V").map((ele, index) => ele + index);
+  const gradeOptions = new Array(15).fill("V").map((ele, index) => ele + index);
+  gradeOptions.unshift("N/A");
+  return gradeOptions;
 }
 
 function get_ratings() {
@@ -21,17 +22,31 @@ function get_ratings() {
 }
 
 export default function LogClimbPage() {
-  const [formData, setFormData] = useState<Partial<Climb>>({});
+  const [grade, setGrade] = useState<string | null>(null);
+  const [color, setColor] = useState<string>("black");
+  const [picture, setPicture] = useState<File | null>(null);
   const { logClimb, isPending, errors } = useClimbLog();
   function handleSubmit() {
-    logClimb(formData);
+    logClimb({
+      grade: grade,
+      picture: picture,
+      color: color,
+    });
+  }
+
+  function handleGradeChange(input: string) {
+    let newGrade = null;
+    if (newGrade != "N/A") {
+      newGrade = input;
+    }
+    setGrade(newGrade);
   }
 
   return (
     <>
       {isPending && <Spinner></Spinner>}
 
-      <Form>
+      <Form enctype="multipart/form-data">
         <ul>
           {errors &&
             errors.map((error) => {
@@ -42,10 +57,8 @@ export default function LogClimbPage() {
         <FormField name="grade" label="Grade: ">
           <select
             name="grade"
-            onChange={(e) =>
-              setFormData({ ...formData, grade: e.target.value })
-            }
-            value={formData.grade || "V0"}
+            onChange={(e) => handleGradeChange(e.target.value)}
+            value={grade || "N/A"}
           >
             {get_grades().map((grade) => {
               return <option value={grade}>{grade}</option>;
@@ -53,49 +66,35 @@ export default function LogClimbPage() {
           </select>
         </FormField>
 
-        <FormField name="attempt_num" label="Attempts">
-          <InputField
-            value={formData.attempt_num}
-            onChange={(e) =>
-              setFormData({ ...formData, attempt_num: Number(e.target.value) })
-            }
-            name="attempt_num"
-            type="number"
-          ></InputField>
+        <FormField name="picture" label="Photo">
+          <input
+            type="file"
+            id="picture"
+            name="picture"
+            accept="image/*"
+            capture="environment"
+            onChange={(e) => {
+              if (e.target.files) {
+                setPicture(e.target.files[0]);
+              } else setPicture(null);
+            }}
+          />
         </FormField>
 
-        <FormField name="sent" label="Sent">
+        <FormField name="color" label="Color">
           <input
-            checked={formData.sent}
-            type="checkbox"
+            type="color"
+            name="color"
+            className="block"
+            value={color}
             onChange={(e) => {
-              setFormData({
-                ...formData,
-                sent: e.target.checked,
-              });
+              setColor(e.target.value);
             }}
-            name="sent"
           ></input>
         </FormField>
 
-        {formData.sent && (
-          <FormField name="rating" label="Rating">
-            <select
-              name="rating"
-              className="block"
-              onChange={(e) =>
-                setFormData({ ...formData, rating: Number(e.target.value[0]) })
-              }
-              value={`${formData.rating}/5` || "1/5"}
-            >
-              {get_ratings().map((rating) => {
-                return <option value={rating}>{rating}</option>;
-              })}
-            </select>
-          </FormField>
-        )}
         <Button type="submit" className="" onClick={handleSubmit}>
-          Log Climb
+          Save Climb
         </Button>
       </Form>
     </>

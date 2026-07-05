@@ -3,7 +3,6 @@ import { useMutation } from "@tanstack/react-query";
 import api from "./auth_service";
 import { CustomValidationError } from "../../Error";
 import { useState } from "react";
-//import type { ValidationErrorType } from "../../types/error_types";
 
 interface FormDataType {
   username: string;

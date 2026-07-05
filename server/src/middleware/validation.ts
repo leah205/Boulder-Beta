@@ -7,6 +7,7 @@ const validGrades = Array(15)
     return ele + index;
   });
 validGrades.unshift("VB");
+validGrades.unshift("");
 
 const validation = {
   signup: [
@@ -36,21 +37,22 @@ const validation = {
   ],
 
   logclimb: [
-    body("climb.grade")
+    body("grade")
       .trim()
-      .optional()
+      .optional({ nullable: true })
       .isIn(validGrades)
       .withMessage("invalid grade"),
-    body("climb.attempt_num")
-      .optional()
-      .toInt()
-      .isInt({ min: 0 })
-      .withMessage("attempt number must be positive"),
-    body("climb.rating")
-      .optional()
-      .toInt()
-      .isInt({ min: 1, max: 5 })
-      .withMessage("rating must be between 1 and 5"),
+    body("color").notEmpty().withMessage("color must be provided"),
+    // body("climb.attempt_num")
+    //   .optional()
+    //   .toInt()
+    //   .isInt({ min: 0 })
+    //   .withMessage("attempt number must be positive"),
+    // body("climb.rating")
+    //   .optional()
+    //   .toInt()
+    //   .isInt({ min: 1, max: 5 })
+    //   .withMessage("rating must be between 1 and 5"),
   ],
 };
 

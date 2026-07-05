@@ -1,0 +1,31 @@
+import request from "supertest";
+import { it, describe } from "vitest";
+import app from "@/tests/setupTests";
+import { createTestUser } from "@/tests/helpers";
+import { authRequest } from "@/tests/mocks";
+
+describe("GET /users/me/climbs", () => {
+  it("inserts and then retrieves climbs", async () => {
+    const username = "leah";
+    const password = "tiktin";
+    const id = await createTestUser(username, password);
+
+    return authRequest(app, id, username)
+      .post("/api/v1/climbs")
+      .field("grade", "V5")
+      .attach("picture", "./src/assets/climb1.jpg")
+      .field("color", "blue")
+      .then(() => {
+        return authRequest(app, id, username)
+          .get("/api/v1/users/me/climbs")
+          .expect(200)
+          .then((res) => {
+            const data = res.body;
+            expect(data).toHaveLength(1);
+            expect(data[0].color).toEqual("blue");
+            expect(data[0].grade).toEqual("V5");
+            expect(data[0]).toHaveProperty("picture");
+          });
+      });
+  });
+});
