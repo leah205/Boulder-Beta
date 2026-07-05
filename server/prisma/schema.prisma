@@ -46,6 +46,7 @@ model Climb {
   grade String?
   claps Clap[]
   attempts Attempt[]
+  sent Boolean @default(false)
   published Boolean @default(false)
   creator   User    @relation(fields: [creatorId], references: [id])
   betas Beta[]
@@ -58,6 +59,8 @@ model Attempt {
     id    Int     @id @default(autoincrement()) 
     clip String?
     climbId Int
+    uploadedAt DateTime @default(now())
+
     climb Climb @relation(fields: [climbId], references: [id])
     published Boolean @default(false)
     send Boolean @default(false)
