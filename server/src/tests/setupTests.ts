@@ -12,10 +12,6 @@ import auth_router from "@/auth/auth_routes";
 import userRouter from "@/users/userRoutes";
 import prisma from "@/db/prisma_client";
 
-app.use("/api/v1/auth", auth_router);
-app.use("/api/v1/climbs", climb_router);
-app.use("/api/v1/users", userRouter);
-
 app.use(
   session({
     cookie: {
@@ -33,7 +29,9 @@ app.use(
 );
 
 app.use(passport.session());
-
+app.use("/api/v1/auth", auth_router);
+app.use("/api/v1/climbs", climb_router);
+app.use("/api/v1/users", userRouter);
 beforeEach(async () => {
   await prisma.$transaction([
     prisma.climb.deleteMany(),
