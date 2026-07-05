@@ -27,6 +27,12 @@ const climbController = {
     return res.json(climb_obj);
   },
 
+  getClimb: async (req: Request, res: Response) => {
+    const climb_id = Number(req.params.id);
+    const climb = await climbQueries.getClimb(climb_id);
+    return res.json(climb);
+  },
+
   // patchClimb: async (req: Request, res: Response) => {
   //   const errors = validationResult(req);
   //   if (!errors.isEmpty()) {

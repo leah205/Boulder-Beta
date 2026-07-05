@@ -22,6 +22,14 @@ const climbQueries = {
     });
   },
 
+  getClimb: async (climb_id: number) => {
+    return await prisma.climb.findUnique({
+      where: {
+        id: climb_id,
+      },
+    });
+  },
+
   getAttempts: async (climb_id: number) => {
     const attempts = await prisma.attempt.findMany({
       where: {

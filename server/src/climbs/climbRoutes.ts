@@ -14,8 +14,9 @@ climb_router.post(
   validation.logclimb,
   climbController.createClimb,
 );
-//TO DO
 climb_router.get("/:id/attempts", verifyToken, climbController.getAttempts);
+
+climb_router.get("/:id", verifyToken, climbController.getClimb);
 
 //TO DO
 // climb_router.patch(

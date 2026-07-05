@@ -18,7 +18,11 @@ export default function initialize_app() {
   const app = express();
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
+  const corsOptions = {
+    origin: ["http://localhost:5173"],
+  };
 
+  app.use(cors(corsOptions));
   app.use(
     session({
       cookie: {
@@ -40,12 +44,6 @@ export default function initialize_app() {
   app.use("/api/v1/climbs", climb_router);
   app.use("/api/v1/users", userRouter);
   app.use("/api/v1/attempts", attemptRouter);
-
-  const corsOptions = {
-    origin: ["http://localhost:5173"],
-  };
-
-  app.use(cors(corsOptions));
 
   app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
     console.error(err);
