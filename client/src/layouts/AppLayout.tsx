@@ -31,7 +31,7 @@ export default function AppLayout() {
   const { signout } = useAuth();
   return (
     <>
-      <main className="flex h-screen box-border pt-16 pb-16">
+      <main className="flex  box-border">
         <TopNav>
           <NavLink>
             <Link onClick={signout} to="/">
@@ -39,7 +39,7 @@ export default function AppLayout() {
             </Link>
           </NavLink>
         </TopNav>
-        <div className="w-full">
+        <div className="w-full pt-16 pb-16">
           <Outlet />
         </div>
         <BottomNav>

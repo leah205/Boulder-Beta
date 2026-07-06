@@ -44,7 +44,6 @@ export default function MyClimbPage() {
   if (error) {
     return <p>{error.message}</p>;
   }
-  console.log(data);
   return (
     <>
       <h1>My Climbs</h1>
