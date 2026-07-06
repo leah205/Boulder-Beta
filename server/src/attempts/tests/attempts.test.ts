@@ -22,7 +22,7 @@ describe("attempt integration", () => {
       climb_data[0],
     );
 
-    await authRequest(app, user_id, username)
+    return await authRequest(app, user_id, username)
       .post(`/api/v1/attempts/${climb_id}`)
       .send({
         send: false,
@@ -53,6 +53,25 @@ describe("attempt integration", () => {
           .then((res) => {
             expect(res.body[0].sent).toBeTruthy();
           });
+      });
+  });
+
+  it("throws unauthorized error when user tries to post attempt to another climb", async () => {
+    const { id: user1 } = await authQueries.createUser("selena", "gomez");
+    const { id: user2 } = await authQueries.createUser("taylor", "swift");
+    const { id: climb_id } = await climbQueries.createClimb(
+      user1,
+      climb_data[0],
+    );
+
+    return await authRequest(app, user2, "taylor")
+      .post(`/api/v1/attempts/${climb_id}`)
+      .send({
+        send: false,
+      })
+      .expect(401)
+      .then((res) => {
+        console.log(res);
       });
   });
 });

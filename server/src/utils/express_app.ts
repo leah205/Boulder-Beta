@@ -45,11 +45,19 @@ export default function initialize_app() {
   app.use("/api/v1/users", userRouter);
   app.use("/api/v1/attempts", attemptRouter);
 
-  app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
-    console.error(err);
-    res.status(err.statusCode || 500).json(err.message);
-    next();
-  });
+  app.use(
+    (
+      err: AppError | Error,
+      req: Request,
+      res: Response,
+      next: NextFunction,
+    ) => {
+      console.error(err);
+      const status = err instanceof AppError && err.status ? err.status : 500;
+      res.status(status).json(err.message);
+      next();
+    },
+  );
 
   return app;
 }
