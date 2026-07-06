@@ -42,13 +42,4 @@ const uploadOnCloudinary = async (file: string): Promise<string | null> => {
   }
 };
 
-const getFromCloudinary = async (public_id: number) => {
-  try {
-    const resource = await cloudinary.api.resource(String(public_id));
-    return cloudinary.url(resource.public_id);
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-export { uploadOnCloudinary, getFromCloudinary };
+export { uploadOnCloudinary };

@@ -1,7 +1,6 @@
 import express from "express";
 import attemptController from "./attemptController";
 import ownClimbAuth from "@/middleware/ownClimbAuth";
-import verifyToken from "@/middleware/authenticateToken";
 
 const attemptRouter = express.Router();
 
