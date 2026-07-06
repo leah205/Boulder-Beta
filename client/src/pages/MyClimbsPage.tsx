@@ -16,9 +16,15 @@ function ClimbCard(props: climbCardProps) {
   return (
     <Link to={`/climbs/${climb.id}`}>
       <div
-        className={`text-center hover:bg-mist-50 p-6 rounded-md border-1 border-mist-300 shadow-sm w-50 h-50 border-5`}
+        className={`text-center hover:bg-mist-50 p-6 rounded-md border-1 border-mist-300 shadow-sm w-50 h-50 border-5 relative`}
         style={{ ...bgStyle, borderColor: climb.color }}
       >
+        {climb.sent && (
+          <img
+            className="text-white absolute top-0 right-0 h-8 w-8 "
+            src="./src/assets/sent.svg"
+          />
+        )}
         {climb.grade && (
           <p
             className="text-white bg-black rounded-sm"

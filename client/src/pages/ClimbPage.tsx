@@ -26,8 +26,6 @@ export default function ClimbPage() {
     queryFn: async () => climbApi.getAttempts(Number(climbId)),
   });
 
-  //const isDataPending = climbLoading || attemptsLoading;
-
   return (
     <>
       <ClimbPageLayout>

@@ -2,7 +2,7 @@ import type { Attempt } from "@shared/types";
 import ContentSpinner from "@/components/ContentSpinner";
 import useLogAttempt from "@/attempts/useLogAttempt";
 import Button from "@/components/Button";
-
+import Spinner from "@/components/Spinner";
 type AttemptsListProps = {
   data: Attempt[];
 };
@@ -41,7 +41,7 @@ function AttemptsHeader() {
   }
   return (
     <>
-      {logError && <p>{logError}</p>}
+      {logPending && <Spinner></Spinner>}
       <div className="flex justify-around py-5">
         <Button
           type="submit"
@@ -58,6 +58,7 @@ function AttemptsHeader() {
           Log Send
         </Button>
       </div>
+      {logError && <p>{logError}</p>}
     </>
   );
 }
