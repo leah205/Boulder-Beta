@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../db/prisma_client";
+import { getCloudinarySignedUrl } from "@/utils/cloudinary";
 
 const userController = {
   getMyClimbs: async (req: Request, res: Response) => {
@@ -12,7 +13,15 @@ const userController = {
       },
     });
 
-    return res.json(climbs);
+    const data_obj = climbs.map((climb) => {
+      const { public_id, ...data } = climb;
+      const picture = public_id
+        ? getCloudinarySignedUrl(public_id, "image")
+        : null;
+      return { ...data, picture };
+    });
+
+    return res.json(data_obj);
   },
 };
 

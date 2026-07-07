@@ -51,13 +51,13 @@ model Climb {
   creator   User    @relation(fields: [creatorId], references: [id])
   betas Beta[]
   creatorId Int
-  picture String?
+  public_id String?
   @@map("climbs")
 }
 
 model Attempt {
     id    Int     @id @default(autoincrement()) 
-    clip String?
+    public_id String?
     climbId Int
     uploadedAt DateTime @default(now())
 
