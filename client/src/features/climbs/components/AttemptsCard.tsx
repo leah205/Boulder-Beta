@@ -3,8 +3,8 @@ import ContentSpinner from "@/components/ContentSpinner";
 import useLogAttempt from "@/attempts/useLogAttempt";
 import Button from "@/components/Button";
 import Spinner from "@/components/Spinner";
-
-function AttemptDateSection();
+import { useState } from "react";
+import RecordModal from "./RecordModal";
 
 type AttemptsListProps = {
   data: Attempt[];
@@ -45,36 +45,44 @@ function AttemptsList({ data }: AttemptsListProps) {
 }
 
 function AttemptsHeader() {
+  const [recordModal, setRecordModal] = useState(false);
+
   const {
     logAttempt,
     isPending: logPending,
     error: logError,
   } = useLogAttempt();
 
-  function handleLogAttempt() {
-    logAttempt(false);
+  function openRecord() {
+    setRecordModal(true);
   }
 
-  function handleLogSend() {
-    logAttempt(true);
-  }
   return (
     <>
+      {recordModal && (
+        <RecordModal
+          logAttempt={logAttempt}
+          setRecordModal={setRecordModal}
+        ></RecordModal>
+      )}
       {logPending && <Spinner></Spinner>}
-      <div className="flex justify-around py-5">
+      <div className="flex justify-around py-5 gap-3">
         <Button
           type="submit"
           className="bg-red-400 block"
-          onClick={handleLogAttempt}
+          onClick={() => logAttempt({ send: true })}
         >
           Log Attempt
         </Button>
         <Button
           type="submit"
           className="block bg-green-400"
-          onClick={handleLogSend}
+          onClick={() => logAttempt({ send: false })}
         >
           Log Send
+        </Button>
+        <Button type="button" onClick={openRecord}>
+          Record
         </Button>
       </div>
       {logError && <p>{logError}</p>}

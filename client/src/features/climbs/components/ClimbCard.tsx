@@ -9,7 +9,11 @@ interface ClimbCardProps {
 }
 
 function ClimbCardLayout({ children }: { children: React.ReactNode }) {
-  return <div className="w-full p-3 h-60 flex justify-center">{children}</div>;
+  return (
+    <div className="w-full p-3 h-60 flex justify-center items-center">
+      {children}
+    </div>
+  );
 }
 
 export default function ClimbCard({ pending, error, data }: ClimbCardProps) {
@@ -20,6 +24,7 @@ export default function ClimbCard({ pending, error, data }: ClimbCardProps) {
       </ClimbCardLayout>
     );
   }
+
   if (error) {
     return <p>{error.message}</p>;
   }
