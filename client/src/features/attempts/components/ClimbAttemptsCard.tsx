@@ -33,14 +33,14 @@ function AttemptsHeader() {
         <Button
           type="submit"
           className="bg-red-400 block"
-          onClick={() => logAttempt({ send: true })}
+          onClick={() => logAttempt({ send: false })}
         >
           Log Attempt
         </Button>
         <Button
           type="submit"
           className="block bg-green-400"
-          onClick={() => logAttempt({ send: false })}
+          onClick={() => logAttempt({ send: true })}
         >
           Log Send
         </Button>
