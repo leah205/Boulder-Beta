@@ -69,9 +69,6 @@ describe("attempt integration", () => {
       .send({
         send: false,
       })
-      .expect(401)
-      .then((res) => {
-        console.log(res);
-      });
+      .expect(401);
   });
 });

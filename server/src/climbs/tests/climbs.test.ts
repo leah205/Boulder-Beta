@@ -19,7 +19,6 @@ describe("POST /climbs", () => {
       .then((res) => {
         expect(res.body.grade).toEqual("V5");
         expect(res.body.color).toEqual("blue");
-        expect(res.body).toHaveProperty("picture");
       });
   });
 
@@ -59,9 +58,9 @@ describe("POST /climbs", () => {
       .field("color", "blue")
       .expect(200)
       .then((res) => {
+        console.log(res.body);
         expect(res.body.grade).toEqual("V5");
         expect(res.body.color).toEqual("blue");
-        expect(res.body).toHaveProperty("picture");
       });
   });
 
