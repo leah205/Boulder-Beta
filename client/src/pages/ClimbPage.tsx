@@ -2,7 +2,7 @@ import climbApi from "@/features/climbs/climbService";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import ClimbPageLayout from "@/features/climbs/components/ClimbPageLayout";
-import AttemptsCard from "@/features/climbs/components/AttemptsCard";
+import ClimbAttemptsCard from "@/features/attempts/components/ClimbAttemptsCard";
 import ClimbCard from "@/features/climbs/components/ClimbCard";
 
 //
@@ -34,11 +34,11 @@ export default function ClimbPage() {
           error={climbError}
           data={climbData}
         ></ClimbCard>
-        <AttemptsCard
+        <ClimbAttemptsCard
           pending={attemptsLoading}
           error={attemptsError}
           data={attemptsData}
-        ></AttemptsCard>
+        ></ClimbAttemptsCard>
       </ClimbPageLayout>
     </>
   );
