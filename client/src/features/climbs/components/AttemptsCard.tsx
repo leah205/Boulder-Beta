@@ -3,20 +3,39 @@ import ContentSpinner from "@/components/ContentSpinner";
 import useLogAttempt from "@/attempts/useLogAttempt";
 import Button from "@/components/Button";
 import Spinner from "@/components/Spinner";
+
+function AttemptDateSection();
+
 type AttemptsListProps = {
   data: Attempt[];
 };
 
 function AttemptsList({ data }: AttemptsListProps) {
+  const mappedData = data.map((d) => {
+    const dateObj = d.uploadedAt;
+    return {
+      ...d,
+      uploadDate:
+        dateObj.getMonth() +
+        "/" +
+        dateObj.getDate() +
+        "/" +
+        dateObj.getFullYear(),
+      uploadTime: dateObj.getHours() + ":" + dateObj.getMinutes(),
+    };
+  });
+
   return (
     <div>
-      {data.map((attempt) => {
+      {mappedData.map((attempt) => {
         return (
           <>
             <div className="flex gap-3" key={attempt.id}>
               {attempt.send && <p className="text-green-400">Send </p>}
               {!attempt.send && <p className="text-red-400">Attempt</p>}
-              <p>{String(attempt.uploadedAt)}</p>
+              <p>
+                {String(attempt.uploadDate) + " " + String(attempt.uploadTime)}
+              </p>
             </div>
           </>
         );

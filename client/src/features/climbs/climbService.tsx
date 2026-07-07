@@ -24,6 +24,10 @@ const climbApi = {
     const response = await http.get<Attempt[]>(
       `${API_URL}/${climb_id}/attempts`,
     );
+    response.data = response.data.map((data) => {
+      data.uploadedAt = new Date(data.uploadedAt);
+      return data;
+    });
     return response.data;
   },
 
