@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import userApi from "@/features/users/userService";
 import Spinner from "@/components/Spinner";
 import type { Climb } from "@shared/types";
+import { Link } from "react-router-dom";
+import ClimbPic from "@/features/climbs/components/ClimbPic";
 
 type climbCardProps = {
   climb: Climb;
@@ -9,27 +11,30 @@ type climbCardProps = {
 
 function ClimbCard(props: climbCardProps) {
   const climb = props.climb;
-  const bgStyle = climb.picture
-    ? { backgroundImage: `url(${climb.picture})`, backgroundSize: "cover" }
-    : undefined;
+
   return (
-    <div
-      className={`text-center hover:bg-mist-50 p-6 rounded-md border-1 border-mist-300 shadow-sm w-50 h-50 border-5`}
-      style={{ ...bgStyle, borderColor: climb.color }}
-    >
-      {climb.grade && (
-        <p
-          className="text-white bg-black rounded-sm"
-          style={{ backgroundColor: climb.color }}
-        >
-          {climb.grade}
-        </p>
-      )}
-    </div>
+    <Link to={`/climbs/${climb.id}`}>
+      <ClimbPic picture={climb.picture} color={climb.color}>
+        {climb.sent && (
+          <img
+            className="text-white absolute top-0 right-0 h-8 w-8 "
+            src="./src/assets/sent.svg"
+          />
+        )}
+        {climb.grade && (
+          <p
+            className="text-white bg-black rounded-sm"
+            style={{ backgroundColor: climb.color }}
+          >
+            {climb.grade}
+          </p>
+        )}
+      </ClimbPic>
+    </Link>
   );
 }
 
-export default function LogClimbPage() {
+export default function MyClimbPage() {
   const { isPending, error, data } = useQuery({
     queryKey: ["myclimbs"],
     queryFn: async () => userApi.getMyClimbs(),
@@ -41,7 +46,6 @@ export default function LogClimbPage() {
   if (error) {
     return <p>{error.message}</p>;
   }
-  console.log(data);
   return (
     <>
       <h1>My Climbs</h1>

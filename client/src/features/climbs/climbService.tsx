@@ -1,5 +1,5 @@
 import http from "@/utils/axiosInstance";
-import type { Climb } from "@shared/types";
+import type { Climb, Attempt } from "@shared/types";
 import type { CreateClimbInput } from "@/types/climb_types";
 
 const API_URL =
@@ -8,12 +8,26 @@ const API_URL =
 const climbApi = {
   create: async (data_obj: CreateClimbInput) => {
     const formData = new FormData();
-    console.log(data_obj);
     for (const [field, val] of Object.entries(data_obj)) {
       formData.append(field, val || "");
     }
-
     const response = await http.post<Climb>(`${API_URL}`, formData);
+    return response.data;
+  },
+
+  getClimb: async (climb_id: number) => {
+    const response = await http.get<Climb>(`${API_URL}/${climb_id}`);
+    return response.data;
+  },
+
+  getAttempts: async (climb_id: number) => {
+    const response = await http.get<Attempt[]>(
+      `${API_URL}/${climb_id}/attempts`,
+    );
+    response.data = response.data.map((data) => {
+      data.uploadedAt = new Date(data.uploadedAt);
+      return data;
+    });
     return response.data;
   },
 

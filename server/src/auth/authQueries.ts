@@ -1,7 +1,7 @@
 import prisma from "../db/prisma_client";
 import bcrypt from "bcryptjs";
 
-const userQueries = {
+const authQueries = {
   createUser: async (username: string, password: string) => {
     const hashed = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
@@ -23,4 +23,4 @@ const userQueries = {
   },
 };
 
-export default userQueries;
+export default authQueries;

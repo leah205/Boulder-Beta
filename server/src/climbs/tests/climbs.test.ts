@@ -1,13 +1,14 @@
 import { it, describe } from "vitest";
-import app from "@/tests/setupTests";
-import { createTestUser } from "@/tests/helpers";
 import { authRequest } from "@/tests/mocks";
+import initialize_app from "@/utils/express_app";
+import authQueries from "@/auth/authQueries";
+const app = initialize_app();
 
 describe("POST /climbs", () => {
   it("successfully posts climb", async () => {
     const username = "leah";
     const password = "tiktin";
-    const id = await createTestUser(username, password);
+    const { id } = await authQueries.createUser(username, password);
 
     await authRequest(app, id, username)
       .post("/api/v1/climbs")
@@ -25,7 +26,7 @@ describe("POST /climbs", () => {
   it("works when no grade or picture specified", async () => {
     const username = "leah";
     const password = "tiktin";
-    const id = await createTestUser(username, password);
+    const { id } = await authQueries.createUser(username, password);
     await authRequest(app, id, username)
       .post("/api/v1/climbs")
       .field("grade", "")
@@ -36,7 +37,7 @@ describe("POST /climbs", () => {
   it("throws error when no color provided", async () => {
     const username = "leah";
     const password = "tiktin";
-    const id = await createTestUser(username, password);
+    const { id } = await authQueries.createUser(username, password);
 
     await authRequest(app, id, username)
       .post("/api/v1/climbs")
@@ -49,7 +50,7 @@ describe("POST /climbs", () => {
   it("successfully posts climb", async () => {
     const username = "leah";
     const password = "tiktin";
-    const id = await createTestUser(username, password);
+    const { id } = await authQueries.createUser(username, password);
 
     await authRequest(app, id, username)
       .post("/api/v1/climbs")
@@ -67,7 +68,7 @@ describe("POST /climbs", () => {
   it("works when no grade or picture specified", async () => {
     const username = "leah";
     const password = "tiktin";
-    const id = await createTestUser(username, password);
+    const { id } = await authQueries.createUser(username, password);
     await authRequest(app, id, username)
       .post("/api/v1/climbs")
       .field("grade", "")
@@ -78,7 +79,7 @@ describe("POST /climbs", () => {
   it("throws error when no color provided", async () => {
     const username = "leah";
     const password = "tiktin";
-    const id = await createTestUser(username, password);
+    const { id } = await authQueries.createUser(username, password);
 
     await authRequest(app, id, username)
       .post("/api/v1/climbs")

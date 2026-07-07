@@ -1,8 +1,15 @@
-declare namespace Express {
-  interface Request {
-    user?: {
-      username: string;
-      id: number;
-    };
+import type { Climb } from "generated/prisma/client";
+type JWTUser = {
+  username: string;
+  id: number;
+};
+
+declare global {
+  namespace Express {
+    interface User extends JWTUser {}
+
+    interface Request {
+      climb?: Climb;
+    }
   }
 }

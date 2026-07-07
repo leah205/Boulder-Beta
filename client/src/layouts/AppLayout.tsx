@@ -13,7 +13,7 @@ function NavLink({ children }: { children: React.ReactNode }) {
 
 function TopNav({ children }: { children: React.ReactNode }) {
   return (
-    <nav className="bg-white  w-full top-0 fixed  border-b-1 border-b-mist-300">
+    <nav className=" z-10 bg-white  w-full top-0 fixed  border-b-1 border-b-mist-300">
       <ul className="flex-1 flex ">{children}</ul>
     </nav>
   );
@@ -21,7 +21,7 @@ function TopNav({ children }: { children: React.ReactNode }) {
 
 function BottomNav({ children }: { children: React.ReactNode }) {
   return (
-    <nav className=" bg-white w-full bottom-0 fixed border-t-1 border-t-mist-300">
+    <nav className=" z-10 bg-white w-full bottom-0 fixed border-t-1 border-t-mist-300">
       <ul className="flex-1 flex ">{children}</ul>
     </nav>
   );
@@ -31,7 +31,7 @@ export default function AppLayout() {
   const { signout } = useAuth();
   return (
     <>
-      <main className="flex h-screen box-border pt-16 pb-16">
+      <main className="flex  box-border">
         <TopNav>
           <NavLink>
             <Link onClick={signout} to="/">
@@ -39,7 +39,7 @@ export default function AppLayout() {
             </Link>
           </NavLink>
         </TopNav>
-        <div className="w-full">
+        <div className="w-full pt-16 pb-16">
           <Outlet />
         </div>
         <BottomNav>

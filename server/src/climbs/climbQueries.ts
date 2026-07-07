@@ -1,9 +1,9 @@
-import { Prisma } from "generated/prisma/client";
 import prisma from "../db/prisma_client";
 
 type CreateClimbInput = {
-  grade: string | null;
-  picture: string | null;
+  grade?: string | null;
+  picture?: string | null;
+  sent?: boolean;
   color: string;
 };
 
@@ -22,22 +22,31 @@ const climbQueries = {
     });
   },
 
-  patchClimb: async (
-    creatorId: number,
-    climb: Partial<Prisma.ClimbCreateInput>,
-  ) => {
+  getClimb: async (climb_id: number) => {
+    return await prisma.climb.findUnique({
+      where: {
+        id: climb_id,
+      },
+    });
+  },
+
+  getAttempts: async (climb_id: number) => {
+    const attempts = await prisma.attempt.findMany({
+      where: {
+        climbId: climb_id,
+      },
+    });
+    return attempts;
+  },
+
+  patchClimb: async (climb: Partial<CreateClimbInput>, climb_id: number) => {
     const data = {
       ...climb,
-      creator: {
-        connect: {
-          id: creatorId,
-        },
-      },
     };
     return await prisma.climb.update({
       data: data,
       where: {
-        id: climb.id,
+        id: climb_id,
       },
     });
   },

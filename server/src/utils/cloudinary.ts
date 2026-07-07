@@ -13,13 +13,16 @@ import fs from "fs";
 
 export const cloudinaryFolderName = "boulder_beta";
 
-const uploadOnCloudinary = async (file: string): Promise<string | null> => {
+const uploadOnCloudinary = async (
+  file: string,
+  resource_type: "video" | "image",
+): Promise<string | null> => {
   try {
     if (!file) return null;
 
     const result = await cloudinary.uploader.upload(file, {
       folder: cloudinaryFolderName,
-      resource_type: "image",
+      resource_type,
     });
 
     // Clean up local file after successful upload
@@ -42,13 +45,4 @@ const uploadOnCloudinary = async (file: string): Promise<string | null> => {
   }
 };
 
-const getFromCloudinary = async (public_id: number) => {
-  try {
-    const resource = await cloudinary.api.resource(String(public_id));
-    return cloudinary.url(resource.public_id);
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-export { uploadOnCloudinary, getFromCloudinary };
+export { uploadOnCloudinary };

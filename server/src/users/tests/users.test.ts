@@ -1,14 +1,15 @@
-import request from "supertest";
 import { it, describe } from "vitest";
-import app from "@/tests/setupTests";
-import { createTestUser } from "@/tests/helpers";
+import initialize_app from "@/utils/express_app";
+import authQueries from "@/auth/authQueries";
 import { authRequest } from "@/tests/mocks";
+
+const app = initialize_app();
 
 describe("GET /users/me/climbs", () => {
   it("inserts and then retrieves climbs", async () => {
     const username = "leah";
     const password = "tiktin";
-    const id = await createTestUser(username, password);
+    const { id } = await authQueries.createUser(username, password);
 
     return authRequest(app, id, username)
       .post("/api/v1/climbs")

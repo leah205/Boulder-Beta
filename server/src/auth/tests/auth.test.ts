@@ -1,6 +1,7 @@
 import request from "supertest";
 import { it, describe } from "vitest";
-import app from "@/tests/setupTests";
+import initialize_app from "@/utils/express_app";
+const app = initialize_app();
 
 describe("POST /signup", () => {
   it("returns username when user signs up", async () => {
@@ -35,7 +36,6 @@ describe("POST /signup", () => {
       });
   });
   it("returns errors when password does not match confirm password field", () => {
-    console.log("second to alst");
     return request(app)
       .post("/api/v1/auth/signup")
       .type("form")
@@ -86,7 +86,6 @@ describe("POST /login", () => {
       })
       .expect(400)
       .then((res) => {
-        console.log(res.body);
         expect(res.body.message).toEqual("Username not registered");
       });
   });
@@ -121,11 +120,8 @@ describe("user token authenication", () => {
         return request(app)
           .post("/api/v1/auth/logout")
           .set("Authorization", `Bearer ${token}`)
-          .then((res) => {
-            console.log(res);
-          });
-        // .expect(200)
-        // .expect({ logout: "success" });
+          .expect(200)
+          .expect({ logout: "success" });
       });
   });
 });
