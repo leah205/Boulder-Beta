@@ -28,7 +28,7 @@ const climbController = {
   },
 
   getClimb: async (req: Request, res: Response) => {
-    const climb_id = Number(req.params.id);
+    const climb_id = Number(req.params.climb_id);
     const climb = await climbQueries.getClimb(climb_id);
 
     return res.json(climb);
@@ -52,7 +52,7 @@ const climbController = {
   // },
 
   getAttempts: async (req: Request, res: Response) => {
-    const climb_id = Number(req.params.id);
+    const climb_id = Number(req.params.climb_id);
     const attempts = await climbQueries.getAttempts(climb_id);
     res.status(200).json(attempts);
   },

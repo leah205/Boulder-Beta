@@ -31,7 +31,7 @@ const climbQueries = {
       },
     });
     if (!data) {
-      throw new AppError("climb not found", 400);
+      throw new AppError("climb not found", 404);
     }
     const { public_id, ...climb } = data;
     const picture = public_id

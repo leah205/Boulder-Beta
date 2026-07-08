@@ -1,5 +1,5 @@
 import { it, describe } from "vitest";
-import { authRequest } from "@/tests/mocks";
+import AuthRequest from "@/tests/mocks";
 import initialize_app from "@/utils/express_app";
 const app = initialize_app();
 import authQueries from "@/auth/authQueries";
@@ -21,22 +21,21 @@ describe("attempt integration", () => {
       user_id,
       climb_data[0],
     );
+    const authRequest = new AuthRequest(app, user_id, username);
 
-    return await authRequest(app, user_id, username)
+    return await authRequest
       .post(`/api/v1/attempts/${climb_id}`)
       .send({
         send: false,
       })
       .expect(200)
       .then(() => {
-        return authRequest(app, user_id, username)
-          .post(`/api/v1/attempts/${climb_id}`)
-          .send({
-            send: true,
-          });
+        return authRequest.post(`/api/v1/attempts/${climb_id}`).send({
+          send: true,
+        });
       })
       .then(() => {
-        return authRequest(app, user_id, username)
+        return authRequest
           .get(`/api/v1/climbs/${climb_id}/attempts`)
           .expect(200)
           .then((res) => {
@@ -47,7 +46,7 @@ describe("attempt integration", () => {
           });
       })
       .then(() => {
-        return authRequest(app, user_id, username)
+        return authRequest
           .get("/api/v1/users/me/climbs")
           .expect(200)
           .then((res) => {
@@ -63,8 +62,9 @@ describe("attempt integration", () => {
       user1,
       climb_data[0],
     );
+    const authRequest2 = new AuthRequest(app, user2, "taylor");
 
-    return await authRequest(app, user2, "taylor")
+    return await authRequest2
       .post(`/api/v1/attempts/${climb_id}`)
       .send({
         send: false,
