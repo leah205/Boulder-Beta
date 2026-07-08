@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
+import config from "@/config";
 
 // Initialize Cloudinary configuration immediately
 (async function initCloudinary() {
@@ -11,7 +12,7 @@ import fs from "fs";
   });
 })();
 
-export const cloudinaryFolderName = "boulder_beta";
+const cloudinaryFolderName = config.cloudinary_folder;
 
 const uploadOnCloudinary = async (
   file: string,
