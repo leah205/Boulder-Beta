@@ -11,7 +11,8 @@ const ownClimbAuth = [
     if (!climb) {
       throw new AppError(`climb with id ${climb_id} does not exist`, 404);
     }
-
+    console.log(req.user?.id);
+    console.log(climb.creatorId);
     const climbCreatorId = climb.creatorId;
     if (!req.user || req.user.id != climbCreatorId) {
       throw new AppError(`unauthorized to access this resource`, 401);

@@ -7,11 +7,11 @@ const attemptController = {
   createAttempt: async (req: Request, res: Response) => {
     const climb_id = Number(req.params.climb_id);
     const send = "send" in req.body ? eval(req.body.send) : false;
-    const clip = req.file?.path
+    const public_id = req.file?.path
       ? await uploadOnCloudinary(req.file.path, "video")
       : null;
     const attempt = await attemptQueries.createAttempt(climb_id, {
-      clip,
+      public_id,
       send,
     });
 

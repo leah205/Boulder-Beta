@@ -14,22 +14,23 @@ const climbController = {
     const id = req.user!.id;
     const picturePath = req.file?.path;
 
-    let picture = null;
+    let public_id = null;
     const grade = req.body.grade.length ? req.body.grade : null;
     if (picturePath) {
-      picture = await uploadOnCloudinary(picturePath, "image");
+      public_id = await uploadOnCloudinary(picturePath, "image");
     }
     const climb_obj: Climb = await climbQueries.createClimb(id, {
       grade,
-      picture,
+      public_id,
       color: req.body.color,
     });
     return res.json(climb_obj);
   },
 
   getClimb: async (req: Request, res: Response) => {
-    const climb_id = Number(req.params.id);
+    const climb_id = Number(req.params.climb_id);
     const climb = await climbQueries.getClimb(climb_id);
+
     return res.json(climb);
   },
 
@@ -51,7 +52,7 @@ const climbController = {
   // },
 
   getAttempts: async (req: Request, res: Response) => {
-    const climb_id = Number(req.params.id);
+    const climb_id = Number(req.params.climb_id);
     const attempts = await climbQueries.getAttempts(climb_id);
     res.status(200).json(attempts);
   },

@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
+import config from "@/config";
 
 // Initialize Cloudinary configuration immediately
 (async function initCloudinary() {
@@ -11,7 +12,7 @@ import fs from "fs";
   });
 })();
 
-export const cloudinaryFolderName = "boulder_beta";
+const cloudinaryFolderName = config.cloudinary_folder;
 
 const uploadOnCloudinary = async (
   file: string,
@@ -22,7 +23,9 @@ const uploadOnCloudinary = async (
 
     const result = await cloudinary.uploader.upload(file, {
       folder: cloudinaryFolderName,
+      type: "authenticated",
       resource_type,
+      invalidate: true,
     });
 
     // Clean up local file after successful upload
@@ -30,7 +33,7 @@ const uploadOnCloudinary = async (
       fs.unlinkSync(file);
     }
 
-    return result.url;
+    return result.public_id;
   } catch (error) {
     console.error("Error uploading to Cloudinary:", error);
 
@@ -45,4 +48,15 @@ const uploadOnCloudinary = async (
   }
 };
 
-export { uploadOnCloudinary };
+function getCloudinarySignedUrl(
+  public_id: string,
+  resource_type: "video" | "image",
+) {
+  return cloudinary.url(public_id, {
+    type: "authenticated",
+    sign_url: true,
+    resource_type,
+  });
+}
+
+export { uploadOnCloudinary, getCloudinarySignedUrl };
