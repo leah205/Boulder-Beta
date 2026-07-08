@@ -2,12 +2,12 @@ import Button from "../components/Button";
 import Form from "../components/Form";
 import InputField from "../components/InputField";
 import { useState } from "react";
-import ValidationError from "../components/ValidationError";
 import useAuth from "../features/authentication/useAuth";
 import { useSignin } from "../features/authentication/useSignin";
 import { Link } from "react-router-dom";
 import Spinner from "@/components/Spinner";
 import FormField from "@/components/FormField";
+import ErrorWrapper from "@/components/ErrorWrapper";
 
 export default function SigninPage() {
   const [username, setUsername] = useState("");
@@ -28,7 +28,7 @@ export default function SigninPage() {
         <ul>
           {errors &&
             errors.map((error) => {
-              return <ValidationError key={error}>{error}</ValidationError>;
+              return <ErrorWrapper key={error}>{error}</ErrorWrapper>;
             })}
         </ul>
         <FormField name="username" label="Username">

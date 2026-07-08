@@ -3,9 +3,9 @@ import Form from "@/components/Form";
 
 import Button from "@/components/Button";
 import { useClimbLog } from "@/features/climbs/useLogClimb";
-import ValidationError from "@/components/ValidationError";
 import Spinner from "@/components/Spinner";
 import FormField from "@/components/FormField";
+import ErrorWrapper from "@/components/ErrorWrapper";
 
 function get_grades() {
   const gradeOptions = new Array(15).fill("V").map((ele, index) => ele + index);
@@ -50,7 +50,7 @@ export default function LogClimbPage() {
         <ul>
           {errors &&
             errors.map((error) => {
-              return <ValidationError key={error}>{error}</ValidationError>;
+              return <ErrorWrapper key={error}>{error}</ErrorWrapper>;
             })}
         </ul>
 
