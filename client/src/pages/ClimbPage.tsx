@@ -4,6 +4,9 @@ import { useParams } from "react-router-dom";
 import ClimbPageLayout from "@/features/climbs/components/ClimbPageLayout";
 import ClimbAttemptsCard from "@/features/attempts/components/ClimbAttemptsCard";
 import ClimbCard from "@/features/climbs/components/ClimbCard";
+import { ServerError } from "@/Error";
+import ErrorMessage from "@/components/ErrorMessage";
+import ContentSpinner from "@/components/ContentSpinner";
 
 //
 export default function ClimbPage() {
@@ -26,6 +29,19 @@ export default function ClimbPage() {
     queryFn: async () => climbApi.getAttempts(Number(climbId)),
   });
 
+  if (climbLoading) {
+    return (
+      <ClimbPageLayout>
+        <ContentSpinner></ContentSpinner>
+      </ClimbPageLayout>
+    );
+  }
+
+  if (climbError instanceof ServerError) {
+    if (climbError.status == 404 || climbError.status == 403) {
+      return <ErrorMessage error={climbError}></ErrorMessage>;
+    }
+  }
   return (
     <>
       <ClimbPageLayout>

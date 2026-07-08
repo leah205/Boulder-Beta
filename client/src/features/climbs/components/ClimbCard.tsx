@@ -2,6 +2,7 @@ import ContentSpinner from "@/components/ContentSpinner";
 import type { Climb } from "@shared/types";
 import type React from "node_modules/@types/react/index";
 import ClimbPic from "./ClimbPic";
+import ErrorMessage from "@/components/ErrorMessage";
 interface ClimbCardProps {
   pending: boolean;
   error: Error | null;
@@ -26,7 +27,7 @@ export default function ClimbCard({ pending, error, data }: ClimbCardProps) {
   }
 
   if (error) {
-    return <p>{error.message}</p>;
+    return <ErrorMessage error={error}></ErrorMessage>;
   }
 
   if (!data) {

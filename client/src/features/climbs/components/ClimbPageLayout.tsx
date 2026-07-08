@@ -3,5 +3,5 @@ export default function ClimbPageLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="px-2">{children}</div>;
+  return <div className="px-2 py-6">{children}</div>;
 }
