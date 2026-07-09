@@ -55,7 +55,7 @@ describe("attempt integration", () => {
       });
   });
 
-  it("throws unauthorized error when user tries to post attempt to another climb", async () => {
+  it("throws frobidden error when user tries to post attempt to another climb", async () => {
     const { id: user1 } = await authQueries.createUser("selena", "gomez");
     const { id: user2 } = await authQueries.createUser("taylor", "swift");
     const { id: climb_id } = await climbQueries.createClimb(
@@ -69,6 +69,6 @@ describe("attempt integration", () => {
       .send({
         send: false,
       })
-      .expect(401);
+      .expect(403);
   });
 });

@@ -3,7 +3,6 @@ import climbQueries from "./climbQueries";
 //import { Prisma } from "generated/prisma/client";
 import type { Climb } from "../../generated/prisma/client";
 import { validationResult } from "express-validator";
-import { uploadOnCloudinary } from "@/utils/cloudinary";
 
 const climbController = {
   createClimb: async (req: Request, res: Response) => {
@@ -12,16 +11,12 @@ const climbController = {
       return res.status(400).json({ errors: errors.array() });
     }
     const id = req.user!.id;
-    const picturePath = req.file?.path;
-
-    let public_id = null;
+    const picture = req.file?.path;
     const grade = req.body.grade.length ? req.body.grade : null;
-    if (picturePath) {
-      public_id = await uploadOnCloudinary(picturePath, "image");
-    }
+
     const climb_obj: Climb = await climbQueries.createClimb(id, {
       grade,
-      public_id,
+      picture,
       color: req.body.color,
     });
     return res.json(climb_obj);
