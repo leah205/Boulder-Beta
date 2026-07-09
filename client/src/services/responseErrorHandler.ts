@@ -2,7 +2,7 @@
 import type { ValidationError } from "express-validator";
 import type { AxiosError } from "axios";
 import axios from "axios";
-import { CustomValidationError, ServerError } from "../Error";
+import { CustomValidationError, ServerError } from "@/utils/Error";
 
 type Data = {
   errors?: ValidationError[];

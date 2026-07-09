@@ -1,4 +1,4 @@
-import { ServerError } from "@/Error";
+import { ServerError } from "@/utils/Error";
 import ErrorWrapper from "./ErrorWrapper";
 import type React from "react";
 

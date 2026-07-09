@@ -1,4 +1,4 @@
-import http from "@/utils/axiosInstance";
+import http from "@/services/axiosInstance";
 import type { UserCredentials } from "@/types/auth_types";
 
 const API_URL =

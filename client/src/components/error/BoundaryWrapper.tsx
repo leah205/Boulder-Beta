@@ -1,8 +1,12 @@
 import { ErrorBoundary, getErrorMessage } from "react-error-boundary";
 import Button from "@/components/Button";
-import { Outlet } from "react-router-dom";
+import type React from "react";
 
-export default function BoundaryWrapper() {
+export default function BoundaryWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <ErrorBoundary
       fallbackRender={({ error, resetErrorBoundary }) => (
@@ -21,7 +25,7 @@ export default function BoundaryWrapper() {
         // Reset any state that may have caused the error
       }}
     >
-      <Outlet />
+      {children}
     </ErrorBoundary>
   );
 }

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import userApi from "@/features/users/userService";
-import Spinner from "@/components/Spinner";
+import Spinner from "@/components/spinner/Spinner";
 import type { Climb } from "@shared/types";
 import { Link } from "react-router-dom";
 import ClimbPic from "@/features/climbs/components/ClimbPic";

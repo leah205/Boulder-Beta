@@ -1,9 +1,9 @@
-import Form from "@/components/Form";
+import Form from "@/components/form/Form";
 import Button from "@/components/Button";
 import type { UseMutateFunction } from "node_modules/@tanstack/react-query/build/modern/_tsup-dts-rollup";
 import type { Attempt } from "@shared/types";
 import { useState } from "react";
-import ErrorWrapper from "@/components/ErrorWrapper";
+import ErrorWrapper from "@/components/error/ErrorWrapper";
 type AttemptInputType = {
   send: boolean;
   clip?: File;
@@ -30,7 +30,10 @@ export default function RecordModal({
   }
 
   return (
-    <Form className="absolute bg-white  " enctype="multipart/form-data">
+    <Form
+      className="-translate-y-full w-1/2 bg-white  "
+      enctype="multipart/form-data"
+    >
       {error && <ErrorWrapper>{error.message}</ErrorWrapper>}
 
       <label htmlFor="clip">Upload a video:</label>

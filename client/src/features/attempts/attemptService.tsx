@@ -1,4 +1,4 @@
-import http from "@/utils/axiosInstance";
+import http from "@/services/axiosInstance";
 import type { Attempt } from "@shared/types";
 import type { AttemptInputType } from "@/types/attempt_types";
 

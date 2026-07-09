@@ -1,13 +1,13 @@
 import Button from "../components/Button";
-import Form from "../components/Form";
-import InputField from "../components/InputField";
+import Form from "../components/form/Form";
+import InputField from "../components/form/InputField";
 import { useState } from "react";
 import useAuth from "../features/authentication/useAuth";
 import { useSignin } from "../features/authentication/useSignin";
 import { Link } from "react-router-dom";
-import Spinner from "@/components/Spinner";
-import FormField from "@/components/FormField";
-import ErrorWrapper from "@/components/ErrorWrapper";
+import Spinner from "@/components/spinner/Spinner";
+import FormField from "@/components/form/FormField";
+import ErrorWrapper from "@/components/error/ErrorWrapper";
 
 export default function SigninPage() {
   const [username, setUsername] = useState("");

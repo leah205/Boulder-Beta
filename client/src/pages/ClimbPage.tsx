@@ -1,14 +1,16 @@
 import climbApi from "@/features/climbs/climbService";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import ClimbPageLayout from "@/features/climbs/components/ClimbPageLayout";
-import ClimbAttemptsCard from "@/features/attempts/components/ClimbAttemptsCard";
+import ClimbAttemptsCard from "@/features/climbs/components/ClimbAttemptsCard";
 import ClimbCard from "@/features/climbs/components/ClimbCard";
-import { ServerError } from "@/Error";
-import ErrorMessage from "@/components/ErrorMessage";
-import ContentSpinner from "@/components/ContentSpinner";
+import { ServerError } from "@/utils/Error";
+import ErrorMessage from "@/components/error/ErrorMessage";
+import ContentSpinner from "@/components/spinner/ContentSpinner";
 
-//
+function ClimbPageLayout({ children }: { children: React.ReactNode }) {
+  return <div className="px-2 py-6">{children}</div>;
+}
+
 export default function ClimbPage() {
   const { id: climbId } = useParams();
   const {

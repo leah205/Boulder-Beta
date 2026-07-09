@@ -1,4 +1,4 @@
-import http from "@/utils/axiosInstance";
+import http from "@/services/axiosInstance";
 import type { Climb, Attempt } from "@shared/types";
 import type { CreateClimbInput } from "@/types/climb_types";
 

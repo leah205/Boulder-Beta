@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Form from "@/components/Form";
+import Form from "@/components/form/Form";
 
 import Button from "@/components/Button";
 import { useClimbLog } from "@/features/climbs/useLogClimb";
-import Spinner from "@/components/Spinner";
-import FormField from "@/components/FormField";
-import ErrorWrapper from "@/components/ErrorWrapper";
+import Spinner from "@/components/spinner/Spinner";
+import FormField from "@/components/form/FormField";
+import ErrorWrapper from "@/components/error/ErrorWrapper";
 
 function get_grades() {
   const gradeOptions = new Array(15).fill("V").map((ele, index) => ele + index);

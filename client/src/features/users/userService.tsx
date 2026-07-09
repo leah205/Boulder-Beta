@@ -1,4 +1,4 @@
-import http from "@/utils/axiosInstance";
+import http from "@/services/axiosInstance";
 import type { Climb } from "@shared/types";
 
 const API_URL =

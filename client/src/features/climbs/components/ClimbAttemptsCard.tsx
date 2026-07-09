@@ -1,12 +1,12 @@
-import ContentSpinner from "@/components/ContentSpinner";
+import ContentSpinner from "@/components/spinner/ContentSpinner";
 import useLogAttempt from "@/features/attempts/useLogAttempt";
 import Button from "@/components/Button";
-import Spinner from "@/components/Spinner";
+import Spinner from "@/components/spinner/Spinner";
 import { useState } from "react";
 import RecordModal from "./RecordModal";
 import ClimbAttemptsList from "./ClimbAttemptsList";
 import type { Attempt } from "@shared/types";
-import ErrorMessage from "@/components/ErrorMessage";
+import ErrorMessage from "@/components/error/ErrorMessage";
 
 function AttemptsHeader() {
   const [recordModal, setRecordModal] = useState(false);

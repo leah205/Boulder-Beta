@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import api from "./auth_service";
-import { CustomValidationError } from "../../Error";
+import { CustomValidationError } from "@/utils/Error";
 import { useState } from "react";
 
 interface FormDataType {
