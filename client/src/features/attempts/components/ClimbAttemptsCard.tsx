@@ -6,6 +6,7 @@ import { useState } from "react";
 import RecordModal from "./RecordModal";
 import ClimbAttemptsList from "./ClimbAttemptsList";
 import type { Attempt } from "@shared/types";
+import ErrorMessage from "@/components/ErrorMessage";
 
 function AttemptsHeader() {
   const [recordModal, setRecordModal] = useState(false);
@@ -29,6 +30,7 @@ function AttemptsHeader() {
         ></RecordModal>
       )}
       {logPending && <Spinner></Spinner>}
+      {logError && <ErrorMessage error={logError}></ErrorMessage>}
       <div className="flex justify-around py-5 gap-3">
         <Button
           type="submit"
@@ -48,7 +50,6 @@ function AttemptsHeader() {
           Record
         </Button>
       </div>
-      {logError && <p>{logError}</p>}
     </>
   );
 }
@@ -68,7 +69,6 @@ export default function ClimbAttemptsCard({
   error,
   data,
 }: AttemptsCardProps) {
-  console.log(data);
   if (pending) {
     return (
       <AttemptsCardLayout>
@@ -82,7 +82,7 @@ export default function ClimbAttemptsCard({
     return (
       <AttemptsCardLayout>
         <AttemptsHeader></AttemptsHeader>
-        <p>{error.message}</p>
+        <ErrorMessage error={error}></ErrorMessage>
       </AttemptsCardLayout>
     );
   }

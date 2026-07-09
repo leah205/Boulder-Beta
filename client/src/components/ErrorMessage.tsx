@@ -8,8 +8,6 @@ interface ErrorMessageProps {
 
 export default function ErrorMessage({ error }: ErrorMessageProps) {
   if (error instanceof ServerError) {
-    console.log(error.status);
-    console.log(error.message);
     return (
       <ErrorWrapper>
         {error.status}: {error.message}

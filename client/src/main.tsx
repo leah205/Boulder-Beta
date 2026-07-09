@@ -4,7 +4,11 @@ import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import RouteElements from "./routes.tsx";
 import AuthProvider from "./features/authentication/AuthProvider.tsx";
-import { BrowserRouter } from "react-router-dom";
+import {
+  BrowserRouter,
+  useRouteError,
+  isRouteErrorResponse,
+} from "react-router-dom";
 
 // const router = createBrowserRouter(createRoutesFromElements(RouteElement()));
 

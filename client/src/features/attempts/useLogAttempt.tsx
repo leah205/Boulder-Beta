@@ -10,7 +10,7 @@ export default function useLogAttempt() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { id: climbId } = useParams();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
   const { mutate: logAttempt, isPending } = useMutation({
     mutationFn: (attempt: AttemptInputType) =>
       attemptApi.logAttempt(Number(climbId), attempt),
@@ -26,7 +26,7 @@ export default function useLogAttempt() {
       if (err.message == "unauthorized") {
         navigate("/signin");
       } else {
-        setError(err.message);
+        setError(err);
       }
     },
   });
