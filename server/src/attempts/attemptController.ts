@@ -18,6 +18,15 @@ const attemptController = {
 
     res.status(200).json(attempt);
   },
+
+  publishAttempt: async (req: Request, res: Response) => {
+    console.log("yooohooo");
+    const attempt_id = Number(req.params.attempt_id);
+
+    const attempt = await attemptQueries.publishAttempt(attempt_id);
+    console.log("donne");
+    res.status(200).json(attempt);
+  },
 };
 
 export default attemptController;

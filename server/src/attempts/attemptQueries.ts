@@ -39,8 +39,21 @@ const attemptQueries = {
         },
       },
     });
-
     return attempt;
+  },
+
+  publishAttempt: async (attempt_id: number) => {
+    return await prisma.attempt.update({
+      data: {
+        published: true,
+        post: {
+          create: {},
+        },
+      },
+      where: {
+        id: attempt_id,
+      },
+    });
   },
 };
 export default attemptQueries;

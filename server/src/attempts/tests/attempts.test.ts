@@ -71,4 +71,38 @@ describe("attempt integration", () => {
       })
       .expect(403);
   });
+
+  it("publishing attempt with video works works", async () => {
+    const username = "leah";
+    const password = "tiktin";
+    const { id: user_id } = await authQueries.createUser(username, password);
+    const { id: climb_id } = await climbQueries.createClimb(
+      user_id,
+      climb_data[0],
+    );
+    let attempt_id = 0;
+    const authRequest = new AuthRequest(app, user_id, username);
+    await authRequest
+      .post(`/api/v1/attempts/${climb_id}`)
+      .field("send", true)
+      .attach("clip", "./src/assets/video1.mov")
+      .expect(200)
+      .then((res) => {
+        attempt_id = res.body.id;
+        expect(true).toBeTruthy();
+      })
+      .then(() => {
+        return authRequest
+          .post(`/api/v1/attempts/${attempt_id}/publish`)
+          .expect(200)
+          .then(() => {
+            return authRequest
+              .get(`/api/v1/climbs/${climb_id}/attempts`)
+              .then((res) => {
+                expect(res.body[0].published).toBeTruthy();
+                expect(res.body[0]).toHaveProperty("clip");
+              });
+          });
+      });
+  }, 10000);
 });

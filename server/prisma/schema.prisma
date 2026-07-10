@@ -63,6 +63,7 @@ model Attempt {
     fallReason String?
     notes String?
     video Video?
+    post Post?
 }
 
 
@@ -72,9 +73,15 @@ model Video {
   attempt Attempt @relation(fields: [attemptId], references: [id])
   attemptId Int @unique
   public_id String 
-  claps Clap[]
-  betas Beta[]
+}
 
+model Post {
+    id Int @id @default(autoincrement()) 
+    attempt Attempt @relation(fields: [attemptId], references: [id])
+    attemptId Int @unique
+    claps Clap[]
+    betas Beta[]
+    description String?
 
 
 }
@@ -84,20 +91,20 @@ model Beta {
   content String
   uploadedAt DateTime @default(now())
   author    User    @relation(fields: [userId], references: [id])
-  video     Video    @relation(fields: [videoId], references: [id])
+  post     Post    @relation(fields: [postId], references: [id])
   starred Boolean @default(false)
   emphases Emphasis[]
   userId Int
-  videoId Int
+  postId Int
   @@map("betas")
 }
 
 model Clap {
   id Int @id @default(autoincrement()) 
-  post Video @relation(fields: [videoId], references: [id]) 
+  post Post @relation(fields: [postId], references: [id]) 
   user  User    @relation(fields: [userId], references: [id])
   userId Int
-  videoId Int
+  postId Int
   @@map("claps")
 }
 

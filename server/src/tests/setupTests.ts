@@ -5,6 +5,8 @@ import prisma from "@/db/prisma_client";
 
 beforeEach(async () => {
   await prisma.$transaction([
+    prisma.video.deleteMany(),
+    prisma.post.deleteMany(),
     prisma.attempt.deleteMany(),
     prisma.climb.deleteMany(),
     prisma.user.deleteMany(),
