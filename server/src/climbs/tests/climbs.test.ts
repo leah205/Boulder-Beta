@@ -1,5 +1,5 @@
 import { it, describe } from "vitest";
-import AuthRequest from "@/tests/mocks";
+import AuthRequest from "@/tests/AuthRequest";
 import initialize_app from "@/utils/express_app";
 import authQueries from "@/auth/authQueries";
 const app = initialize_app();
