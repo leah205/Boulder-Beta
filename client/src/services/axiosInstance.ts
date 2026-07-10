@@ -1,9 +1,14 @@
 import axios from "axios";
 import responseErrorHandler from "./responseErrorHandler";
 
-const axiosDefaults = {};
-const http = axios.create(axiosDefaults);
-
+// const axiosDefaults = {};
+globalThis.fetch = window.fetch;
+const http = axios.create({
+  adapter: "fetch",
+  env: {
+    fetch: globalThis.fetch,
+  },
+});
 http.interceptors.request.use(
   function (config) {
     const token = localStorage.getItem("token");
@@ -19,5 +24,4 @@ http.interceptors.response.use((response) => {
   console.log(response);
   return response;
 }, responseErrorHandler);
-
 export default http;

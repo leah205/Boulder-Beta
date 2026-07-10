@@ -1,9 +1,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AuthProvider from "@/features/authentication/AuthProvider";
-import router from "@/routes.tsx";
-import { RouterProvider, Routes } from "react-router-dom";
+
 import { MemoryRouter } from "react-router-dom";
-import RouteElements from "@/routes.tsx";
+import RouteElements from "@/app/routes.tsx";
 
 export default function ProviderWrapper({
   initRoute = "/",

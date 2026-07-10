@@ -20,6 +20,7 @@ export default function ClimbPic({ children, picture, color }: ClimbPicProps) {
     <div
       className={`text-center hover:bg-mist-50 p-6 rounded-md border-1 border-mist-300 shadow-sm w-50 h-50 border-5 relative`}
       style={{ ...style, borderColor: color, backgroundSize: "cover" }}
+      data-testid="climb-pic"
     >
       {children}
     </div>

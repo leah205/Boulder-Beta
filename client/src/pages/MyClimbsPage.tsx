@@ -13,10 +13,11 @@ function ClimbCard(props: climbCardProps) {
   const climb = props.climb;
 
   return (
-    <Link to={`/climbs/${climb.id}`}>
+    <Link data-testid="climb-card" to={`/climbs/${climb.id}`}>
       <ClimbPic picture={climb.picture} color={climb.color}>
         {climb.sent && (
           <img
+            data-testid="sent-check"
             className="text-white absolute top-0 right-0 h-8 w-8 "
             src="./src/assets/sent.svg"
           />
@@ -39,6 +40,7 @@ export default function MyClimbPage() {
     queryKey: ["myclimbs"],
     queryFn: async () => userApi.getMyClimbs(),
   });
+  console.log(data);
 
   if (isPending) {
     return <Spinner></Spinner>;

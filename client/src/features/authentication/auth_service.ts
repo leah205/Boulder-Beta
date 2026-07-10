@@ -34,6 +34,7 @@ const api = {
   },
 
   getUserFromToken: async () => {
+    console.log(`${API_URL}/userFromToken`);
     const response = await http.get<UserCredentials>(
       `${API_URL}/userFromToken`,
       {},
