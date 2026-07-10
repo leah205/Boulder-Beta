@@ -54,11 +54,15 @@ const climbQueries = {
       where: {
         climbId: climb_id,
       },
+      include: {
+        video: true,
+      },
     });
+
     const res = attemptsData.map((attempt) => {
-      const { public_id, ...res_obj } = attempt;
-      const clip = public_id
-        ? getCloudinarySignedUrl(public_id, "video")
+      const { video, ...res_obj } = attempt;
+      const clip = video
+        ? getCloudinarySignedUrl(video.public_id, "video")
         : null;
       return { ...res_obj, clip };
     });

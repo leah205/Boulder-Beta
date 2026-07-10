@@ -11,10 +11,27 @@ const attemptQueries = {
     const public_id = picture
       ? await uploadOnCloudinary(picture, "video")
       : null;
+    if (public_id) {
+      const attempt = await prisma.attempt.create({
+        data: {
+          ...input_data,
+          climb: {
+            connect: {
+              id: climb_id,
+            },
+          },
+          video: {
+            create: {
+              public_id,
+            },
+          },
+        },
+      });
+      return attempt;
+    }
     const attempt = await prisma.attempt.create({
       data: {
         ...input_data,
-        public_id: public_id,
         climb: {
           connect: {
             id: climb_id,
@@ -22,6 +39,7 @@ const attemptQueries = {
         },
       },
     });
+
     return attempt;
   },
 };
