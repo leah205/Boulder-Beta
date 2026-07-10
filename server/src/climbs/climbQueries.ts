@@ -1,18 +1,26 @@
 import { getCloudinarySignedUrl } from "@/utils/cloudinary";
 import prisma from "../db/prisma_client";
 import { AppError } from "@/Errors";
+import { uploadOnCloudinary } from "@/utils/cloudinary";
 
 type CreateClimbInput = {
   grade?: string | null;
-  public_id?: string | null;
+  picture?: string | undefined;
   sent?: boolean;
   color: string;
 };
 
 const climbQueries = {
   createClimb: async (creatorId: number, climb: CreateClimbInput) => {
+    let public_id = null;
+    const { picture, ...input_data } = climb;
+    if (picture) {
+      public_id = await uploadOnCloudinary(picture, "image");
+    }
+
     const data = {
-      ...climb,
+      ...input_data,
+      public_id: public_id,
       creator: {
         connect: {
           id: creatorId,

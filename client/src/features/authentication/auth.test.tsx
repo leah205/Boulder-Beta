@@ -4,10 +4,10 @@ import userEvent from "@testing-library/user-event";
 import { vi } from "vitest";
 import api from "./auth_service";
 import "@testing-library/jest-dom/vitest";
-import ProviderWrapper from "@/tests/ProviderWrapper";
 
 import { cleanup } from "@testing-library/react";
 import * as matchers from "@testing-library/jest-dom/matchers";
+import ProviderWrapper from "@/tests/ProviderWrapper";
 expect.extend(matchers);
 
 vi.mock("./auth_service");

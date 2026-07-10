@@ -1,7 +1,5 @@
 import type { Attempt } from "@shared/types";
-import attemptApi from "../attemptService";
 import Button from "@/components/Button";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 
 type AttemptRowProps = {
@@ -60,7 +58,7 @@ export default function ClimbAttemptsList({ data }: AttemptsListProps) {
   return (
     <div>
       {attempts.map((attempt) => {
-        return <AttemptRow attempt={attempt}></AttemptRow>;
+        return <AttemptRow key={attempt.id} attempt={attempt}></AttemptRow>;
       })}
     </div>
   );

@@ -1,15 +1,14 @@
-import App from "./App";
-import SigninPage from "./pages/SigninPage";
-import SignupPage from "./pages/SignupPage";
-import AppLayout from "./layouts/AppLayout";
-import AuthLayout from "./layouts/AuthLayout";
-import LogClimbPage from "./pages/LogClimbPage";
-import MyClimbsPage from "./pages/MyClimbsPage";
-import ClimbPage from "./pages/ClimbPage";
+import App from "@/app/App";
+import SigninPage from "@/pages/SigninPage";
+import SignupPage from "@/pages/SignupPage";
+import AppLayout from "@/layouts/AppLayout";
+import AuthLayout from "@/layouts/AuthLayout";
+import LogClimbPage from "@/pages/LogClimbPage";
+import MyClimbsPage from "@/pages/MyClimbsPage";
+import ClimbPage from "@/pages/ClimbPage";
 import "./App.css";
-
 import { Route, Routes, Navigate } from "react-router-dom";
-import ProtectedRoute from "./layouts/ProtectedRoute";
+import ProtectedRoute from "@/layouts/ProtectedRoute";
 
 export default function RouteElements() {
   return (
@@ -24,7 +23,6 @@ export default function RouteElements() {
             {/* <Route path="/attempts/:id" element={<AttemptPage />}></Route> */}
           </Route>
         </Route>
-
         <Route element={<AuthLayout />}>
           <Route path="signin" element={<SigninPage />}></Route>
           <Route path="signup" element={<SignupPage />}></Route>

@@ -2,7 +2,7 @@
 import type { ValidationError } from "express-validator";
 import type { AxiosError } from "axios";
 import axios from "axios";
-import { CustomValidationError } from "../Error";
+import { CustomValidationError, ServerError } from "@/utils/Error";
 
 type Data = {
   errors?: ValidationError[];
@@ -35,22 +35,24 @@ export default function responseErrorHandler(error: AxiosError) {
         throw new Error("User request malfigured");
       }
       if (statusCode == 401) {
-        throw new Error("Unauthorized");
+        throw new ServerError("Unauthorized", 401);
       }
       if (statusCode == 403) {
-        throw new Error(
+        throw new ServerError(
           "Forbidden. User does not have authorization to access this resource",
+          403,
         );
       }
       if (statusCode == 404) {
-        throw new Error("Requested resource does not exists");
+        throw new ServerError("Requested resource does not exists", 404);
       } else {
-        throw new Error("Server Error");
+        throw new ServerError("Server Error", 500);
       }
     }
   }
 
-  throw new Error(
+  throw new ServerError(
     "Sorry, something went wrong on our end. Please try again later",
+    500,
   );
 }

@@ -1,13 +1,20 @@
 import prisma from "@/db/prisma_client";
-import type { Attempt } from "generated/prisma/client";
-type AttemptInput = Pick<Attempt, "public_id" | "send">;
+type AttemptInput = {
+  picture: string | undefined;
+  send: boolean;
+};
+import { uploadOnCloudinary } from "@/utils/cloudinary";
 
 const attemptQueries = {
   createAttempt: async (climb_id: number, attemptInput: AttemptInput) => {
+    const { picture, ...input_data } = attemptInput;
+    const public_id = picture
+      ? await uploadOnCloudinary(picture, "video")
+      : null;
     const attempt = await prisma.attempt.create({
       data: {
-        send: attemptInput.send,
-        public_id: attemptInput.public_id,
+        ...input_data,
+        public_id: public_id,
         climb: {
           connect: {
             id: climb_id,

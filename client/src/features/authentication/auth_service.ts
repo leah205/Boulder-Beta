@@ -1,4 +1,4 @@
-import http from "@/utils/axiosInstance";
+import http from "@/services/axiosInstance";
 import type { UserCredentials } from "@/types/auth_types";
 
 const API_URL =
@@ -34,6 +34,7 @@ const api = {
   },
 
   getUserFromToken: async () => {
+    console.log(`${API_URL}/userFromToken`);
     const response = await http.get<UserCredentials>(
       `${API_URL}/userFromToken`,
       {},
