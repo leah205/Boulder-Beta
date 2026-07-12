@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import userApi from "@/features/users/userService";
 import Spinner from "@/components/spinner/Spinner";
-import type { Climb } from "@shared/types";
+import type { ClimbResponse } from "@shared/types";
 import { Link } from "react-router-dom";
 import ClimbPic from "@/features/climbs/components/ClimbPic";
+import ErrorMessage from "@/components/error/ErrorMessage";
 
 type climbCardProps = {
-  climb: Climb;
+  climb: ClimbResponse;
 };
 
 function ClimbCard(props: climbCardProps) {
@@ -14,7 +15,7 @@ function ClimbCard(props: climbCardProps) {
 
   return (
     <Link data-testid="climb-card" to={`/climbs/${climb.id}`}>
-      <ClimbPic picture={climb.picture} color={climb.color}>
+      <ClimbPic picture={climb.picture || undefined} color={climb.color}>
         {climb.sent && (
           <img
             data-testid="sent-check"
@@ -40,13 +41,12 @@ export default function MyClimbPage() {
     queryKey: ["myclimbs"],
     queryFn: async () => userApi.getMyClimbs(),
   });
-  console.log(data);
 
   if (isPending) {
     return <Spinner></Spinner>;
   }
   if (error) {
-    return <p>{error.message}</p>;
+    return <ErrorMessage error={error}></ErrorMessage>;
   }
   return (
     <>

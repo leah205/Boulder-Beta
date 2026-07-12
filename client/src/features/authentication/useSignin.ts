@@ -1,24 +1,20 @@
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import type { UserCredentials } from "@/types/auth_types";
 import { useState } from "react";
+import type { LoginRequest } from "@shared/types";
+import type { SignInFunc } from "@/types/auth_types";
 
-type LoginCredentials = {
-  username: string;
-  password: string;
-};
+// type signinType = (
+//   username: string,
+//   password: string,
+// ) => Promise<UserCredentials>;
 
-type signinType = (
-  username: string,
-  password: string,
-) => Promise<UserCredentials>;
-
-export function useSignin(signin: signinType) {
+export function useSignin(signin: SignInFunc) {
   const navigate = useNavigate();
   const [errors, setErrors] = useState<string[]>([]);
   const { mutate: login, isPending } = useMutation({
-    mutationFn: ({ username, password }: LoginCredentials) =>
-      signin(username.trim(), password.trim()),
+    mutationFn: ({ username, password }: LoginRequest) =>
+      signin({ username: username.trim(), password: password.trim() }),
 
     onSuccess: (res) => {
       navigate("/");

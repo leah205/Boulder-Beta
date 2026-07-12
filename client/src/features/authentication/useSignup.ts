@@ -16,11 +16,11 @@ export function useSignup() {
   const { mutate: signup, isPending } = useMutation({
     mutationFn: async (formData: FormDataType) => {
       const { username, password, confirm_password } = formData;
-      return await api.signup(
-        username.trim(),
-        password.trim(),
-        confirm_password.trim(),
-      );
+      return await api.signup({
+        username: username.trim(),
+        password: password.trim(),
+        password_confirm: confirm_password.trim(),
+      });
     },
     onSuccess: () => {
       navigate("/signin");

@@ -1,15 +1,23 @@
-import type { Attempt } from "@shared/types";
+import type { AttemptResponse } from "@shared/types";
 import Button from "@/components/Button";
 import { useState } from "react";
+import usePublishAttempt from "@/features/attempts/usePublishAttempt";
+import Spinner from "@/components/spinner/Spinner";
 
 type AttemptRowProps = {
-  attempt: Attempt & {
+  attempt: AttemptResponse & {
     uploadDate: string;
     uploadTime: string;
   };
 };
 function AttemptRow({ attempt }: AttemptRowProps) {
   const [showVideo, setShowVideo] = useState(false);
+
+  const {
+    publishAttempt,
+    isPending: publishPending,
+    error: publishError,
+  } = usePublishAttempt(attempt.id);
 
   function toggleShowVideo() {
     setShowVideo(!showVideo);
@@ -32,12 +40,20 @@ function AttemptRow({ attempt }: AttemptRowProps) {
           <source src={attempt.clip || undefined} type="video/mp4"></source>
         </video>
       )}
+
+      {showVideo && !attempt.published && (
+        <Button type="submit" onClick={publishAttempt}>
+          Publish
+        </Button>
+      )}
+
+      {publishPending && <Spinner></Spinner>}
     </div>
   );
 }
 
 type AttemptsListProps = {
-  data: Attempt[];
+  data: AttemptResponse[];
 };
 
 export default function ClimbAttemptsList({ data }: AttemptsListProps) {
