@@ -2,26 +2,15 @@ import { it, describe } from "vitest";
 import AuthRequest from "@/tests/AuthRequest";
 import initialize_app from "@/utils/express_app";
 const app = initialize_app();
-import authQueries from "@/auth/authQueries";
-import climbQueries from "@/climbs/climbQueries";
-
-const climb_data = [
-  {
-    grade: "V3",
-    color: "pink",
-  },
-];
+import { createTestClimb, createTestUser } from "@/tests/factories";
 
 describe("attempt integration", () => {
   it("attempt post and get works", async () => {
-    const username = "leah";
-    const password = "tiktin";
-    const { id: user_id } = await authQueries.createUser(username, password);
-    const { id: climb_id } = await climbQueries.createClimb(
-      user_id,
-      climb_data[0],
-    );
-    const authRequest = new AuthRequest(app, user_id, username);
+    const user = await createTestUser();
+
+    const climb = await createTestClimb(user);
+    const climb_id = climb.id;
+    const authRequest = new AuthRequest(app, user.id, user.username);
 
     return await authRequest
       .post(`/api/v1/attempts/${climb_id}`)
@@ -56,13 +45,11 @@ describe("attempt integration", () => {
   });
 
   it("throws frobidden error when user tries to post attempt to another climb", async () => {
-    const { id: user1 } = await authQueries.createUser("selena", "gomez");
-    const { id: user2 } = await authQueries.createUser("taylor", "swift");
-    const { id: climb_id } = await climbQueries.createClimb(
-      user1,
-      climb_data[0],
-    );
-    const authRequest2 = new AuthRequest(app, user2, "taylor");
+    const user1 = await createTestUser(0);
+    const user2 = await createTestUser(1);
+    const climb = await createTestClimb(user1);
+    const climb_id = climb.id;
+    const authRequest2 = new AuthRequest(app, user2.id, user2.username);
 
     return await authRequest2
       .post(`/api/v1/attempts/${climb_id}`)
@@ -73,15 +60,11 @@ describe("attempt integration", () => {
   });
 
   it("publishing attempt with video works works", async () => {
-    const username = "leah";
-    const password = "tiktin";
-    const { id: user_id } = await authQueries.createUser(username, password);
-    const { id: climb_id } = await climbQueries.createClimb(
-      user_id,
-      climb_data[0],
-    );
+    const user1 = await createTestUser();
+    const climb = await createTestClimb(user1);
+    const climb_id = climb.id;
     let attempt_id = 0;
-    const authRequest = new AuthRequest(app, user_id, username);
+    const authRequest = new AuthRequest(app, user1.id, user1.username);
     await authRequest
       .post(`/api/v1/attempts/${climb_id}`)
       .field("send", true)

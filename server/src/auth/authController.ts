@@ -4,62 +4,69 @@ import passport from "../auth/passport_config";
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import config from "../config";
+import type { AuthenticatedUser } from "@/types";
+import {
+  type AuthResponse,
+  type LoginRequest,
+  LoginSchema,
+  LoginResponse,
+  SignupSchema,
+} from "@shared/types";
 
 type authInfo = {
   message?: string;
 };
 
-type LoginUser = {
-  username: string;
-  password: string;
-  id: number;
-};
-
 const userController = {
   signup: {
     post: async (req: Request, res: Response) => {
+      req.body = SignupSchema.parse(req.body);
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        const result = errors.formatWith((err) => err.msg);
+        return res.status(400).json({ errors: result.array() });
       }
       const user = await authQueries.createUser(
         req.body.username,
         req.body.password,
       );
-      res.json({
+
+      const data = {
         username: user.username,
         id: user.id,
-      });
+      } satisfies AuthResponse;
+      res.json(data);
     },
   },
   login: {
     post: async (req: Request, res: Response, next: NextFunction) => {
+      req.body = LoginSchema.parse(req.body);
       passport.authenticate(
         "local",
         { session: false },
-        (err: Error, user: LoginUser, info: authInfo) => {
+        (err: Error, user: LoginRequest, info: authInfo) => {
           if (err || !user) {
             return res.status(400).json({
               message: info.message,
               user: user,
             });
           }
-          req.login(user, { session: false }, (err) => {
-            if (err) {
-              res.json(err);
-            }
-          });
 
+          const authenticatedUser = user as unknown as AuthenticatedUser;
           const token = jwt.sign(
             {
-              id: user?.id,
-              username: user?.username,
+              id: authenticatedUser?.id,
+              username: authenticatedUser?.username,
             },
             config.secret,
             { expiresIn: "1d" },
           );
-          return res.json({ id: user.id, username: user.username, token });
+          return res.json({
+            id: authenticatedUser.id,
+            username: user.username,
+            token,
+          } satisfies LoginResponse);
         },
       )(req, res, next);
     },
@@ -79,7 +86,8 @@ const userController = {
 
   user: {
     get: (req: Request, res: Response) => {
-      return res.status(200).json(req.user);
+      const user = req.user satisfies AuthResponse;
+      return res.status(200).json(user);
     },
   },
 };

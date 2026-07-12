@@ -3,28 +3,35 @@ import climbQueries from "./climbQueries";
 //import { Prisma } from "generated/prisma/client";
 import type { Climb } from "../../generated/prisma/client";
 import { validationResult } from "express-validator";
+import { CreateClimbSchema } from "@shared/types";
+import type { ClimbResponse, AttemptResponse } from "@shared/types";
 
 const climbController = {
   createClimb: async (req: Request, res: Response) => {
+    req.body = CreateClimbSchema.parse(req.body);
+    req.body.grade = req.body.grade.length ? req.body.grade : null;
+    delete req.body.picture;
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const id = req.user!.id;
+    const id = req.user!.id!;
     const picture = req.file?.path;
-    const grade = req.body.grade.length ? req.body.grade : null;
 
-    const climb_obj: Climb = await climbQueries.createClimb(id, {
-      grade,
+    const climb_obj: Climb = (await climbQueries.createClimb(id, {
       picture,
-      color: req.body.color,
-    });
+      ...req.body,
+    })) satisfies ClimbResponse;
+
     return res.json(climb_obj);
   },
 
   getClimb: async (req: Request, res: Response) => {
     const climb_id = Number(req.params.climb_id);
-    const climb = await climbQueries.getClimb(climb_id);
+    const climb = (await climbQueries.getClimb(
+      climb_id,
+    )) satisfies ClimbResponse;
 
     return res.json(climb);
   },
@@ -48,7 +55,9 @@ const climbController = {
 
   getAttempts: async (req: Request, res: Response) => {
     const climb_id = Number(req.params.climb_id);
-    const attempts = await climbQueries.getAttempts(climb_id);
+    const attempts = (await climbQueries.getAttempts(
+      climb_id,
+    )) satisfies AttemptResponse[];
     res.status(200).json(attempts);
   },
 };
