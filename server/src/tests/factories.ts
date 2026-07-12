@@ -35,7 +35,7 @@ async function createTestClimb(user: User, index: number = 0) {
 async function createTestAttempt(
   climb: Climb,
   index: number = 0,
-  properties: Partial<Attempt>,
+  properties: Partial<Attempt> = {},
 ) {
   const attempt = { ...attempts[index], ...properties };
   return await attemptQueries.createAttempt(climb.id, attempt);

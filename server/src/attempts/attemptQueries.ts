@@ -40,6 +40,22 @@ const attemptQueries = {
     return attempt;
   },
 
+  getAttemptWithUser: async (attempt_id: number) => {
+    const res = await prisma.attempt.findUnique({
+      where: {
+        id: attempt_id,
+      },
+      include: {
+        climb: {
+          select: {
+            creatorId: true,
+          },
+        },
+      },
+    });
+    return res;
+  },
+
   publishAttempt: async (attempt_id: number) => {
     return await prisma.attempt.update({
       data: {

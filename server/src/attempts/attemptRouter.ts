@@ -3,6 +3,7 @@ import attemptController from "./attemptController";
 import ownClimbAuth from "@/middleware/ownClimbAuth";
 import upload from "@/middleware/multer.middleware";
 import verifyToken from "@/middleware/authenticateToken";
+import ownAttemptAuth from "@/middleware/ownAttemptAuth";
 
 const attemptRouter = express.Router();
 
@@ -18,6 +19,7 @@ attemptRouter.post(
 attemptRouter.post(
   "/:attempt_id/publish",
   verifyToken,
+  ownAttemptAuth,
   attemptController.publishAttempt,
   // attemptController.createAttempt,
 );

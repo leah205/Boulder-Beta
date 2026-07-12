@@ -2,8 +2,13 @@ import { it, describe } from "vitest";
 import AuthRequest from "@/tests/AuthRequest";
 import initialize_app from "@/utils/express_app";
 const app = initialize_app();
-import { createTestClimb, createTestUser } from "@/tests/factories";
+import {
+  createTestAttempt,
+  createTestClimb,
+  createTestUser,
+} from "@/tests/factories";
 
+const ATTEMPT_URL = "/api/v1/attempts";
 describe("attempt integration", () => {
   it("attempt post and get works", async () => {
     const user = await createTestUser();
@@ -13,13 +18,13 @@ describe("attempt integration", () => {
     const authRequest = new AuthRequest(app, user.id, user.username);
 
     return await authRequest
-      .post(`/api/v1/attempts/${climb_id}`)
+      .post(`${ATTEMPT_URL}/${climb_id}`)
       .send({
         send: false,
       })
       .expect(200)
       .then(() => {
-        return authRequest.post(`/api/v1/attempts/${climb_id}`).send({
+        return authRequest.post(`${ATTEMPT_URL}/${climb_id}`).send({
           send: true,
         });
       })
@@ -52,7 +57,7 @@ describe("attempt integration", () => {
     const authRequest2 = new AuthRequest(app, user2.id, user2.username);
 
     return await authRequest2
-      .post(`/api/v1/attempts/${climb_id}`)
+      .post(`${ATTEMPT_URL}/${climb_id}`)
       .send({
         send: false,
       })
@@ -76,7 +81,7 @@ describe("attempt integration", () => {
       })
       .then(() => {
         return authRequest
-          .post(`/api/v1/attempts/${attempt_id}/publish`)
+          .post(`${ATTEMPT_URL}/${attempt_id}/publish`)
           .expect(200)
           .then(() => {
             return authRequest
@@ -88,4 +93,13 @@ describe("attempt integration", () => {
           });
       });
   }, 10000);
+
+  it("does not allow publishingsomeone else attempt", async () => {
+    const user1 = await createTestUser(0);
+    const user2 = await createTestUser(1);
+    const climb = await createTestClimb(user1);
+    const attempt = await createTestAttempt(climb);
+    const authRequest = new AuthRequest(app, user2.id, user2.username);
+    await authRequest.post(`${ATTEMPT_URL}/${attempt.id}/publish`).expect(403);
+  });
 });
