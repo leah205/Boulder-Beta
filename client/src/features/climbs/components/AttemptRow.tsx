@@ -62,7 +62,7 @@ export default function AttemptRow({ attempt }: AttemptRowProps) {
   }
   return (
     <div>
-      <div className="flex gap-3 mb-3" key={attempt.id}>
+      <div className="flex gap-3 mb-3 items-center" key={attempt.id}>
         {attempt.send && <p className="text-green-400">Send </p>}
         {!attempt.send && <p className="text-red-400">Attempt</p>}
         <p>{String(attempt.uploadDate) + " " + String(attempt.uploadTime)}</p>
