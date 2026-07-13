@@ -1,5 +1,5 @@
 import ContentSpinner from "@/components/spinner/ContentSpinner";
-import useLogAttempt from "@/features/attempts/useLogAttempt";
+import useLogAttempt from "@/features/climbs/useLogAttempt";
 import Button from "@/components/Button";
 import Spinner from "@/components/spinner/Spinner";
 import { useState } from "react";

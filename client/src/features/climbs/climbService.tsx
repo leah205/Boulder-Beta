@@ -3,6 +3,7 @@ import type {
   ClimbResponse,
   AttemptWithVideoResponse,
   CreateClimbRequest,
+  CreateAttemptRequest,
 } from "@shared/types";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/climbs`;
@@ -30,6 +31,18 @@ const climbApi = {
       data.uploadedAt = new Date(data.uploadedAt);
       return data;
     });
+    return response.data;
+  },
+  logAttempt: async (climbId: number, attempt: CreateAttemptRequest) => {
+    console.log(attempt);
+    const formData = new FormData();
+    formData.append("send", String(attempt.send));
+    formData.append("clip", attempt.clip || "");
+    const response = await http.post(
+      `${API_URL}/${climbId}/attempts`,
+      formData,
+    );
+
     return response.data;
   },
 

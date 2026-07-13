@@ -6,22 +6,18 @@ type AttemptInput = Omit<z.infer<typeof CreateAttemptSchema>, "clip"> & {
 };
 
 import { uploadOnCloudinary } from "@/utils/cloudinary";
+import { AppError } from "@/Errors";
+import replaceIdWithClip from "@/utils/replaceIdWithClip";
 
 const attemptQueries = {
   createAttempt: async (climb_id: number, attemptInput: AttemptInput) => {
     const { clip, ...input_data } = attemptInput;
     const public_id = clip ? await uploadOnCloudinary(clip, "video") : null;
-
     const video_data = public_id
       ? {
           create: {
             public_id,
           },
-        }
-      : undefined;
-    const post_data = attemptInput.published
-      ? {
-          create: {},
         }
       : undefined;
 
@@ -34,10 +30,46 @@ const attemptQueries = {
           },
         },
         video: video_data,
-        post: post_data,
       },
     });
     return attempt;
+  },
+
+  getAttemptWithVideo: async (attempt_id: number) => {
+    const res = await prisma.attempt.findUnique({
+      where: {
+        id: attempt_id,
+      },
+      include: {
+        video: {
+          include: {
+            post: {},
+          },
+        },
+      },
+    });
+
+    if (!res) {
+      throw new AppError("Attempt not found", 404);
+    }
+    const { video, ...res_obj } = res;
+    if (video) {
+      const video_res = replaceIdWithClip(video, "video");
+      return { ...res_obj, video: video_res };
+    }
+    return res_obj;
+  },
+
+  getVideoWithPost: async (attempt_id: number) => {
+    const res = await prisma.video.findUnique({
+      where: {
+        attemptId: attempt_id,
+      },
+      include: {
+        post: {},
+      },
+    });
+    return res;
   },
 
   getAttemptWithUser: async (attempt_id: number) => {
@@ -56,8 +88,8 @@ const attemptQueries = {
     return res;
   },
 
-  publishAttempt: async (attempt_id: number) => {
-    return await prisma.attempt.update({
+  postVideo: async (attempt_id: number) => {
+    const video = await prisma.video.update({
       data: {
         published: true,
         post: {
@@ -65,9 +97,26 @@ const attemptQueries = {
         },
       },
       where: {
-        id: attempt_id,
+        attemptId: attempt_id,
+      },
+      include: {
+        post: {},
       },
     });
+
+    return video;
+
+    // return await prisma.attempt.update({
+    //   data: {
+    //     published: true,
+    //     post: {
+    //       create: {},
+    //     },
+    //   },
+    //   where: {
+    //     id: attempt_id,
+    //   },
+    // });
   },
 };
 export default attemptQueries;

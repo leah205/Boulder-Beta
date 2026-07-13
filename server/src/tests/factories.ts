@@ -1,7 +1,8 @@
 import attemptQueries from "@/attempts/attemptQueries";
 import authQueries from "@/auth/authQueries";
 import climbQueries from "@/climbs/climbQueries";
-import type { Climb, User, Attempt } from "generated/prisma/client";
+// import { Prisma } from "generated/prisma/client";
+import type { Climb, User } from "generated/prisma/client";
 
 const users = [
   { username: "taylor", password: "swift" },
@@ -35,10 +36,12 @@ async function createTestClimb(user: User, index: number = 0) {
 async function createTestAttempt(
   climb: Climb,
   index: number = 0,
-  properties: Partial<Attempt> = {},
+  properties: Partial<AttemptWithVideo> = {},
 ) {
   const attempt = { ...attempts[index], ...properties };
-  return await attemptQueries.createAttempt(climb.id, attempt);
+
+  const res = await attemptQueries.createAttempt(climb.id, attempt);
+  return res;
 }
 
 export { createTestUser, createTestClimb, createTestAttempt };

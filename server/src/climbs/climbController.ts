@@ -4,13 +4,13 @@ import climbQueries from "./climbQueries";
 import type { Climb } from "../../generated/prisma/client";
 import { validationResult } from "express-validator";
 import { CreateClimbSchema } from "@shared/types";
-import type { ClimbResponse, AttemptResponse } from "@shared/types";
+import type { ClimbResponse, AttemptWithVideoResponse } from "@shared/types";
 
 const climbController = {
   createClimb: async (req: Request, res: Response) => {
     req.body = CreateClimbSchema.parse(req.body);
-    req.body.grade = req.body.grade.length ? req.body.grade : null;
-    delete req.body.picture;
+    // req.body.grade = req.body.grade.length ? req.body.grade : null;
+    // delete req.body.picture;
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -57,7 +57,7 @@ const climbController = {
     const climb_id = Number(req.params.climb_id);
     const attempts = (await climbQueries.getAttempts(
       climb_id,
-    )) satisfies AttemptResponse[];
+    )) satisfies AttemptWithVideoResponse[];
     res.status(200).json(attempts);
   },
 };

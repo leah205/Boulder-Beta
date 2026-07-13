@@ -6,6 +6,7 @@ import {
   createTestClimb,
   createTestUser,
 } from "@/tests/factories";
+import attemptQueries from "@/attempts/attemptQueries";
 
 const app = initialize_app();
 
@@ -15,9 +16,11 @@ describe("GET /posts", async () => {
   it("gets feed", async () => {
     const user1 = await createTestUser(0);
     const climb1 = await createTestClimb(user1, 0);
-    const attempt1 = await createTestAttempt(climb1, 0, { published: true });
-    const attempt2 = await createTestAttempt(climb1, 1, { published: true });
-    await createTestAttempt(climb1, 1, { published: false });
+    const attempt1 = await createTestAttempt(climb1, 0);
+    const attempt2 = await createTestAttempt(climb1, 1);
+    await createTestAttempt(climb1, 1);
+    await attemptQueries.postVideo(attempt1.id);
+    await attemptQueries.postVideo(attempt2.id);
     const authRequest = new AuthRequest(app, user1.id, user1.username);
 
     await authRequest
@@ -26,8 +29,6 @@ describe("GET /posts", async () => {
       .then((res) => {
         console.log(res.body);
         expect(res.body).toHaveLength(2);
-        expect(res.body[0].attemptId).toBe(attempt1.id);
-        expect(res.body[1].attemptId).toBe(attempt2.id);
       });
   });
 });

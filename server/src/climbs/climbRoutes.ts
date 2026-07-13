@@ -5,6 +5,8 @@ import verifyToken from "@/middleware/authenticateToken";
 import validation from "@/middleware/validation";
 import upload from "../middleware/multer.middleware";
 import ownClimbAuth from "@/middleware/ownClimbAuth";
+import parseFormData from "@/middleware/parseFormData";
+import attemptController from "@/attempts/attemptController";
 //create new climb
 
 //is logged in middleware
@@ -13,6 +15,7 @@ climb_router.post(
   verifyToken,
   upload.single("picture"),
   validation.logclimb,
+  parseFormData,
   climbController.createClimb,
 );
 climb_router.get(
@@ -27,6 +30,15 @@ climb_router.get(
   verifyToken,
   ownClimbAuth,
   climbController.getClimb,
+);
+
+climb_router.post(
+  "/:climb_id/attempts",
+  verifyToken,
+  ownClimbAuth,
+  parseFormData,
+  upload.single("clip"),
+  attemptController.createAttempt,
 );
 
 //TO DO

@@ -9,6 +9,7 @@ import {
 } from "@/tests/factories";
 
 const ATTEMPT_URL = "/api/v1/attempts";
+const CLIMB_URL = "/api/v1/climbs";
 describe("attempt integration", () => {
   it("attempt post and get works", async () => {
     const user = await createTestUser();
@@ -24,7 +25,7 @@ describe("attempt integration", () => {
       })
       .expect(200)
       .then(() => {
-        return authRequest.post(`${ATTEMPT_URL}/${climb_id}`).send({
+        return authRequest.post(`${CLIMB_URL}/${climb_id}/attempts`).send({
           send: true,
         });
       })
@@ -57,49 +58,41 @@ describe("attempt integration", () => {
     const authRequest2 = new AuthRequest(app, user2.id, user2.username);
 
     return await authRequest2
-      .post(`${ATTEMPT_URL}/${climb_id}`)
+      .post(`${CLIMB_URL}/${climb_id}/attempts`)
       .send({
         send: false,
       })
       .expect(403);
   });
 
-  it("publishing attempt with video works works", async () => {
+  it("publishing attempt with video works", async () => {
     const user1 = await createTestUser();
     const climb = await createTestClimb(user1);
-    const climb_id = climb.id;
-    let attempt_id = 0;
     const authRequest = new AuthRequest(app, user1.id, user1.username);
+    const attempt = await createTestAttempt(climb);
+
     await authRequest
-      .post(`/api/v1/attempts/${climb_id}`)
-      .field("send", true)
-      .attach("clip", "./src/assets/video1.mov")
+      .post(`${ATTEMPT_URL}/${attempt.id}/video/post`)
       .expect(200)
-      .then((res) => {
-        attempt_id = res.body.id;
-        expect(true).toBeTruthy();
-      })
       .then(() => {
         return authRequest
-          .post(`${ATTEMPT_URL}/${attempt_id}/publish`)
-          .expect(200)
-          .then(() => {
-            return authRequest
-              .get(`/api/v1/climbs/${climb_id}/attempts`)
-              .then((res) => {
-                expect(res.body[0].published).toBeTruthy();
-                expect(res.body[0]).toHaveProperty("clip");
-              });
+          .get(`${ATTEMPT_URL}/${attempt.id}/video`)
+          .then((res) => {
+            expect(res.body.video.published).toBeTruthy();
+            expect(res.body.video).toHaveProperty("clip");
           });
       });
   }, 10000);
 
-  it("does not allow publishingsomeone else attempt", async () => {
+  it("does not allow publishing someone else attempt", async () => {
     const user1 = await createTestUser(0);
     const user2 = await createTestUser(1);
     const climb = await createTestClimb(user1);
     const attempt = await createTestAttempt(climb);
+
     const authRequest = new AuthRequest(app, user2.id, user2.username);
-    await authRequest.post(`${ATTEMPT_URL}/${attempt.id}/publish`).expect(403);
+    await authRequest
+      .post(`${ATTEMPT_URL}/${attempt.id}/video/post`)
+      .expect(403);
   });
 });

@@ -1,7 +1,7 @@
-import { getCloudinarySignedUrl } from "@/utils/cloudinary";
 import prisma from "../db/prisma_client";
 import { AppError } from "@/Errors";
 import { uploadOnCloudinary } from "@/utils/cloudinary";
+import replaceIdWithClip from "@/utils/replaceIdWithClip";
 
 type CreateClimbInput = {
   grade?: string | null;
@@ -41,12 +41,9 @@ const climbQueries = {
     if (!data) {
       throw new AppError("climb not found", 404);
     }
-    const { public_id, ...climb } = data;
-    const picture = public_id
-      ? getCloudinarySignedUrl(public_id, "image")
-      : null;
 
-    return { ...climb, picture };
+    const res = replaceIdWithClip(data, "image");
+    return res;
   },
 
   getAttempts: async (climb_id: number) => {
@@ -55,17 +52,20 @@ const climbQueries = {
         climbId: climb_id,
       },
       include: {
-        video: true,
+        video: {},
       },
     });
 
     const res = attemptsData.map((attempt) => {
       const { video, ...res_obj } = attempt;
-      const clip = video
-        ? getCloudinarySignedUrl(video.public_id, "video")
-        : null;
-      return { ...res_obj, clip };
+      if (video) {
+        const video_res = replaceIdWithClip(video, "video");
+        return { ...res_obj, video: video_res };
+      }
+
+      return { ...res_obj, video };
     });
+
     return res;
   },
 

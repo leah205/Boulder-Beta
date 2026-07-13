@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import attemptApi from "@/features/attempts/attemptService";
+import climbApi from "@/features/climbs/climbService";
 import type { CreateAttemptRequest, AttemptResponse } from "@shared/types";
 
 export default function useLogAttempt() {
@@ -11,7 +11,7 @@ export default function useLogAttempt() {
   const [error, setError] = useState<Error | null>(null);
   const { mutate: logAttempt, isPending } = useMutation({
     mutationFn: (attempt: CreateAttemptRequest) =>
-      attemptApi.logAttempt(Number(climbId), attempt),
+      climbApi.logAttempt(Number(climbId), attempt),
     onSuccess: (res: AttemptResponse) => {
       navigate(`/climbs/${climbId}`);
       queryClient.invalidateQueries({
