@@ -49,7 +49,7 @@ describe("GET /users/me/climbs", () => {
     const attempt2 = await createTestAttempt(climb2, 1);
 
     const post1 = await attemptQueries.postVideo(attempt1.id);
-    const post2 = await attemptQueries.postVideo(attempt2.id);
+    await attemptQueries.postVideo(attempt2.id);
 
     const authRequest = new AuthRequest(app, user1.id, user1.username);
 
@@ -58,7 +58,7 @@ describe("GET /users/me/climbs", () => {
       .expect(200)
       .then((res) => {
         expect(res.body).toHaveLength(1);
-        expect(res.body[0].id).toBe(post1.post?.id);
+        expect(res.body[0].id).toBe(post1?.id);
       });
   });
 });

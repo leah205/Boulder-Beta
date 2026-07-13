@@ -37,14 +37,13 @@ const userQueries = {
 
     const data_obj = posts.map((post) => {
       const { video, ...res_rest } = post;
-      const { public_id, ...data } = video;
+      const { public_id } = video;
       const clip = public_id
         ? getCloudinarySignedUrl(public_id, "video")
         : null;
-      const res = { ...res_rest, video: { ...data, clip } };
+      const res = { ...res_rest, clip };
       return res;
     });
-
     return data_obj;
   },
 };

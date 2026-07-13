@@ -27,7 +27,6 @@ describe("GET /posts", async () => {
       .get(`${POST_URL}`)
       .expect(200)
       .then((res) => {
-        console.log(res.body);
         expect(res.body).toHaveLength(2);
       });
   });

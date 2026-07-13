@@ -68,7 +68,7 @@ model Attempt {
 
 
 model Video {
-  id Int @id @default(autoincrement()) 
+  // id Int @id @default(autoincrement()) 
   attempt Attempt @relation(fields: [attemptId], references: [id])
   published Boolean @default(false)
   attemptId Int @unique
@@ -78,8 +78,8 @@ model Video {
 
 model Post {
     id Int @id @default(autoincrement()) 
-    video Video @relation(fields: [videoId], references: [id])
-    videoId Int @unique
+    video Video @relation(fields: [attemptId], references: [attemptId])
+    attemptId Int @unique
     claps Clap[]
     betas Beta[]
     description String?

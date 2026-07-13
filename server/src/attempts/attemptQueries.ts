@@ -104,7 +104,7 @@ const attemptQueries = {
       },
     });
 
-    return video;
+    return video.post;
 
     // return await prisma.attempt.update({
     //   data: {
