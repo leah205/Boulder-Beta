@@ -1,12 +1,11 @@
 import http from "@/services/axiosInstance";
 import type {
   ClimbResponse,
-  AttemptResponse,
+  AttemptWithVideoResponse,
   CreateClimbRequest,
 } from "@shared/types";
 
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:8080/api/v1/climbs";
+const API_URL = `${import.meta.env.VITE_API_URL}/climbs`;
 
 const climbApi = {
   create: async (data_obj: CreateClimbRequest) => {
@@ -24,7 +23,7 @@ const climbApi = {
   },
 
   getAttempts: async (climb_id: number) => {
-    const response = await http.get<AttemptResponse[]>(
+    const response = await http.get<AttemptWithVideoResponse[]>(
       `${API_URL}/${climb_id}/attempts`,
     );
     response.data = response.data.map((data) => {

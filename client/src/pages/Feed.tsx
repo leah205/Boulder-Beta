@@ -12,9 +12,9 @@ type FeedPostProps = {
 function FeedPost(props: FeedPostProps) {
   const post = props.post;
   return (
-    <div>
+    <div className="h-screen">
       {post.clip && (
-        <video width="320" height="240" controls>
+        <video className="h-7/10" width="320" height="100" controls>
           <source src={post.clip} type="video/mp4"></source>
         </video>
       )}
@@ -30,7 +30,7 @@ function FeedPostList(props: FeedPostListProps) {
   return (
     <div>
       {props.posts.map((post) => {
-        return <FeedPost key={post.attemptId} post={post}></FeedPost>;
+        return <FeedPost key={post.videoId} post={post}></FeedPost>;
       })}
     </div>
   );

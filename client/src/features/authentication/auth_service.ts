@@ -1,9 +1,7 @@
 import http from "@/services/axiosInstance";
 import type { AuthResponse, LoginRequest, SignupRequest } from "@shared/types";
 
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:8080/api/v1/auth";
-
+const API_URL = `${import.meta.env.VITE_API_URL}/auth`;
 const api = {
   login: async (loginInput: LoginRequest) => {
     const response = await http.post<AuthResponse & { token: string }>(

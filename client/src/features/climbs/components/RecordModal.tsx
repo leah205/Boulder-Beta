@@ -1,13 +1,9 @@
 import Form from "@/components/form/Form";
 import Button from "@/components/Button";
 import type { UseMutateFunction } from "node_modules/@tanstack/react-query/build/modern/_tsup-dts-rollup";
-import type { AttemptResponse, CreateAttemptRequest } from "@shared/types";
+import type { CreateAttemptRequest, AttemptResponse } from "@shared/types";
 import { useState } from "react";
 import ErrorWrapper from "@/components/error/ErrorWrapper";
-type AttemptInputType = {
-  send: boolean;
-  clip?: File;
-};
 
 type RecordModalProps = {
   logAttempt: UseMutateFunction<AttemptResponse, Error, CreateAttemptRequest>;
@@ -49,10 +45,16 @@ export default function RecordModal({
           } else setClip(null);
         }}
       />
-      <Button type="submit" onClick={() => handleSubmit({ send: false, clip })}>
+      <Button
+        type="submit"
+        onClick={() => handleSubmit({ send: false, clip: clip || undefined })}
+      >
         Log Attempt
       </Button>
-      <Button type="submit" onClick={() => handleSubmit({ send: true, clip })}>
+      <Button
+        type="submit"
+        onClick={() => handleSubmit({ send: true, clip: clip || undefined })}
+      >
         Log Send
       </Button>
       <Button type="button" onClick={() => setRecordModal(false)}>
