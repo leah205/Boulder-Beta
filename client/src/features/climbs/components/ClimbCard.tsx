@@ -50,7 +50,7 @@ export default function ClimbCard({ pending, error, data }: ClimbCardProps) {
   if (!data) {
     throw new Error("climb not found!");
   }
-
+  console.log(data);
   return (
     <ClimbCardLayout>
       {/* {data.picture && (

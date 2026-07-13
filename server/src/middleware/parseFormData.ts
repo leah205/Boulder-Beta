@@ -21,6 +21,12 @@ const parseFormData = async (
       case "grade":
         data[key] = value.length ? value : null;
         break;
+      case "clip":
+        data[key] = null;
+        break;
+      case "picture":
+        data[key] = null;
+        break;
       default:
         data[key] = value;
     }

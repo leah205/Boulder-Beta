@@ -54,7 +54,7 @@ const attemptQueries = {
     }
     const { video, ...res_obj } = res;
     if (video) {
-      const video_res = replaceIdWithClip(video, "video");
+      const video_res = replaceIdWithClip(video, "video", "clip");
       return { ...res_obj, video: video_res };
     }
     return res_obj;

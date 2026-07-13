@@ -34,7 +34,6 @@ const climbApi = {
     return response.data;
   },
   logAttempt: async (climbId: number, attempt: CreateAttemptRequest) => {
-    console.log(attempt);
     const formData = new FormData();
     formData.append("send", String(attempt.send));
     formData.append("clip", attempt.clip || "");

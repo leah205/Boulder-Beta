@@ -36,8 +36,8 @@ climb_router.post(
   "/:climb_id/attempts",
   verifyToken,
   ownClimbAuth,
-  parseFormData,
   upload.single("clip"),
+  parseFormData,
   attemptController.createAttempt,
 );
 

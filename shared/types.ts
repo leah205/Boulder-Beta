@@ -47,7 +47,7 @@ export const CreateClimbSchema = z.object({
 
 export const CreateAttemptSchema = z.object({
   send: z.boolean(),
-  clip: z.file().optional(),
+  clip: z.file().optional().nullable(),
   published: z.boolean().optional(),
 });
 

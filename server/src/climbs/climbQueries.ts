@@ -42,7 +42,7 @@ const climbQueries = {
       throw new AppError("climb not found", 404);
     }
 
-    const res = replaceIdWithClip(data, "image");
+    const res = replaceIdWithClip(data, "image", "picture");
     return res;
   },
 
@@ -59,7 +59,7 @@ const climbQueries = {
     const res = attemptsData.map((attempt) => {
       const { video, ...res_obj } = attempt;
       if (video) {
-        const video_res = replaceIdWithClip(video, "video");
+        const video_res = replaceIdWithClip(video, "video", "clip");
         return { ...res_obj, video: video_res };
       }
 

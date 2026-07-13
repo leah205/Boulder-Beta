@@ -30,7 +30,6 @@ export default function ClimbPage() {
     queryKey: ["climb", "attempts", climbId],
     queryFn: async () => climbApi.getAttempts(Number(climbId)),
   });
-
   if (climbLoading) {
     return (
       <ClimbPageLayout>
