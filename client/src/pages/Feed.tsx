@@ -64,7 +64,7 @@ export default function Feed() {
   }
 
   if (!data.length) {
-    return <p>no posts found</p>;
+    return <p className="text-center p-5">No posts found!</p>;
   }
 
   return (
