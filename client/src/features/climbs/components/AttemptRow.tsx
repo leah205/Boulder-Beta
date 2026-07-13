@@ -29,7 +29,7 @@ function AttemptVideoSection({ attempt }: AttemptVideoSectionProps) {
     error: postError,
   } = usePostAttempt(attempt.id);
   return (
-    <div>
+    <div className="flex flex-col items-center w-full">
       {postPending && <Spinner></Spinner>}
       <video width="320" height="240" controls>
         <source
@@ -72,7 +72,7 @@ export default function AttemptRow({ attempt }: AttemptRowProps) {
             className="h-8 w -10 flex items-center text-xs"
             onClick={toggleShowVideo}
           >
-            View
+            {showVideo ? "Hide" : "View"}
           </Button>
         )}
       </div>

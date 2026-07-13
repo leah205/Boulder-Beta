@@ -8,14 +8,12 @@ interface FormProps {
 //border-mist-300  max-[600px]:w-5/6 max-[800px]:pr-1 my-5 border-1 rounded-md p-6 mx-auto shadow-md  //
 export default function Form({ children, className, enctype = "" }: FormProps) {
   return (
-    <div className="flex justify-center w-screen">
-      <form
-        method="post"
-        className={` my-5 w-5/6 overflow-hidden border-1 rounded-md p-6 mx-auto shadow-md border-1 border-mist-300 ${className}`}
-        encType={enctype}
-      >
-        {children}
-      </form>
-    </div>
+    <form
+      method="post"
+      className={` my-5 w-5/6 overflow-hidden border-1 rounded-md p-6 mx-auto shadow-md border-1 border-mist-300 ${className}`}
+      encType={enctype}
+    >
+      {children}
+    </form>
   );
 }

@@ -2,40 +2,8 @@ import ErrorMessage from "@/components/error/ErrorMessage";
 import ContentSpinner from "@/components/spinner/ContentSpinner";
 import postApi from "@/features/posts/postService";
 import { useQuery } from "@tanstack/react-query";
-import type { PostResponse } from "@shared/types";
 import type React from "node_modules/@types/react/index";
-
-type FeedPostProps = {
-  post: PostResponse;
-};
-
-function FeedPost(props: FeedPostProps) {
-  const post = props.post;
-  return (
-    <div className="h-screen">
-      {post.clip && (
-        <video className="h-7/10" width="320" height="100" controls>
-          <source src={post.clip} type="video/mp4"></source>
-        </video>
-      )}
-    </div>
-  );
-}
-
-type FeedPostListProps = {
-  posts: PostResponse[];
-};
-
-function FeedPostList(props: FeedPostListProps) {
-  return (
-    <div>
-      {props.posts.map((post) => {
-        return <FeedPost key={post.videoId} post={post}></FeedPost>;
-      })}
-    </div>
-  );
-}
-
+import FeedPostList from "@/features/posts/components/FeedPostList";
 function FeedLayout({ children }: { children: React.ReactNode }) {
   return <div>{children}</div>;
 }
