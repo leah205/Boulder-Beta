@@ -73,6 +73,7 @@ const attemptQueries = {
   },
 
   getAttemptWithUser: async (attempt_id: number) => {
+    console.log(attempt_id);
     const res = await prisma.attempt.findUnique({
       where: {
         id: attempt_id,

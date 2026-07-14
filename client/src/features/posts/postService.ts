@@ -8,6 +8,10 @@ const postApi = {
     const response = await http.get<PostResponse[]>(`${POST_URL}`);
     return response.data;
   },
+
+  deletePost: async (id: number) => {
+    await http.delete(`${POST_URL}/${id}`);
+  },
 };
 
 export default postApi;

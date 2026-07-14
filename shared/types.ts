@@ -1,7 +1,6 @@
 // import prisma from "../server/src/db/prisma_client";
 import * as z from "zod";
 
-import { Prisma } from "../server/generated/prisma/client";
 import type {
   Climb,
   User,

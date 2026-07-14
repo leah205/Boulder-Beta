@@ -21,6 +21,11 @@ export default class AuthRequest {
       .post(url)
       .set("Authorization", `Bearer ${this.token}`);
   }
+  delete(url: string) {
+    return request(this.app)
+      .delete(url)
+      .set("Authorization", `Bearer ${this.token}`);
+  }
 
   createToken(id: number, username: string) {
     const token = jwt.sign(
@@ -34,30 +39,3 @@ export default class AuthRequest {
     return token;
   }
 }
-
-// const authRequest = (app: Application, id: number, username: string) => {
-//   const token = jwt.sign(
-//     {
-//       id,
-//       username,
-//     },
-//     config.secret,
-//     { expiresIn: "1d" },
-//   );
-
-//   const auth_request = {
-//     get: (url: string, token_string) => {
-//       return request(app).get(url).set("Authorization", `Bearer ${token}`);
-//     },
-//     post: (url: string, token: string) => {
-//       return request(app).post(url).set("Authorization", `Bearer ${token}`);
-//     },
-//   };
-
-//   return {
-//     auth_request,
-//     token,
-//   };
-// };
-
-export { authRequest };

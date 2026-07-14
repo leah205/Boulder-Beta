@@ -68,7 +68,6 @@ model Attempt {
 
 
 model Video {
-  // id Int @id @default(autoincrement()) 
   attempt Attempt @relation(fields: [attemptId], references: [id])
   published Boolean @default(false)
   attemptId Int @unique

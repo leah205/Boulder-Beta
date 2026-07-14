@@ -21,6 +21,23 @@ const postQueries = {
     });
     return res;
   },
+
+  deletePost: async (id: number) => {
+    const post = await prisma.post.delete({
+      where: {
+        id: id,
+      },
+    });
+    await prisma.video.update({
+      where: {
+        attemptId: post.attemptId,
+      },
+      data: {
+        published: false,
+      },
+    });
+    return post;
+  },
 };
 
 export default postQueries;

@@ -1,21 +1,18 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
 import { useState } from "react";
-import attemptApi from "@/features/attempts/attemptService";
+import postApi from "./postService";
 
-export default function usePostAttempt(attempt_id: number) {
+export default function useDeletePost() {
   const queryClient = useQueryClient();
   const [error, setError] = useState<Error | null>(null);
-  const { id: climbId } = useParams();
-
-  const { mutate: postAttempt, isPending } = useMutation({
-    mutationFn: () => attemptApi.postAttempt(attempt_id),
+  const { mutate, isPending } = useMutation({
+    mutationFn: (post_id: number) => postApi.deletePost(post_id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["feed"],
       });
       queryClient.invalidateQueries({
-        queryKey: ["climb", "attempts", climbId],
+        queryKey: ["climb", "attempts"],
       });
       queryClient.invalidateQueries({
         queryKey: ["myposts"],
@@ -26,5 +23,5 @@ export default function usePostAttempt(attempt_id: number) {
     },
   });
 
-  return { postAttempt, isPending, error };
+  return { mutate, isPending, error };
 }
