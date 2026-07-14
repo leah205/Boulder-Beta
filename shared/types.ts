@@ -18,7 +18,11 @@ export type ClimbResponse = Omit<Climb, "public_id"> & {
 export type AttemptWithVideoResponse = Attempt & {
   video: {
     clip: string | null;
-    published: boolean;
+    post: {
+      id: number;
+      attemptId: number;
+      description: string | null;
+    } | null;
   } | null;
 };
 

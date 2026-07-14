@@ -13,7 +13,7 @@ function ClimbGrade({
 }) {
   return (
     <div
-      className="w-full text-center text-white rounded-sm"
+      className="w-50 text-center text-white rounded-sm"
       style={{ backgroundColor: color }}
     >
       {children}

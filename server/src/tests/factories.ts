@@ -1,6 +1,7 @@
 import attemptQueries from "@/attempts/attemptQueries";
 import authQueries from "@/auth/authQueries";
 import climbQueries from "@/climbs/climbQueries";
+import { AttemptWithVideoResponse } from "@shared/types";
 // import { Prisma } from "generated/prisma/client";
 import type { Climb, User } from "generated/prisma/client";
 
@@ -36,7 +37,7 @@ async function createTestClimb(user: User, index: number = 0) {
 async function createTestAttempt(
   climb: Climb,
   index: number = 0,
-  properties: Partial<AttemptWithVideo> = {},
+  properties: Partial<AttemptWithVideoResponse> = {},
 ) {
   const attempt = { ...attempts[index], ...properties };
 

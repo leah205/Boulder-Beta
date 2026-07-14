@@ -24,14 +24,18 @@ const attempt1 = createTestAttemptWithVideo(climb1.id, {
   send: false,
   video: {
     clip: "fake_clip",
-    published: true,
+    post: {
+      id: 1,
+      attemptId: 1,
+      description: null,
+    },
   },
 });
 const attempt2 = createTestAttemptWithVideo(climb1.id, {
   send: true,
   video: {
     clip: "fake_clip_2",
-    published: false,
+    post: null,
   },
 });
 
@@ -109,5 +113,23 @@ describe("attempts rendering", () => {
     const closeBtn = screen.getByRole("button", { name: "x" });
     await user.click(closeBtn);
     expect(input).not.toBeInTheDocument();
+  });
+
+  it("conditional go to post/publish", async () => {
+    const user = userEvent.setup();
+    render(<ProviderWrapper initRoute="/climbs/1" />);
+
+    const attemptRows = await screen.findAllByTestId("attempt-row");
+    const viewButton0 = within(attemptRows[0]).getByRole("button", {
+      name: "View",
+    });
+    await user.click(viewButton0);
+    expect(within(attemptRows[0]).getByText("Go to post")).toBeInTheDocument();
+
+    const viewButton1 = within(attemptRows[1]).getByRole("button", {
+      name: "View",
+    });
+    await user.click(viewButton1);
+    expect(within(attemptRows[1]).getByText("Publish")).toBeInTheDocument;
   });
 });

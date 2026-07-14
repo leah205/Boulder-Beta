@@ -43,7 +43,7 @@ const attemptQueries = {
       include: {
         video: {
           include: {
-            post: {},
+            post: true,
           },
         },
       },
@@ -92,7 +92,6 @@ const attemptQueries = {
   postVideo: async (attempt_id: number) => {
     const video = await prisma.video.update({
       data: {
-        published: true,
         post: {
           create: {},
         },

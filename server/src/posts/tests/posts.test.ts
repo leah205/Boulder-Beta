@@ -60,7 +60,7 @@ describe("DELETE /posts", async () => {
           .expect(200)
           .then((res) => {
             expect(res.body).toHaveLength(2);
-            expect(res.body[0].video?.published).toBeFalsy();
+            expect(res.body[0].video?.post).toBeFalsy();
           });
       });
   });

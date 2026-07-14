@@ -11,6 +11,7 @@ import MyPostsPage from "@/pages/MyPostsPage";
 import "./App.css";
 import { Route, Routes, Navigate } from "react-router-dom";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
+import PostPage from "@/pages/PostPage";
 
 export default function RouteElements() {
   return (
@@ -27,6 +28,7 @@ export default function RouteElements() {
               path="my-posts"
               element={<MyPostsPage></MyPostsPage>}
             ></Route>
+            <Route path="my-posts/:id" element={<PostPage />}></Route>
 
             {/* <Route path="/attempts/:id" element={<AttemptPage />}></Route> */}
           </Route>

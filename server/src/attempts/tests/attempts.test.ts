@@ -78,7 +78,7 @@ describe("attempt integration", () => {
         return authRequest
           .get(`${ATTEMPT_URL}/${attempt.id}/video`)
           .then((res) => {
-            expect(res.body.video.published).toBeTruthy();
+            expect(res.body.video.post).toBeTruthy();
             expect(res.body.video).toHaveProperty("clip");
           });
       });

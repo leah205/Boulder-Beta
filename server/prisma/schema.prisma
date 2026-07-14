@@ -69,7 +69,6 @@ model Attempt {
 
 model Video {
   attempt Attempt @relation(fields: [attemptId], references: [id])
-  published Boolean @default(false)
   attemptId Int @unique
   public_id String 
   post Post?

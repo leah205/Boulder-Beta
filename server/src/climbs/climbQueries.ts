@@ -52,7 +52,11 @@ const climbQueries = {
         climbId: climb_id,
       },
       include: {
-        video: {},
+        video: {
+          include: {
+            post: true,
+          },
+        },
       },
     });
 

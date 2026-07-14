@@ -24,6 +24,7 @@ type AttemptVideoSectionProps = {
 };
 
 function AttemptVideoSection({ attempt }: AttemptVideoSectionProps) {
+  console.log(attempt);
   const {
     postAttempt,
     isPending: postPending,
@@ -40,8 +41,8 @@ function AttemptVideoSection({ attempt }: AttemptVideoSectionProps) {
           type="video/mp4"
         ></source>
       </video>
-      {attempt.video?.published ? (
-        <p>posted</p>
+      {attempt.video?.post ? (
+        <Link to={`/my-posts/${attempt.video.post?.id}`}>Go to post</Link>
       ) : (
         <Button type="submit" onClick={postAttempt}>
           Publish

@@ -14,8 +14,9 @@ export default function useDeletePost() {
       queryClient.invalidateQueries({
         queryKey: ["climb", "attempts"],
       });
+
       queryClient.invalidateQueries({
-        queryKey: ["myposts"],
+        queryKey: ["posts"],
       });
     },
     onError: (err) => {
