@@ -1,49 +1,38 @@
 import { describe, it, expect } from "vitest";
 import { render, screen, waitFor, within } from "@testing-library/react";
 
-import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom/vitest";
 import * as matchers from "@testing-library/jest-dom/matchers";
 import ProviderWrapper from "@/tests/ProviderWrapper";
 expect.extend(matchers);
 import auth_api from "@/features/authentication/auth_service";
-import climb_api from "@/features/climbs/climbService";
 import user_api from "@/features/users/userService";
 import { vi } from "vitest";
+import { createTestUser, createTestClimb } from "@/tests/factories";
 
 vi.mock("@/features/authentication/auth_service");
 vi.mock("@/features/climbs/climbService");
 vi.mock("@/features/users/userService");
 
-vi.mocked(auth_api.getUserFromToken).mockResolvedValue({
+const user1 = createTestUser(1, "leah");
+const climb1 = createTestClimb(user1.id, {
   id: 1,
-  username: "leah",
+  grade: "V3",
+  sent: false,
+  color: "blue",
+  picture: undefined,
+});
+const climb2 = createTestClimb(user1.id, {
+  id: 2,
+  grade: null,
+  color: "pink",
+  sent: true,
+  picture: undefined,
 });
 
-vi.mocked(user_api.getMyClimbs).mockResolvedValue([
-  {
-    id: 1,
-    grade: "V3",
-    color: "blue",
-    sent: false,
-    uploadedAt: new Date(),
-    creatorId: 1,
-    picture: undefined,
-    published: false,
-    rating: null,
-  },
-  {
-    id: 2,
-    grade: null,
-    color: "pink",
-    sent: true,
-    uploadedAt: new Date(),
-    creatorId: 1,
-    picture: undefined,
-    published: false,
-    rating: 5,
-  },
-]);
+vi.mocked(auth_api.getUserFromToken).mockResolvedValue(user1);
+
+vi.mocked(user_api.getMyClimbs).mockResolvedValue([climb1, climb2]);
 
 describe("log climb", () => {
   it("renders form component on log form page", async () => {

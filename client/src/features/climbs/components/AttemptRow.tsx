@@ -33,6 +33,7 @@ function AttemptVideoSection({ attempt }: AttemptVideoSectionProps) {
       {postPending && <Spinner></Spinner>}
       <video width="320" height="240" controls>
         <source
+          data-testid="video_source"
           src={attempt.video?.clip || undefined}
           type="video/mp4"
         ></source>
@@ -61,7 +62,7 @@ export default function AttemptRow({ attempt }: AttemptRowProps) {
     setShowVideo(!showVideo);
   }
   return (
-    <div>
+    <div data-testid="attempt-row">
       <div className="flex gap-3 mb-3 items-center" key={attempt.id}>
         {attempt.send && <p className="text-green-400">Send </p>}
         {!attempt.send && <p className="text-red-400">Attempt</p>}
