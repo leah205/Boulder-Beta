@@ -4,16 +4,14 @@ import Spinner from "@/components/spinner/Spinner";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import Button from "@/components/Button";
 import useDeletePost from "@/features/posts/useDeletePost";
-export default function MyPostsPage() {
-  const {
-    isPending: isPendingPosts,
-    error: errorPosts,
-    data,
-  } = useQuery({
-    queryKey: ["myposts"],
-    queryFn: async () => userApi.getMyPosts(),
-  });
+import FeedPostList from "@/features/posts/components/FeedPostList";
+import type { PostResponse } from "@shared/types";
 
+type MyPostCardProps = {
+  post: PostResponse;
+};
+
+function MyPostCard({ post }: MyPostCardProps) {
   const {
     mutate: deletePost,
     isPending: isPendingDelete,
@@ -24,7 +22,36 @@ export default function MyPostsPage() {
     deletePost(id);
   }
 
-  if (isPendingPosts || isPendingDelete) {
+  return (
+    <div className="flex justify-center items-center flex-col gap-3">
+      {isPendingDelete && <Spinner></Spinner>}
+      {errorDelete && <ErrorMessage error={errorDelete}></ErrorMessage>}
+      {post.clip && (
+        <video className="h-1/2" height="70" width="200" controls>
+          <source src={post.clip} type="video/mp4"></source>
+        </video>
+      )}
+      <Button
+        className="bg-red-400"
+        onClick={() => onDelete(post.id)}
+        type="submit"
+      >
+        Delete Post
+      </Button>
+    </div>
+  );
+}
+export default function MyPostsPage() {
+  const {
+    isPending: isPendingPosts,
+    error: errorPosts,
+    data,
+  } = useQuery({
+    queryKey: ["myposts"],
+    queryFn: async () => userApi.getMyPosts(),
+  });
+
+  if (isPendingPosts) {
     return <Spinner></Spinner>;
   }
   if (errorPosts) {
@@ -32,27 +59,11 @@ export default function MyPostsPage() {
   }
   return (
     <>
-      <div className="flex flex-col justify-center gap-10 w-full">
+      <FeedPostList>
         {data.map((post) => {
-          return (
-            <div className="flex justify-center items-center flex-col gap-3">
-              {errorDelete && <ErrorMessage error={errorDelete}></ErrorMessage>}
-              {post.clip && (
-                <video className="h-1/2" height="70" width="200" controls>
-                  <source src={post.clip} type="video/mp4"></source>
-                </video>
-              )}
-              <Button
-                className="bg-red-400"
-                onClick={() => onDelete(post.id)}
-                type="submit"
-              >
-                Delete Post
-              </Button>
-            </div>
-          );
+          return <MyPostCard post={post}></MyPostCard>;
         })}
-      </div>
+      </FeedPostList>
     </>
   );
 }

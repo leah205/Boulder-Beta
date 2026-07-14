@@ -4,6 +4,7 @@ import { useState } from "react";
 import usePostAttempt from "@/features/attempts/usePostAttempt";
 import Spinner from "@/components/spinner/Spinner";
 import { Link } from "react-router-dom";
+import ErrorMessage from "@/components/error/ErrorMessage";
 
 // type ManageClipProps = {
 //   clip: string | null | undefined;
@@ -30,8 +31,9 @@ function AttemptVideoSection({ attempt }: AttemptVideoSectionProps) {
   } = usePostAttempt(attempt.id);
   return (
     <div className="flex flex-col items-center w-full">
+      {postError && <ErrorMessage error={postError}></ErrorMessage>}
       {postPending && <Spinner></Spinner>}
-      <video width="320" height="240" controls>
+      <video width="320" height="240" className="mb-3" controls>
         <source
           data-testid="video_source"
           src={attempt.video?.clip || undefined}

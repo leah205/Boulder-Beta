@@ -4,6 +4,7 @@ import postApi from "@/features/posts/postService";
 import { useQuery } from "@tanstack/react-query";
 import type React from "node_modules/@types/react/index";
 import FeedPostList from "@/features/posts/components/FeedPostList";
+import FeedPost from "@/features/posts/components/FeedPost";
 function FeedLayout({ children }: { children: React.ReactNode }) {
   return <div>{children}</div>;
 }
@@ -37,7 +38,11 @@ export default function Feed() {
 
   return (
     <FeedLayout>
-      <FeedPostList posts={data}></FeedPostList>
+      <FeedPostList>
+        {data.map((post) => {
+          return <FeedPost key={post.attemptId} post={post}></FeedPost>;
+        })}
+      </FeedPostList>
     </FeedLayout>
   );
 
