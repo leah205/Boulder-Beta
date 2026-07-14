@@ -27,9 +27,9 @@ export default function RecordModal({
 
   return (
     // -translate-y-full
-    <div className="absolute top-50">
+    <div className="absolute top-50 flex justify-center w-full">
       <Form
-        className=" h-50 w-1/2 bg-white relative"
+        className=" h-50 max-w-1/2 bg-white relative m-auto min-h-70 overflow-scroll p-5 "
         enctype="multipart/form-data"
       >
         <Button
@@ -53,26 +53,33 @@ export default function RecordModal({
             } else setClip(null);
           }}
         />
-        <div className="flex gap-2 mt-10">
-          <Button
-            type="submit"
-            className="bg-red-400"
-            onClick={() =>
-              handleSubmit({ send: false, clip: clip || undefined })
-            }
-          >
-            Log Attempt
-          </Button>
-          <Button
-            type="submit"
-            className="bg-green-400"
-            onClick={() =>
-              handleSubmit({ send: true, clip: clip || undefined })
-            }
-          >
-            Log Send
-          </Button>
-        </div>
+        {clip && (
+          <>
+            <video className="h-100" width="320" height="100" controls>
+              <source src={URL.createObjectURL(clip)} type="video/mp4"></source>
+            </video>
+            <div className="flex gap-2 mt-10">
+              <Button
+                type="submit"
+                className="bg-red-400"
+                onClick={() =>
+                  handleSubmit({ send: false, clip: clip || undefined })
+                }
+              >
+                Log Attempt
+              </Button>
+              <Button
+                type="submit"
+                className="bg-green-400"
+                onClick={() =>
+                  handleSubmit({ send: true, clip: clip || undefined })
+                }
+              >
+                Log Send
+              </Button>
+            </div>
+          </>
+        )}
       </Form>
     </div>
   );

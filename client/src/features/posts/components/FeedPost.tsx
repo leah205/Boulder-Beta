@@ -6,7 +6,6 @@ type FeedPostProps = {
 
 export default function FeedPost(props: FeedPostProps) {
   const post = props.post;
-  console.log(post.clip);
   return (
     <div className="flex justify-center">
       {post.clip && (
