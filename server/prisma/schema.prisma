@@ -44,12 +44,9 @@ model Climb {
   color String
   rating Int?
   grade String?
-  claps Clap[]
   attempts Attempt[]
   sent Boolean @default(false)
-  published Boolean @default(false)
   creator   User    @relation(fields: [creatorId], references: [id])
-  betas Beta[]
   creatorId Int
   public_id String?
   @@map("climbs")
@@ -57,40 +54,55 @@ model Climb {
 
 model Attempt {
     id    Int     @id @default(autoincrement()) 
-    public_id String?
     climbId Int
     uploadedAt DateTime @default(now())
-
     climb Climb @relation(fields: [climbId], references: [id])
-    published Boolean @default(false)
     send Boolean @default(false)
     fallReason String?
     notes String?
+    video Video?
+    
 }
 
 
 
+model Video {
+  attempt Attempt @relation(fields: [attemptId], references: [id])
+  attemptId Int @unique
+  public_id String 
+  post Post?
+}
 
+model Post {
+    id Int @id @default(autoincrement()) 
+    video Video @relation(fields: [attemptId], references: [attemptId])
+    attemptId Int @unique
+    claps Clap[]
+    betas Beta[]
+    description String?
+
+
+}
 
 model Beta {
   id    Int     @id @default(autoincrement()) 
   content String
   uploadedAt DateTime @default(now())
   author    User    @relation(fields: [userId], references: [id])
-  climb      Climb    @relation(fields: [climbId], references: [id])
+  post     Post    @relation(fields: [postId], references: [id])
   starred Boolean @default(false)
   emphases Emphasis[]
   userId Int
-  climbId Int
+  postId Int
   @@map("betas")
 }
 
 model Clap {
   id Int @id @default(autoincrement()) 
-  post Climb @relation(fields: [climbId], references: [id]) 
+  post Post @relation(fields: [postId], references: [id]) 
   user  User    @relation(fields: [userId], references: [id])
   userId Int
-  climbId Int
+  postId Int
   @@map("claps")
 }
 

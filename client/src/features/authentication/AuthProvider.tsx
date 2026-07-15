@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import type { UserCredentials } from "@/types/auth_types";
 import { useEffect } from "react";
 import authService from "./auth_service";
 import AuthContext from "./AuthContext";
+import type { LoginRequest, AuthResponse } from "@shared/types";
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<UserCredentials | null>(null);
+  const [user, setUser] = useState<AuthResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -28,12 +28,9 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     initializeAuth();
   }, []);
 
-  const signin = async (username: string, password: string) => {
+  const signin = async (loginInput: LoginRequest) => {
     try {
-      const { token, ...userData } = await authService.login(
-        username,
-        password,
-      );
+      const { token, ...userData } = await authService.login(loginInput);
       setUser(userData);
       localStorage.setItem("token", token);
       return userData;

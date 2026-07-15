@@ -6,5 +6,6 @@ import verifyToken from "@/middleware/authenticateToken";
 
 //get my climbs
 userRouter.get("/me/climbs", verifyToken, userController.getMyClimbs);
+userRouter.get("/me/posts", verifyToken, userController.getMyPosts);
 
 export default userRouter;

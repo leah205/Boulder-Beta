@@ -1,15 +1,13 @@
 import { it, describe } from "vitest";
 import AuthRequest from "@/tests/AuthRequest";
 import initialize_app from "@/utils/express_app";
-import authQueries from "@/auth/authQueries";
 const app = initialize_app();
+import { createTestUser } from "@/tests/factories";
 
 describe("POST /climbs", () => {
   it("successfully posts climb", async () => {
-    const username = "leah";
-    const password = "tiktin";
-    const { id } = await authQueries.createUser(username, password);
-    const authRequest = new AuthRequest(app, id, username);
+    const user = await createTestUser();
+    const authRequest = new AuthRequest(app, user.id, user.username);
     await authRequest
       .post("/api/v1/climbs")
       .field("grade", "V5")
@@ -23,10 +21,8 @@ describe("POST /climbs", () => {
   });
 
   it("works when no grade or picture specified", async () => {
-    const username = "leah";
-    const password = "tiktin";
-    const { id } = await authQueries.createUser(username, password);
-    const authRequest = new AuthRequest(app, id, username);
+    const user = await createTestUser();
+    const authRequest = new AuthRequest(app, user.id, user.username);
 
     await authRequest
       .post("/api/v1/climbs")
@@ -36,10 +32,8 @@ describe("POST /climbs", () => {
   });
 
   it("throws error when no color provided", async () => {
-    const username = "leah";
-    const password = "tiktin";
-    const { id } = await authQueries.createUser(username, password);
-    const authRequest = new AuthRequest(app, id, username);
+    const user = await createTestUser();
+    const authRequest = new AuthRequest(app, user.id, user.username);
 
     await authRequest.post("/api/v1/climbs").field("grade", "V5").expect(400);
   });
@@ -47,11 +41,9 @@ describe("POST /climbs", () => {
 
 describe("GET /climbs", () => {
   it("gets climb", async () => {
-    const username = "leah";
-    const password = "tiktin";
-    const { id } = await authQueries.createUser(username, password);
+    const user = await createTestUser();
+    const authRequest = new AuthRequest(app, user.id, user.username);
     let climb_id = 0;
-    const authRequest = new AuthRequest(app, id, username);
 
     await authRequest
       .post("/api/v1/climbs")
@@ -78,24 +70,18 @@ describe("GET /climbs", () => {
   });
 
   it("throws not found error if climb does not exists", async () => {
-    const username = "leah";
-    const password = "tiktin";
-    const { id } = await authQueries.createUser(username, password);
-    const authRequest = new AuthRequest(app, id, username);
+    const user = await createTestUser();
+    const authRequest = new AuthRequest(app, user.id, user.username);
 
     await authRequest.get(`/api/v1/climbs/1003`).expect(404);
   });
 
   it("throws error when accessing someone elses climb", async () => {
-    const user1 = "leah";
-    const password1 = "tiktin";
-    const user2 = "andrew";
-    const password2 = "tiktin";
-    const { id: id1 } = await authQueries.createUser(user1, password1);
-    const { id: id2 } = await authQueries.createUser(user2, password2);
+    const user1 = await createTestUser(0);
+    const user2 = await createTestUser(1);
     let climb_id = 0;
-    const authRequest1 = new AuthRequest(app, id1, user1);
-    const authRequest2 = new AuthRequest(app, id2, user2);
+    const authRequest1 = new AuthRequest(app, user1.id, user1.username);
+    const authRequest2 = new AuthRequest(app, user2.id, user2.username);
 
     await authRequest1
       .post("/api/v1/climbs")

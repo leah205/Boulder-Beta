@@ -2,16 +2,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import climbApi from "./climbService";
-import type { Climb } from "@shared/types";
-import type { CreateClimbInput } from "@/types/climb_types";
+import type { CreateClimbRequest, ClimbResponse } from "@shared/types";
 
 export function useClimbLog() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [errors, setErrors] = useState<string[]>([]);
   const { mutate: logClimb, isPending } = useMutation({
-    mutationFn: (data_obj: CreateClimbInput) => climbApi.create(data_obj),
-    onSuccess: (res: Climb) => {
+    mutationFn: (data_obj: CreateClimbRequest) => climbApi.create(data_obj),
+    onSuccess: (res: ClimbResponse) => {
       navigate("/");
       queryClient.invalidateQueries({
         queryKey: ["myclimbs"],

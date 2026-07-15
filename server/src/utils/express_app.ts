@@ -11,6 +11,9 @@ import userRouter from "@/users/userRoutes";
 import attemptRouter from "@/attempts/attemptRouter";
 import climb_router from "@/climbs/climbRoutes";
 import auth_router from "@/auth/auth_routes";
+import postRouter from "@/posts/postRoutes";
+import { ErrorResponse } from "@shared/types";
+import { z } from "zod";
 
 // figure out express user type
 
@@ -44,14 +47,25 @@ export default function initialize_app() {
   app.use("/api/v1/climbs", climb_router);
   app.use("/api/v1/users", userRouter);
   app.use("/api/v1/attempts", attemptRouter);
+  app.use("/api/v1/posts", postRouter);
 
   app.use(
     (
       err: AppError | Error,
-      req: Request,
-      res: Response,
+      req: Request<
+        Record<string, unknown>,
+        ErrorResponse,
+        Record<string, unknown>
+      >,
+      res: Response<ErrorResponse>,
       next: NextFunction,
     ) => {
+      if (err instanceof z.ZodError) {
+        // console.log(err.errors);
+        console.log("zod error");
+        console.log(err.issues);
+        return res.status(400).json("Validation failed");
+      }
       console.error(err);
       const status = err instanceof AppError && err.status ? err.status : 500;
       res.status(status).json(err.message);

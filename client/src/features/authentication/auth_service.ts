@@ -1,31 +1,21 @@
 import http from "@/services/axiosInstance";
-import type { UserCredentials } from "@/types/auth_types";
+import type { AuthResponse, LoginRequest, SignupRequest } from "@shared/types";
 
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:8080/api/v1/auth";
-
+const API_URL = `${import.meta.env.VITE_API_URL}/auth`;
 const api = {
-  login: async (username: string, password: string) => {
-    const response = await http.post<UserCredentials & { token: string }>(
+  login: async (loginInput: LoginRequest) => {
+    const response = await http.post<AuthResponse & { token: string }>(
       `${API_URL}/login`,
-      {
-        username: username,
-        password: password,
-      },
+      loginInput,
     );
     return response.data;
   },
 
-  signup: async (
-    username: string,
-    password: string,
-    password_confirm: string,
-  ) => {
-    const response = await http.post<UserCredentials>(`${API_URL}/signup`, {
-      username: username,
-      password: password,
-      password_confirm: password_confirm,
-    });
+  signup: async (signupInput: SignupRequest) => {
+    const response = await http.post<AuthResponse>(
+      `${API_URL}/signup`,
+      signupInput,
+    );
     return response.data;
   },
 
@@ -34,8 +24,7 @@ const api = {
   },
 
   getUserFromToken: async () => {
-    console.log(`${API_URL}/userFromToken`);
-    const response = await http.get<UserCredentials>(
+    const response = await http.get<AuthResponse>(
       `${API_URL}/userFromToken`,
       {},
     );

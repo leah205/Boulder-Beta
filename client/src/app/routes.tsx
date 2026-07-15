@@ -6,9 +6,12 @@ import AuthLayout from "@/layouts/AuthLayout";
 import LogClimbPage from "@/pages/LogClimbPage";
 import MyClimbsPage from "@/pages/MyClimbsPage";
 import ClimbPage from "@/pages/ClimbPage";
+import Feed from "@/pages/Feed";
+import MyPostsPage from "@/pages/MyPostsPage";
 import "./App.css";
 import { Route, Routes, Navigate } from "react-router-dom";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
+import PostPage from "@/pages/PostPage";
 
 export default function RouteElements() {
   return (
@@ -20,6 +23,13 @@ export default function RouteElements() {
             <Route path="log-climb" element={<LogClimbPage />}></Route>
             <Route path="my-climbs" element={<MyClimbsPage />}></Route>
             <Route path="/climbs/:id" element={<ClimbPage />}></Route>
+            <Route path="/feed" element={<Feed />}></Route>
+            <Route
+              path="my-posts"
+              element={<MyPostsPage></MyPostsPage>}
+            ></Route>
+            <Route path="my-posts/:id" element={<PostPage />}></Route>
+
             {/* <Route path="/attempts/:id" element={<AttemptPage />}></Route> */}
           </Route>
         </Route>

@@ -49,6 +49,12 @@ export default function AppLayout() {
           <NavLink>
             <Link to="my-climbs">My Climbs</Link>
           </NavLink>
+          <NavLink>
+            <Link to="feed">Feed</Link>
+          </NavLink>
+          <NavLink>
+            <Link to="my-posts">My Posts</Link>
+          </NavLink>
         </BottomNav>
       </main>
     </>

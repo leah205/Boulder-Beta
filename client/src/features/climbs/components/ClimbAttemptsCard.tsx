@@ -1,11 +1,11 @@
 import ContentSpinner from "@/components/spinner/ContentSpinner";
-import useLogAttempt from "@/features/attempts/useLogAttempt";
+import useLogAttempt from "@/features/climbs/useLogAttempt";
 import Button from "@/components/Button";
 import Spinner from "@/components/spinner/Spinner";
 import { useState } from "react";
 import RecordModal from "./RecordModal";
 import ClimbAttemptsList from "./ClimbAttemptsList";
-import type { Attempt } from "@shared/types";
+import type { AttemptWithVideoResponse } from "@shared/types";
 import ErrorMessage from "@/components/error/ErrorMessage";
 
 function AttemptsHeader() {
@@ -35,14 +35,14 @@ function AttemptsHeader() {
         <Button
           type="submit"
           className="bg-red-400 block"
-          onClick={() => logAttempt({ send: false })}
+          onClick={() => logAttempt({ send: false, clip: undefined })}
         >
           Log Attempt
         </Button>
         <Button
           type="submit"
           className="block bg-green-400"
-          onClick={() => logAttempt({ send: true })}
+          onClick={() => logAttempt({ send: true, clip: undefined })}
         >
           Log Send
         </Button>
@@ -61,7 +61,7 @@ function AttemptsCardLayout({ children }: { children: React.ReactNode }) {
 type AttemptsCardProps = {
   pending: boolean;
   error: Error | null;
-  data?: Attempt[];
+  data?: AttemptWithVideoResponse[];
 };
 
 export default function ClimbAttemptsCard({

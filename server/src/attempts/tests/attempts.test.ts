@@ -2,35 +2,30 @@ import { it, describe } from "vitest";
 import AuthRequest from "@/tests/AuthRequest";
 import initialize_app from "@/utils/express_app";
 const app = initialize_app();
-import authQueries from "@/auth/authQueries";
-import climbQueries from "@/climbs/climbQueries";
+import {
+  createTestAttempt,
+  createTestClimb,
+  createTestUser,
+} from "@/tests/factories";
 
-const climb_data = [
-  {
-    grade: "V3",
-    color: "pink",
-  },
-];
-
+const ATTEMPT_URL = "/api/v1/attempts";
+const CLIMB_URL = "/api/v1/climbs";
 describe("attempt integration", () => {
   it("attempt post and get works", async () => {
-    const username = "leah";
-    const password = "tiktin";
-    const { id: user_id } = await authQueries.createUser(username, password);
-    const { id: climb_id } = await climbQueries.createClimb(
-      user_id,
-      climb_data[0],
-    );
-    const authRequest = new AuthRequest(app, user_id, username);
+    const user = await createTestUser();
+
+    const climb = await createTestClimb(user);
+    const climb_id = climb.id;
+    const authRequest = new AuthRequest(app, user.id, user.username);
 
     return await authRequest
-      .post(`/api/v1/attempts/${climb_id}`)
+      .post(`${ATTEMPT_URL}/${climb_id}`)
       .send({
         send: false,
       })
       .expect(200)
       .then(() => {
-        return authRequest.post(`/api/v1/attempts/${climb_id}`).send({
+        return authRequest.post(`${CLIMB_URL}/${climb_id}/attempts`).send({
           send: true,
         });
       })
@@ -56,19 +51,48 @@ describe("attempt integration", () => {
   });
 
   it("throws frobidden error when user tries to post attempt to another climb", async () => {
-    const { id: user1 } = await authQueries.createUser("selena", "gomez");
-    const { id: user2 } = await authQueries.createUser("taylor", "swift");
-    const { id: climb_id } = await climbQueries.createClimb(
-      user1,
-      climb_data[0],
-    );
-    const authRequest2 = new AuthRequest(app, user2, "taylor");
+    const user1 = await createTestUser(0);
+    const user2 = await createTestUser(1);
+    const climb = await createTestClimb(user1);
+    const climb_id = climb.id;
+    const authRequest2 = new AuthRequest(app, user2.id, user2.username);
 
     return await authRequest2
-      .post(`/api/v1/attempts/${climb_id}`)
+      .post(`${CLIMB_URL}/${climb_id}/attempts`)
       .send({
         send: false,
       })
+      .expect(403);
+  });
+
+  it("publishing attempt with video works", async () => {
+    const user1 = await createTestUser();
+    const climb = await createTestClimb(user1);
+    const authRequest = new AuthRequest(app, user1.id, user1.username);
+    const attempt = await createTestAttempt(climb);
+
+    await authRequest
+      .post(`${ATTEMPT_URL}/${attempt.id}/video/post`)
+      .expect(200)
+      .then(() => {
+        return authRequest
+          .get(`${ATTEMPT_URL}/${attempt.id}/video`)
+          .then((res) => {
+            expect(res.body.video.post).toBeTruthy();
+            expect(res.body.video).toHaveProperty("clip");
+          });
+      });
+  }, 10000);
+
+  it("does not allow publishing someone else attempt", async () => {
+    const user1 = await createTestUser(0);
+    const user2 = await createTestUser(1);
+    const climb = await createTestClimb(user1);
+    const attempt = await createTestAttempt(climb);
+
+    const authRequest = new AuthRequest(app, user2.id, user2.username);
+    await authRequest
+      .post(`${ATTEMPT_URL}/${attempt.id}/video/post`)
       .expect(403);
   });
 });

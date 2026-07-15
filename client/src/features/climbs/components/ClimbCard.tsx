@@ -1,17 +1,34 @@
 import ContentSpinner from "@/components/spinner/ContentSpinner";
-import type { Climb } from "@shared/types";
+import type { ClimbResponse } from "@shared/types";
 import type React from "node_modules/@types/react/index";
 import ClimbPic from "./ClimbPic";
 import ErrorMessage from "@/components/error/ErrorMessage";
+
+function ClimbGrade({
+  children,
+  color,
+}: {
+  children: React.ReactNode;
+  color: string;
+}) {
+  return (
+    <div
+      className="w-50 text-center text-white rounded-sm"
+      style={{ backgroundColor: color }}
+    >
+      {children}
+    </div>
+  );
+}
 interface ClimbCardProps {
   pending: boolean;
   error: Error | null;
-  data?: Climb;
+  data?: ClimbResponse;
 }
 
 function ClimbCardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="w-full p-3 h-60 flex justify-center items-center">
+    <div className="w-full py-2 px-5 flex justify-center items-center flex-col items-center gap-10">
       {children}
     </div>
   );
@@ -33,7 +50,7 @@ export default function ClimbCard({ pending, error, data }: ClimbCardProps) {
   if (!data) {
     throw new Error("climb not found!");
   }
-
+  console.log(data);
   return (
     <ClimbCardLayout>
       {/* {data.picture && (
@@ -44,8 +61,11 @@ export default function ClimbCard({ pending, error, data }: ClimbCardProps) {
         ></img>
       )} */}
 
-      <ClimbPic picture={data.picture} color={data.color}></ClimbPic>
-      {data.grade && <p>{data.grade}</p>}
+      <ClimbPic
+        picture={data.picture || undefined}
+        color={data.color}
+      ></ClimbPic>
+      {data.grade && <ClimbGrade color={data.color}>{data.grade}</ClimbGrade>}
     </ClimbCardLayout>
   );
 }
