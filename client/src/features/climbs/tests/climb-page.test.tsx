@@ -134,4 +134,22 @@ describe("attempts rendering", () => {
     await user.click(viewButton1);
     expect(within(attemptRows[1]).getByText("Publish")).toBeInTheDocument;
   });
+
+  it("video upload in record modal works", async () => {
+    const user = userEvent.setup();
+    render(<ProviderWrapper initRoute="/climbs/1" />);
+    const recordButton = await screen.findByRole("button", { name: "Record" });
+    await user.click(recordButton);
+    const recordModal = screen.getByTestId("record-modal");
+    expect(
+      within(recordModal).queryByText("Log Attempt"),
+    ).not.toBeInTheDocument();
+
+    const file = new File(["hello"], "hello.png", { type: "video/mp4" });
+    const input = screen.getByLabelText("Upload a video:");
+    await user.upload(input, file);
+    screen.debug();
+
+    expect(within(recordModal).getByText("Log Attempt")).toBeInTheDocument();
+  });
 });

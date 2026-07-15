@@ -27,7 +27,10 @@ export default function RecordModal({
 
   return (
     // -translate-y-full
-    <div className="absolute top-50 flex justify-center w-full">
+    <div
+      data-testid="record-modal"
+      className="absolute top-50 flex justify-center w-full "
+    >
       <Form
         className=" h-50 max-w-1/2 bg-white relative m-auto min-h-70 overflow-scroll p-5 "
         enctype="multipart/form-data"
