@@ -15,14 +15,16 @@ vi.mock("@/features/climbs/climbService");
 vi.mock("@/features/users/userService");
 
 const user1 = createTestUser(1, "leah");
-const climb1 = createTestClimb(user1.id, {
+const climb1 = createTestClimb({
+  creatorId: user1.id,
   id: 1,
   grade: "V3",
   sent: false,
   color: "blue",
   picture: undefined,
 });
-const climb2 = createTestClimb(user1.id, {
+const climb2 = createTestClimb({
+  creatorId: user1.id,
   id: 2,
   grade: null,
   color: "pink",

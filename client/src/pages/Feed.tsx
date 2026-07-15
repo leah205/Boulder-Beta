@@ -26,7 +26,6 @@ export default function Feed() {
   if (error) {
     return (
       <FeedLayout>
-        {" "}
         <ErrorMessage error={error}></ErrorMessage>
       </FeedLayout>
     );

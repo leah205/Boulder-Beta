@@ -8,6 +8,8 @@ import {
   createTestAttemptWithVideo,
   createTestClimb,
   createTestUser,
+  createTestVideo,
+  createTestPost,
 } from "@/tests/factories";
 import { vi } from "vitest";
 
@@ -15,23 +17,22 @@ vi.mock("@/features/authentication/auth_service");
 vi.mock("@/features/climbs/climbService");
 
 const user1 = createTestUser(1, "leah");
-const climb1 = createTestClimb(user1.id, {
+const climb1 = createTestClimb({
+  creatorId: user1.id,
   id: 1,
   grade: "V8",
   picture: "fake_url",
 });
-const attempt1 = createTestAttemptWithVideo(climb1.id, {
+const attempt1 = createTestAttemptWithVideo({
+  climbId: climb1.id,
   send: false,
-  video: {
-    clip: "fake_clip",
-    post: {
-      id: 1,
-      attemptId: 1,
-      description: null,
-    },
-  },
 });
-const attempt2 = createTestAttemptWithVideo(climb1.id, {
+attempt1.video = createTestVideo(attempt1, {
+  post: createTestPost(attempt1, {}),
+});
+
+const attempt2 = createTestAttemptWithVideo({
+  climbId: climb1.id,
   send: true,
   video: {
     clip: "fake_clip_2",
@@ -39,7 +40,8 @@ const attempt2 = createTestAttemptWithVideo(climb1.id, {
   },
 });
 
-const attempt3 = createTestAttemptWithVideo(climb1.id, {
+const attempt3 = createTestAttemptWithVideo({
+  climbId: climb1.id,
   send: true,
   video: null,
 });

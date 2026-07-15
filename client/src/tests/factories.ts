@@ -2,7 +2,15 @@ import type {
   AttemptWithVideoResponse,
   AuthResponse,
   ClimbResponse,
+  PostResponse,
+  VideoResponse,
 } from "@shared/types";
+
+let id = 0;
+
+function createId() {
+  return id++;
+}
 
 export function createTestUser(id: number, username: string) {
   return {
@@ -11,31 +19,51 @@ export function createTestUser(id: number, username: string) {
   } satisfies AuthResponse;
 }
 
-export function createTestClimb(
-  creator_id: number,
-  climb_input: Partial<ClimbResponse>,
-) {
+export function createTestClimb(climb_input: Partial<ClimbResponse>) {
   return {
-    id: new Date().getTime(),
+    id: createId(),
     grade: null,
     uploadedAt: new Date(),
     sent: false,
-    creatorId: creator_id,
+    creatorId: createId(),
     color: "black",
     picture: null,
     rating: null,
-    published: false,
     ...climb_input,
   } satisfies ClimbResponse;
 }
 
+export function createTestVideo(
+  attempt: AttemptWithVideoResponse,
+  overrides: Partial<VideoResponse>,
+) {
+  return {
+    attemptId: attempt.id,
+    clip: "fake_clip",
+    post: null,
+    ...overrides,
+  } satisfies VideoResponse;
+}
+
+export function createTestPost(
+  attempt: AttemptWithVideoResponse,
+  overrides: Partial<PostResponse>,
+) {
+  return {
+    attemptId: attempt.id,
+    description: null,
+    id: createId(),
+    betas: [],
+    ...overrides,
+  } satisfies PostResponse;
+}
+
 export function createTestAttemptWithVideo(
-  climbId: number,
   attempt_input: Partial<AttemptWithVideoResponse>,
 ) {
   return {
-    id: new Date().getTime(),
-    climbId,
+    id: createId(),
+    climbId: createId(),
     uploadedAt: new Date(),
     fallReason: null,
     notes: null,
