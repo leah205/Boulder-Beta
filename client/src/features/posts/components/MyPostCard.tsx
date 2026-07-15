@@ -3,12 +3,15 @@ import useDeletePost from "../useDeletePost";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import Spinner from "@/components/spinner/Spinner";
 import Button from "@/components/Button";
+import { useNavigate } from "react-router-dom";
 
 type MyPostCardProps = {
   post: PostResponse;
+  navigateOut: boolean;
 };
 
-export default function MyPostCard({ post }: MyPostCardProps) {
+export default function MyPostCard({ post, navigateOut }: MyPostCardProps) {
+  const navigate = useNavigate();
   const {
     mutate: deletePost,
     isPending: isPendingDelete,
@@ -17,6 +20,9 @@ export default function MyPostCard({ post }: MyPostCardProps) {
 
   function onDelete(id: number) {
     deletePost(id);
+    if (navigateOut) {
+      navigate("/my-climbs");
+    }
   }
 
   return (

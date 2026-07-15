@@ -31,7 +31,7 @@ export default function PostPage() {
       <Button type="button" onClick={() => navigate(-1)}>
         Back
       </Button>
-      <MyPostCard post={post}></MyPostCard>;
+      <MyPostCard post={post} navigateOut={true}></MyPostCard>;
     </div>
   );
 }
