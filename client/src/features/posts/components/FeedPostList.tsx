@@ -1,5 +1,3 @@
-import type { PostResponse } from "@shared/types";
-import FeedPost from "./FeedPost";
 import type React from "node_modules/@types/react/index";
 type FeedPostListProps = {
   children: React.ReactNode;

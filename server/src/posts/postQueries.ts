@@ -2,6 +2,17 @@ import prisma from "@/db/prisma_client";
 import { AppError } from "@/Errors";
 import { getCloudinarySignedUrl } from "@/utils/cloudinary";
 
+const betaPaylod = {
+  include: {
+    author: {
+      select: {
+        username: true,
+        id: true,
+      },
+    },
+  },
+};
+
 const postQueries = {
   getAllPublished: async () => {
     const published_posts = await prisma.post.findMany({
@@ -9,6 +20,7 @@ const postQueries = {
         video: {
           select: { public_id: true },
         },
+        betas: betaPaylod,
       },
     });
 
@@ -32,6 +44,7 @@ const postQueries = {
         video: {
           select: { public_id: true },
         },
+        betas: betaPaylod,
       },
     });
     if (!post) {
@@ -55,6 +68,35 @@ const postQueries = {
       },
     });
     return post;
+  },
+
+  getPosts: async (user_id: number) => {
+    const posts = await prisma.post.findMany({
+      where: {
+        video: {
+          attempt: {
+            climb: {
+              creatorId: user_id,
+            },
+          },
+        },
+      },
+      include: {
+        video: true,
+        betas: betaPaylod,
+      },
+    });
+
+    const data_obj = posts.map((post) => {
+      const { video, ...res_rest } = post;
+      const { public_id } = video;
+      const clip = public_id
+        ? getCloudinarySignedUrl(public_id, "video")
+        : null;
+      const res = { ...res_rest, clip };
+      return res;
+    });
+    return data_obj;
   },
 };
 

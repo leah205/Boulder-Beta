@@ -14,6 +14,7 @@ import auth_router from "@/auth/auth_routes";
 import postRouter from "@/posts/postRoutes";
 import { ErrorResponse } from "@shared/types";
 import { z } from "zod";
+import beta_router from "@/betas/betaRoutes";
 
 // figure out express user type
 
@@ -48,6 +49,7 @@ export default function initialize_app() {
   app.use("/api/v1/users", userRouter);
   app.use("/api/v1/attempts", attemptRouter);
   app.use("/api/v1/posts", postRouter);
+  app.use("/api/v1/posts", beta_router);
 
   app.use(
     (

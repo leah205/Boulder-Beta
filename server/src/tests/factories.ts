@@ -3,12 +3,15 @@ import authQueries from "@/auth/authQueries";
 import climbQueries from "@/climbs/climbQueries";
 import { AttemptWithVideoResponse } from "@shared/types";
 // import { Prisma } from "generated/prisma/client";
-import type { Climb, User } from "generated/prisma/client";
+import type { Climb, Post, User } from "generated/prisma/client";
+import betaQueries from "@/betas/betaQueries";
 
 const users = [
   { username: "taylor", password: "swift" },
   { username: "selena", password: "gomez" },
 ];
+
+const betas = [{ content: "hello world" }, { content: "bla bla bla" }];
 
 const climbs = [
   { color: "green", sent: false },
@@ -34,6 +37,10 @@ async function createTestClimb(user: User, index: number = 0) {
   });
 }
 
+async function createTestBeta(post: Post, user: User, index: number = 0) {
+  return await betaQueries.createBeta(post.id, user.id, betas[index]);
+}
+
 async function createTestAttempt(
   climb: Climb,
   index: number = 0,
@@ -45,4 +52,4 @@ async function createTestAttempt(
   return res;
 }
 
-export { createTestUser, createTestClimb, createTestAttempt };
+export { createTestUser, createTestClimb, createTestAttempt, createTestBeta };

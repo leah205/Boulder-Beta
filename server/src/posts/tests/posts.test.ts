@@ -3,6 +3,7 @@ import AuthRequest from "@/tests/AuthRequest";
 import initialize_app from "@/utils/express_app";
 import {
   createTestAttempt,
+  createTestBeta,
   createTestClimb,
   createTestUser,
 } from "@/tests/factories";
@@ -39,6 +40,7 @@ describe("DELETE /posts", async () => {
     const attempt1 = await createTestAttempt(climb1, 0);
     const attempt2 = await createTestAttempt(climb1, 1);
     const post = await attemptQueries.postVideo(attempt1.id);
+    await createTestBeta(post!, user1);
     const post2 = await attemptQueries.postVideo(attempt2.id);
     const authRequest = new AuthRequest(app, user1.id, user1.username);
 

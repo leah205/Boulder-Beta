@@ -10,6 +10,7 @@ vi.mock(import("@/utils/cloudinary"), () => ({
 
 beforeEach(async () => {
   await prisma.$transaction([
+    prisma.beta.deleteMany(),
     prisma.post.deleteMany(),
     prisma.video.deleteMany(),
 

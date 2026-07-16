@@ -6,7 +6,11 @@ import type {
   User,
   Attempt,
   Post,
+  Beta,
+  Video,
+  Prisma,
 } from "../server/generated/prisma/client";
+import { create } from "node:domain";
 
 // response types
 
@@ -15,6 +19,8 @@ export type LoginResponse = Pick<User, "id" | "username"> & { token: string };
 export type ClimbResponse = Omit<Climb, "public_id"> & {
   picture?: string | null;
 };
+
+// for climb page
 export type AttemptWithVideoResponse = Attempt & {
   video: {
     clip: string | null;
@@ -27,7 +33,25 @@ export type AttemptWithVideoResponse = Attempt & {
 };
 
 export type AttemptResponse = Attempt;
-export type PostResponse = Post & { clip?: string | null };
+
+export type VideoResponse = Omit<Video, "public_id"> & {
+  clip: string;
+  post: PostResponse | null;
+};
+
+const BetaWithUser = {
+  include: {
+    author: {
+      select: { id: true, username: true },
+    },
+  },
+} satisfies Prisma.BetaDefaultArgs;
+
+export type BetaResponse = Prisma.BetaGetPayload<typeof BetaWithUser>;
+
+export type PostResponse = Post & { clip?: string | null } & {
+  betas: BetaResponse[];
+};
 
 //zod schemas
 
@@ -54,6 +78,11 @@ export const CreateAttemptSchema = z.object({
   published: z.boolean().optional(),
 });
 
+export const createBetaSchema = z.object({
+  content: z.string(),
+});
+
+export type CreateBetaRequest = z.infer<typeof createBetaSchema>;
 export type LoginRequest = z.infer<typeof LoginSchema>;
 export type SignupRequest = z.infer<typeof SignupSchema>;
 export type CreateClimbRequest = z.infer<typeof CreateClimbSchema>;

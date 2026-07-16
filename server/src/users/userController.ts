@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import userQueries from "./userQueries";
+import postQueries from "@/posts/postQueries";
 import type { ClimbResponse, PostResponse } from "@shared/types";
 
 const userController = {
@@ -15,9 +16,7 @@ const userController = {
 
   getMyPosts: async (req: Request, res: Response) => {
     const id = req.user!.id!;
-    const data_obj = (await userQueries.getMyPosts(
-      id,
-    )) satisfies PostResponse[];
+    const data_obj = (await postQueries.getPosts(id)) satisfies PostResponse[];
     return res.json(data_obj);
   },
 };
