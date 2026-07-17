@@ -11,7 +11,7 @@ describe("POST /climbs", () => {
     await authRequest
       .post("/api/v1/climbs")
       .field("grade", "V5")
-      .attach("picture", "./src/assets/climb1.jpg")
+      .attach("picture", "./src/assets/images/climb1.jpeg")
       .field("color", "blue")
       .expect(200)
       .then((res) => {

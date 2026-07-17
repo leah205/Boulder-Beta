@@ -104,6 +104,10 @@ const attemptQueries = {
       },
     });
 
+    if (!video.post) {
+      throw new Error("something went wrong...");
+    }
+
     return video.post;
 
     // return await prisma.attempt.update({

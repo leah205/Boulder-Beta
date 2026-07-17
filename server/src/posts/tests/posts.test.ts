@@ -29,6 +29,27 @@ describe("GET /posts", async () => {
       .expect(200)
       .then((res) => {
         expect(res.body).toHaveLength(2);
+        expect(res.body[0].author.username).toBe(user1.username);
+      });
+  });
+});
+
+describe("GET /post", async () => {
+  // change when flip ordering by timestamp
+  it("gets feed", async () => {
+    const user1 = await createTestUser(0);
+    const climb1 = await createTestClimb(user1, 0);
+    const attempt1 = await createTestAttempt(climb1, 0);
+    const post = await attemptQueries.postVideo(attempt1.id);
+    const beta = await createTestBeta(post, user1);
+    const authRequest = new AuthRequest(app, user1.id, user1.username);
+    await authRequest
+      .get(`${POST_URL}/${post?.id}`)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.id).toBe(post?.id);
+        expect(res.body.author.username).toBe(user1.username);
+        expect(res.body.betas[0].content).toBe(beta.content);
       });
   });
 });

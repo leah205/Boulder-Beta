@@ -1,4 +1,5 @@
 import prisma from "@/db/prisma_client";
+import { AppError } from "@/Errors";
 import { getCloudinarySignedUrl } from "@/utils/cloudinary";
 
 const userQueries = {
@@ -17,6 +18,58 @@ const userQueries = {
       return { ...data, picture };
     });
     return data_obj;
+  },
+  getFollowing: async (user_id: number) => {
+    const following = await prisma.user.findMany({
+      where: {
+        followedBy: {
+          some: {
+            id: user_id,
+          },
+        },
+      },
+      omit: {
+        password: true,
+      },
+    });
+    return following;
+  },
+  getUser: async (user_id: number) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: user_id,
+      },
+      omit: {
+        password: true,
+      },
+    });
+
+    if (!user) {
+      throw new AppError("User not found", 404);
+    }
+    return user;
+  },
+
+  followUser: async (follow_id: number, current_id: number) => {
+    //error if uesr
+    const user = await prisma.user.update({
+      where: {
+        id: current_id,
+      },
+
+      data: {
+        following: {
+          connect: {
+            id: follow_id,
+          },
+        },
+      },
+      omit: {
+        password: true,
+      },
+    });
+
+    return user;
   },
 };
 export default userQueries;

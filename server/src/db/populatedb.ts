@@ -1,37 +1,89 @@
-import { Client } from "pg";
+// import { Client } from "pg";
 import config from "../config";
+import authQueries from "@/auth/authQueries";
+import climbQueries from "@/climbs/climbQueries";
+import attemptQueries from "@/attempts/attemptQueries";
+import betaQueries from "@/betas/betaQueries";
 console.log(config.db_url);
-const SQL = `
-INSERT INTO posts (title, content, published, "authorId")
-VALUES 
-('taco', 'cat', true, 12);
 
-
-INSERT INTO comments (content, "authorId", "postId")
-VALUES
-  ('cool taco', 12,
-(SELECT id FROM posts WHERE title = 'taco')),
-  ('ugly taco', 13, (SELECT id FROM posts WHERE title = 'taco'))
-  
-
-`;
-// INSERT INTO posts (title, content, "authorId", published)
-// VALUES
-//   ('title 1', 'content 1', 1, FALSE),
-//   ('title 2', 'content 2', 1, TRUE);
-
-async function main() {
-  console.log("seeding...");
-  const client = new Client({
-    connectionString: config.db_url,
+async function seed_db() {
+  const user1 = await authQueries.createUser("leah", "tiktin");
+  const climb1 = await climbQueries.createClimb(user1.id, {
+    grade: "V8",
+    picture: "./src/assets/images/climb1.jpeg",
+    sent: false,
+    color: "red",
   });
 
-  await client.connect();
-  const check = await client.query("SELECT * FROM users WHERE id = 2");
-  console.log(check["rows"]);
-  await client.query(SQL);
-  await client.end();
-  console.log("done");
+  const climb2 = await climbQueries.createClimb(user1.id, {
+    grade: "V5",
+    picture: "./src/assets/images/climb2.jpeg",
+    sent: true,
+    color: "blue",
+  });
+
+  await attemptQueries.createAttempt(climb1.id, {
+    send: false,
+    clip: undefined,
+  });
+
+  const attempt2 = await attemptQueries.createAttempt(climb1.id, {
+    send: false,
+    clip: "./src/assets/videos/attempt1.mov",
+  });
+
+  const post1 = await attemptQueries.postVideo(attempt2.id);
+
+  const attempt3 = await attemptQueries.createAttempt(climb2.id, {
+    send: true,
+    clip: "./src/assets/videos/send1.mov",
+  });
+
+  const post2 = await attemptQueries.postVideo(attempt3.id);
+
+  const user2 = await authQueries.createUser("bob", "dylan");
+  const climb3 = await climbQueries.createClimb(user2.id, {
+    grade: "V0",
+    picture: "./src/assets/climb3.jpg",
+    sent: true,
+    color: "red",
+  });
+
+  const attempt4 = await attemptQueries.createAttempt(climb3.id, {
+    send: false,
+    clip: "./src/assets/videos/attempt2.mov",
+  });
+
+  const attempt5 = await attemptQueries.createAttempt(climb3.id, {
+    send: true,
+    clip: "./src/assets/videos/send2.mov",
+  });
+
+  const post3 = await attemptQueries.postVideo(attempt4.id);
+  const post4 = await attemptQueries.postVideo(attempt5.id);
+  await betaQueries.createBeta(post1!.id, user1.id, {
+    content: "hello world",
+  });
+
+  await betaQueries.createBeta(post2!.id, user2.id, {
+    content: "hello",
+  });
+
+  await betaQueries.createBeta(post2!.id, user1.id, {
+    content: "there",
+  });
+
+  await betaQueries.createBeta(post3!.id, user1.id, {
+    content: "you got this!",
+  });
+
+  await betaQueries.createBeta(post4!.id, user1.id, {
+    content: "good job!",
+  });
+}
+
+async function main() {
+  await seed_db();
 }
 
 main();

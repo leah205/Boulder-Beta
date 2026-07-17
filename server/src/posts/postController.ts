@@ -17,9 +17,7 @@ const postController = {
 
   getPost: async (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const post = await postQueries.getPost(id);
-    console.log("in controller");
-    console.log(post);
+    const post = (await postQueries.getPost(id)) satisfies PostResponse;
     res.json(post);
   },
 };
