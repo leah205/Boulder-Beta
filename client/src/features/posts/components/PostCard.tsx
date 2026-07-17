@@ -14,16 +14,18 @@ export default function PostCard({ post }: PostCardProps) {
     betasOpen ? setBetasOpen(false) : setBetasOpen(true);
   return (
     <div className="flex justify-center">
-      <div className="h-100 relative my-5">
-        <video className="h-full w-50" width="320" height="100" controls>
+      <div className=" relative mb-5 w-80">
+        <video className="w-full" width="320" height="100" controls>
           <source src={post.clip || undefined} type="video/mp4"></source>
         </video>
         <Button
-          className="absolute z-10 bottom-0"
+          className="absolute z-10 bottom-0 right-3 bg-transparent hover:bg-transparent"
           type="button"
           onClick={toggleBetasOpen}
         >
-          {betasOpen ? "Hide comments" : "Show Comments"}
+          {!betasOpen && (
+            <img className="h-8" src="./src/assets/betas.svg"></img>
+          )}
         </Button>
         {betasOpen && (
           <BetaSection

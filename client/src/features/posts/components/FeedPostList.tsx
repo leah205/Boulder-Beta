@@ -5,7 +5,7 @@ type FeedPostListProps = {
 
 export default function FeedPostList(props: FeedPostListProps) {
   return (
-    <div className="flex flex-col justify-center gap-10 w-full">
+    <div className="flex flex-col justify-center gap-10 w-full items-center">
       {props.children}
     </div>
   );

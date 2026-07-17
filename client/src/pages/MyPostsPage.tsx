@@ -31,7 +31,7 @@ export default function MyPostsPage() {
     <>
       <FeedPostList>
         {data.map((post) => {
-          return <MyPostCard post={post}></MyPostCard>;
+          return <MyPostCard navigateOut={false} post={post}></MyPostCard>;
         })}
       </FeedPostList>
     </>

@@ -12,6 +12,7 @@ import "./App.css";
 import { Route, Routes, Navigate } from "react-router-dom";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import PostPage from "@/pages/PostPage";
+import ProfilePage from "@/pages/ProfilePage";
 
 export default function RouteElements() {
   return (
@@ -24,6 +25,7 @@ export default function RouteElements() {
             <Route path="my-climbs" element={<MyClimbsPage />}></Route>
             <Route path="/climbs/:id" element={<ClimbPage />}></Route>
             <Route path="/feed" element={<Feed />}></Route>
+            <Route path="/my-profile-page" element={<ProfilePage />}></Route>
             <Route
               path="my-posts"
               element={<MyPostsPage></MyPostsPage>}

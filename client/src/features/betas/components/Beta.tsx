@@ -1,10 +1,10 @@
 import type { BetaResponse } from "@shared/types";
 
-type BetaProps = {
+type betaProps = {
   beta: BetaResponse;
 };
 
-export default function Beta({ beta }: BetaProps) {
+export default function beta({ beta }: betaProps) {
   return (
     <div>
       <p className="text-xs">{beta.author.username}</p>

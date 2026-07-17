@@ -27,7 +27,7 @@ function BetaForm({ post_id, setBetaFormOpen }: BetaFormProps) {
     }
   }
   return (
-    <form className="border-0 p-3">
+    <form className="border-0 ">
       {errors &&
         errors.map((error) => {
           return <ErrorWrapper key={error}>{error}</ErrorWrapper>;
@@ -51,7 +51,7 @@ function BetaForm({ post_id, setBetaFormOpen }: BetaFormProps) {
 
 function BetasSectionLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="overflow-scroll absolute p-3 top-1/3 bg-black text-white flex-col gap-3 h-2/3  bg-black/50 w-50 left-1/2 -translate-x-1/2 z-20">
+    <div className="w-full overflow-hidden absolute p-3 top-1/3 bg-black text-white flex-col gap-3 h-2/3  bg-black/50 w-50 left-1/2 -translate-x-1/2 z-20">
       {children}
     </div>
   );

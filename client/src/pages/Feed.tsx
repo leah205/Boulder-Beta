@@ -5,6 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import type React from "node_modules/@types/react/index";
 import FeedPostList from "@/features/posts/components/FeedPostList";
 import PostCard from "@/features/posts/components/PostCard";
+import FeedPostHeader from "@/features/posts/components/FeedPostHeader";
+
 function FeedLayout({ children }: { children: React.ReactNode }) {
   return <div>{children}</div>;
 }
@@ -39,7 +41,12 @@ export default function Feed() {
     <FeedLayout>
       <FeedPostList>
         {data.map((post) => {
-          return <PostCard key={post.attemptId} post={post}></PostCard>;
+          return (
+            <div className="w-70 text-center ">
+              <FeedPostHeader author={post.author}></FeedPostHeader>
+              <PostCard key={post.attemptId} post={post}></PostCard>
+            </div>
+          );
         })}
       </FeedPostList>
     </FeedLayout>
