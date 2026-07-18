@@ -3,6 +3,7 @@ import type {
   AuthResponse,
   ClimbResponse,
   PostResponse,
+  UserResponse,
   VideoResponse,
 } from "@shared/types";
 
@@ -28,6 +29,7 @@ export function createTestClimb(climb_input: Partial<ClimbResponse>) {
     creatorId: createId(),
     color: "black",
     picture: null,
+    public: false,
     rating: null,
     ...climb_input,
   } satisfies ClimbResponse;
@@ -47,6 +49,7 @@ export function createTestVideo(
 
 export function createTestPost(
   attempt: AttemptWithVideoResponse,
+  author: UserResponse,
   overrides: Partial<PostResponse>,
 ) {
   return {
@@ -54,6 +57,11 @@ export function createTestPost(
     description: null,
     id: createId(),
     betas: [],
+    climb_id: attempt.climbId,
+    author: {
+      username: author.username,
+      id: author.id,
+    },
     ...overrides,
   } satisfies PostResponse;
 }
