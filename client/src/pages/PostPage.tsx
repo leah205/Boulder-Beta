@@ -1,23 +1,15 @@
 import MyPostCard from "@/features/posts/components/MyPostCard";
 import { useParams, useNavigate } from "react-router-dom";
-import postApi from "@/features/posts/postService";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import Spinner from "@/components/spinner/Spinner";
-import { useQuery } from "@tanstack/react-query";
 import Button from "@/components/Button";
+import { useGetPost } from "@/features/posts/queries";
 
 export default function PostPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const {
-    isPending,
-    error,
-    data: post,
-  } = useQuery({
-    queryKey: ["posts", id],
-    queryFn: async () => postApi.getPost(Number(id)),
-  });
+  const { isPending, error, data } = useGetPost(Number(id));
 
   if (error) {
     return <ErrorMessage error={error}></ErrorMessage>;
@@ -26,12 +18,16 @@ export default function PostPage() {
   if (isPending) {
     return <Spinner></Spinner>;
   }
+
+  if (!data) {
+    throw new Error("data not found");
+  }
   return (
     <div>
       <Button type="button" onClick={() => navigate(-1)}>
         Back
       </Button>
-      <MyPostCard post={post} navigateOut={true}></MyPostCard>;
+      <MyPostCard post={data} navigateOut={true}></MyPostCard>;
     </div>
   );
 }

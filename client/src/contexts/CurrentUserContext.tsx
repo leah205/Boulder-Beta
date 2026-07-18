@@ -38,6 +38,10 @@ export default function CurrentUserContextProvider({
     });
   }, [isAuthenticated]);
 
+  if (isPending && isAuthenticated) {
+    return <Spinner></Spinner>;
+  }
+
   return (
     <CurrentUserContext.Provider value={{ currentUser }}>
       {/* {isPending && <Spinner></Spinner>} */}

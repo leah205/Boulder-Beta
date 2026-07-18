@@ -5,17 +5,14 @@ import climbApi from "./climbService";
 import type { CreateClimbRequest, ClimbResponse } from "@shared/types";
 
 export function useClimbLog() {
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [errors, setErrors] = useState<string[]>([]);
   const { mutate: logClimb, isPending } = useMutation({
     mutationFn: (data_obj: CreateClimbRequest) => climbApi.create(data_obj),
     onSuccess: (res: ClimbResponse) => {
-      navigate("/");
-      queryClient.invalidateQueries({
-        queryKey: ["myclimbs"],
-      });
-      return res;
+      queryClient.setQueryData(["climbs", res.id], res);
+      navigate(`/climbs/${res.id}`);
     },
     onError: (err) => {
       if (err.message == "unauthorized") {

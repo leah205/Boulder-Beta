@@ -1,21 +1,18 @@
 import ErrorMessage from "@/components/error/ErrorMessage";
 import ContentSpinner from "@/components/spinner/ContentSpinner";
-import postApi from "@/features/posts/postService";
-import { useQuery } from "@tanstack/react-query";
+
 import type React from "node_modules/@types/react/index";
 import FeedPostList from "@/features/posts/components/FeedPostList";
 import PostCard from "@/features/posts/components/PostCard";
 import FeedPostHeader from "@/features/posts/components/FeedPostHeader";
+import { useGetAllPosts } from "@/features/posts/queries";
 
 function FeedLayout({ children }: { children: React.ReactNode }) {
   return <div>{children}</div>;
 }
 
 export default function Feed() {
-  const { isPending, error, data } = useQuery({
-    queryKey: ["feed"],
-    queryFn: async () => postApi.getFeed(),
-  });
+  const { isPending, error, data } = useGetAllPosts();
 
   if (isPending) {
     return (
@@ -33,7 +30,7 @@ export default function Feed() {
     );
   }
 
-  if (!data.length) {
+  if (!data || !data.length) {
     return <p className="text-center p-5">No posts found!</p>;
   }
 

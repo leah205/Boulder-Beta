@@ -1,5 +1,5 @@
 import http from "@/services/axiosInstance";
-import type { PostResponse } from "@shared/types";
+import type { PostResponse, PostPayloadType } from "@shared/types";
 
 const POST_URL = `${import.meta.env.VITE_API_URL}/posts`;
 
@@ -10,7 +10,8 @@ const postApi = {
   },
 
   deletePost: async (id: number) => {
-    await http.delete(`${POST_URL}/${id}`);
+    const response = await http.delete<PostResponse>(`${POST_URL}/${id}`);
+    return response.data;
   },
 
   getPost: async (id: number) => {
