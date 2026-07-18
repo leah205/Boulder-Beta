@@ -10,7 +10,7 @@ const postController = {
 
   deletePost: async (req: Request, res: Response) => {
     const id = Number(req.params.id);
-    const post = await postQueries.deletePost(id);
+    const post = (await postQueries.deletePost(id)) satisfies PostResponse;
 
     res.json(post);
   },

@@ -1,6 +1,30 @@
 import prisma from "@/db/prisma_client";
 import { AppError } from "@/Errors";
 import { getCloudinarySignedUrl } from "@/utils/cloudinary";
+import type { Prisma } from "generated/prisma/client";
+
+const UserPayload = {
+  omit: {
+    password: true,
+  },
+  include: {
+    following: {
+      select: { id: true, username: true },
+    },
+    followedBy: {
+      select: { id: true, username: true },
+    },
+  },
+} satisfies Prisma.UserDefaultArgs;
+
+const FollowPayload = {
+  omit: {
+    password: true,
+  },
+} satisfies Prisma.UserDefaultArgs;
+
+export type UserPayloadType = Prisma.UserGetPayload<typeof UserPayload>;
+export type FollowPayloadType = Prisma.UserGetPayload<typeof FollowPayload>;
 
 const userQueries = {
   getMyClimbs: async (user_id: number) => {
@@ -28,9 +52,7 @@ const userQueries = {
           },
         },
       },
-      omit: {
-        password: true,
-      },
+      ...FollowPayload,
     });
     return following;
   },
@@ -39,9 +61,7 @@ const userQueries = {
       where: {
         id: user_id,
       },
-      omit: {
-        password: true,
-      },
+      ...UserPayload,
     });
 
     if (!user) {
@@ -60,6 +80,26 @@ const userQueries = {
       data: {
         following: {
           connect: {
+            id: follow_id,
+          },
+        },
+      },
+      omit: {
+        password: true,
+      },
+    });
+
+    return user;
+  },
+  unfollowUser: async (follow_id: number, current_id: number) => {
+    const user = await prisma.user.update({
+      where: {
+        id: current_id,
+      },
+
+      data: {
+        following: {
+          disconnect: {
             id: follow_id,
           },
         },

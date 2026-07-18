@@ -36,7 +36,7 @@ describe("GET /posts", async () => {
 
 describe("GET /post", async () => {
   // change when flip ordering by timestamp
-  it("gets feed", async () => {
+  it("gets posts", async () => {
     const user1 = await createTestUser(0);
     const climb1 = await createTestClimb(user1, 0);
     const attempt1 = await createTestAttempt(climb1, 0);

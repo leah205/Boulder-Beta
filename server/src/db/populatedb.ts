@@ -1,10 +1,7 @@
-// import { Client } from "pg";
-import config from "../config";
 import authQueries from "@/auth/authQueries";
 import climbQueries from "@/climbs/climbQueries";
 import attemptQueries from "@/attempts/attemptQueries";
 import betaQueries from "@/betas/betaQueries";
-console.log(config.db_url);
 
 async function seed_db() {
   const user1 = await authQueries.createUser("leah", "tiktin");

@@ -6,6 +6,7 @@ import {
   createTestAttempt,
   createTestUser,
   createTestClimb,
+  followTestUser,
 } from "@/tests/factories";
 
 const app = initialize_app();
@@ -35,28 +36,28 @@ describe("user tests", () => {
           });
       });
   });
-  it("gets users posts", async () => {
-    const user1 = await createTestUser(0);
-    const climb1 = await createTestClimb(user1, 0);
-    const attempt1 = await createTestAttempt(climb1, 0);
+  // it("gets users posts", async () => {
+  //   const user1 = await createTestUser(0);
+  //   const climb1 = await createTestClimb(user1, 0);
+  //   const attempt1 = await createTestAttempt(climb1, 0);
 
-    const user2 = await createTestUser(1);
-    const climb2 = await createTestClimb(user2, 1);
-    const attempt2 = await createTestAttempt(climb2, 1);
+  //   const user2 = await createTestUser(1);
+  //   const climb2 = await createTestClimb(user2, 1);
+  //   const attempt2 = await createTestAttempt(climb2, 1);
 
-    const post1 = await attemptQueries.postVideo(attempt1.id);
-    await attemptQueries.postVideo(attempt2.id);
+  //   const post1 = await attemptQueries.postVideo(attempt1.id);
+  //   await attemptQueries.postVideo(attempt2.id);
 
-    const authRequest = new AuthRequest(app, user1.id, user1.username);
+  //   const authRequest = new AuthRequest(app, user1.id, user1.username);
 
-    await authRequest
-      .get(`${USER_URL}/me/posts`)
-      .expect(200)
-      .then((res) => {
-        expect(res.body).toHaveLength(1);
-        expect(res.body[0].id).toBe(post1?.id);
-      });
-  });
+  //   await authRequest
+  //     .get(`${USER_URL}/me/posts`)
+  //     .expect(200)
+  //     .then((res) => {
+  //       expect(res.body).toHaveLength(1);
+  //       expect(res.body[0].id).toBe(post1?.id);
+  //     });
+  // });
 
   it("follows uer", async () => {
     const user = await createTestUser();
@@ -64,16 +65,48 @@ describe("user tests", () => {
     const user1 = await createTestUser(1);
 
     return authRequest
-      .post(`${USER_URL}/me/following`)
+      .post(`${USER_URL}/following/follow`)
       .send({ user_id: user1.id })
       .then(() => {
         return authRequest
-          .get(`${USER_URL}/me/following`)
+          .get(`${USER_URL}/${user.id}/following`)
           .expect(200)
           .then((res) => {
             const data = res.body;
             expect(data).toHaveLength(1);
             expect(data[0].id).toBe(user1.id);
+          });
+      });
+    // .then(() => {
+    //   return authRequest
+    //     .get(`${USER_URL}/${user1.id}/following`)
+    //     .expect(200)
+    //     .then((res) => {
+    //       const data = res.body;
+    //       expect(data).toHaveLength(1);
+    //       expect(data[0].id).toBe(user1.id);
+    //     });
+    // });
+  });
+
+  it("unfollows user", async () => {
+    const user = await createTestUser();
+    const authRequest = new AuthRequest(app, user.id, user.username);
+    const user1 = await createTestUser(1);
+    await followTestUser(user, user1);
+
+    return authRequest
+      .post(`${USER_URL}/following/unfollow`)
+      .send({ user_id: user1.id })
+      .expect(200)
+      .then(() => {
+        return authRequest
+          .get(`${USER_URL}/${user.id}/following`)
+          .send({ user_id: user1.id })
+          .expect(200)
+          .then((res) => {
+            const data = res.body;
+            expect(data).toHaveLength(0);
           });
       });
   });
@@ -94,5 +127,27 @@ describe("user tests", () => {
     const authRequest = new AuthRequest(app, user.id, user.username);
 
     return authRequest.get(`${USER_URL}/${user.id + 1}`).expect(404);
+  });
+
+  it("gets user posts", async () => {
+    const user1 = await createTestUser(0);
+    const user2 = await createTestUser(1);
+
+    const climb1 = await createTestClimb(user1, 0);
+    const attempt1 = await createTestAttempt(climb1, 0);
+    const post = await attemptQueries.postVideo(attempt1.id);
+
+    const climb2 = await createTestClimb(user2, 1);
+    const attempt2 = await createTestAttempt(climb2, 1);
+    await attemptQueries.postVideo(attempt2.id);
+
+    const authRequest = new AuthRequest(app, user1.id, user1.username);
+    await authRequest
+      .get(`${USER_URL}/${user1.id}/posts`)
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toHaveLength(1);
+        expect(res.body[0].id).toBe(post.id);
+      });
   });
 });

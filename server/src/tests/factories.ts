@@ -5,6 +5,7 @@ import { AttemptWithVideoResponse } from "@shared/types";
 // import { Prisma } from "generated/prisma/client";
 import type { Climb, Post, User } from "generated/prisma/client";
 import betaQueries from "@/betas/betaQueries";
+import userQueries from "@/users/userQueries";
 
 const users = [
   { username: "taylor", password: "swift" },
@@ -52,4 +53,14 @@ async function createTestAttempt(
   return res;
 }
 
-export { createTestUser, createTestClimb, createTestAttempt, createTestBeta };
+async function followTestUser(follower: User, followee: User) {
+  return await userQueries.followUser(followee.id, follower.id);
+}
+
+export {
+  createTestUser,
+  createTestClimb,
+  createTestAttempt,
+  createTestBeta,
+  followTestUser,
+};

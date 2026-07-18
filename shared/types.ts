@@ -1,4 +1,5 @@
-// import prisma from "../server/src/db/prisma_client";
+import prisma from "../server/src/db/prisma_client";
+
 import * as z from "zod";
 
 import type {
@@ -6,11 +7,14 @@ import type {
   User,
   Attempt,
   Post,
+  Prisma,
   Beta,
   Video,
-  Prisma,
 } from "../server/generated/prisma/client";
-import { create } from "node:domain";
+
+import type { UserPayloadType } from "../server/src/users/userQueries";
+import type { FollowPayloadType } from "../server/src/users/userQueries";
+import type { PostPayloadType } from "../server/src/posts/postQueries";
 
 // response types
 
@@ -19,6 +23,19 @@ export type LoginResponse = Pick<User, "id" | "username"> & { token: string };
 export type ClimbResponse = Omit<Climb, "public_id"> & {
   picture?: string | null;
 };
+
+export type UserResponse = Omit<User, "password"> & {
+  followedBy: {
+    id: number;
+    username: string;
+  }[];
+  following: {
+    id: number;
+    username: string;
+  }[];
+};
+
+export type FollowResponse = Omit<User, "password">;
 
 // for climb page
 export type AttemptWithVideoResponse = Attempt & {
@@ -39,6 +56,8 @@ export type VideoResponse = Omit<Video, "public_id"> & {
   post: PostResponse | null;
 };
 
+// export type UserResponse = Omit<User, "password">;
+
 const BetaWithUser = {
   include: {
     author: {
@@ -49,11 +68,20 @@ const BetaWithUser = {
 
 export type BetaResponse = Prisma.BetaGetPayload<typeof BetaWithUser>;
 
-export type PostResponse = Post & { clip?: string | null } & {
+export type PostResponse = Post & {
+  clip?: string | null;
+  climb_id: number;
+  author: {
+    id: number;
+    username: string;
+  };
+} & {
   betas: BetaResponse[];
 };
 
 //zod schemas
+
+export type { PostPayloadType } from "../server/src/posts/postQueries";
 
 export const LoginSchema = z.object({
   username: z.string(),
@@ -82,11 +110,16 @@ export const createBetaSchema = z.object({
   content: z.string(),
 });
 
+export const FollowUserSchema = z.object({
+  user_id: z.number(),
+});
+
 export type CreateBetaRequest = z.infer<typeof createBetaSchema>;
 export type LoginRequest = z.infer<typeof LoginSchema>;
 export type SignupRequest = z.infer<typeof SignupSchema>;
 export type CreateClimbRequest = z.infer<typeof CreateClimbSchema>;
 export type CreateAttemptRequest = z.infer<typeof CreateAttemptSchema>;
+export type followUserRequest = z.infer<typeof FollowUserSchema>;
 
 export type ValidationErrorResponse = { errors: string[] };
 export type ErrorResponse = string;

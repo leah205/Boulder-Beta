@@ -28,8 +28,19 @@ const userApi = {
   },
 
   followUser: async (req_body: followUserRequest) => {
-    const response = await http.post(`${API_URL}/me/following`, req_body);
-    console.log(response);
+    const response = await http.post(
+      `${API_URL}/me/following/follow`,
+      req_body,
+    );
+    return response.data;
+  },
+
+  unfollowUser: async (req_body: followUserRequest) => {
+    const response = await http.post(
+      `${API_URL}/me/following/unfollow`,
+      req_body,
+    );
+    return response.data;
   },
 };
 

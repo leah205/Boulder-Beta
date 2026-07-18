@@ -27,14 +27,14 @@ export default function CurrentUserContextProvider({
     error,
     data: currentUser,
   } = useQuery({
-    queryKey: ["user", "current"],
-    queryFn: async () => userApi.getUserData(user?.id),
-    enabled: !!user,
+    queryKey: ["users", user?.id],
+    queryFn: async () => userApi.getUserData(user!.id),
+    enabled: isAuthenticated,
   });
 
   useEffect(() => {
     queryClient.invalidateQueries({
-      queryKey: ["user", "current"],
+      queryKey: ["users"],
     });
   }, [isAuthenticated]);
 

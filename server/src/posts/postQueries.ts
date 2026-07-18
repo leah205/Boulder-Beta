@@ -21,7 +21,8 @@ const Payload = {
         attempt: {
           include: {
             climb: {
-              include: {
+              select: {
+                id: true,
                 creator: {
                   select: {
                     id: true,
@@ -37,7 +38,9 @@ const Payload = {
   },
 } satisfies Prisma.PostDefaultArgs;
 
-function formatData(data: Prisma.PostGetPayload<typeof Payload>) {
+export type PostPayloadType = Prisma.PostGetPayload<typeof Payload>;
+
+function formatData(data: PostPayloadType) {
   const { video, ...post } = data;
 
   if (!video) {
@@ -47,6 +50,7 @@ function formatData(data: Prisma.PostGetPayload<typeof Payload>) {
   const clip = getCloudinarySignedUrl(video.public_id, "video");
 
   const author = video.attempt.climb.creator;
+  const climb_id = video.attempt.climb.id;
   const res = {
     ...post,
     clip,
@@ -54,6 +58,7 @@ function formatData(data: Prisma.PostGetPayload<typeof Payload>) {
       id: author.id,
       username: author.username,
     },
+    climb_id,
   };
   return res;
 }
