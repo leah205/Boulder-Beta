@@ -43,7 +43,7 @@ function AttemptVideoSection({ attempt }: AttemptVideoSectionProps) {
         ></source>
       </video>
       {attempt.video?.post ? (
-        <Link to={`/my-posts/${attempt.video.post?.id}`}>Go to post</Link>
+        <Link to={`/posts/${attempt.video.post?.id}`}>Go to post</Link>
       ) : (
         <Button type="submit" onClick={postAttempt}>
           Publish

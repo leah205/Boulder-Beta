@@ -12,26 +12,32 @@ import {
 } from "@/tests/factories";
 import postApi from "@/features/posts/postService";
 import auth_api from "@/features/authentication/auth_service";
+import userApi from "@/features/users/userService";
 import userEvent from "@testing-library/user-event";
 
-vi.mock("@/features/authentication/auth_service");
 vi.mock("@/features/climbs/climbService");
-vi.mock("@/features/users/userService");
 vi.mock("@/features/posts/postService");
+
+const user1 = createTestUser();
+
+vi.mock("@/features/authentication/auth_service");
+vi.mock("@/features/users/userService");
+vi.mocked(auth_api.getUserFromToken).mockResolvedValue(user1);
+vi.mocked(userApi.getUserData).mockResolvedValue(user1);
 
 const post = createTestPost();
 const beta1 = createTestBeta();
 const beta2 = createTestBeta();
 post.betas = [beta1, beta2];
-const user1 = createTestUser();
 
 vi.mocked(postApi.getPost).mockResolvedValue(post);
-vi.mocked(auth_api.getUserFromToken).mockResolvedValue(user1);
+// vi.mocked(auth_api.getUserFromToken).mockResolvedValue(user1);
+// vi.mocked(userApi.getUserData).mockResolvedValue(user1);
 
 describe("beta form", () => {
   it("opens and closes beta section", async () => {
     const user = userEvent.setup();
-    render(<ProviderWrapper initRoute={`/post/${post.id}`} />);
+    render(<ProviderWrapper initRoute={`/posts/${post.id}`} />);
 
     const betaButton = await screen.findByTestId("open-beta-btn");
     expect(betaButton).toBeInTheDocument();
@@ -46,7 +52,7 @@ describe("beta form", () => {
   });
   it("opens and closes new beta form", async () => {
     const user = userEvent.setup();
-    render(<ProviderWrapper initRoute={`/post/${post.id}`} />);
+    render(<ProviderWrapper initRoute={`/posts/${post.id}`} />);
 
     const betaButton = await screen.findByTestId("open-beta-btn");
     await user.click(betaButton);
@@ -62,7 +68,7 @@ describe("beta form", () => {
 
   it("renders betas", async () => {
     const user = userEvent.setup();
-    render(<ProviderWrapper initRoute={`/post/${post.id}`} />);
+    render(<ProviderWrapper initRoute={`/posts/${post.id}`} />);
 
     const betaButton = await screen.findByTestId("open-beta-btn");
     await user.click(betaButton);
@@ -75,7 +81,7 @@ describe("beta form", () => {
 
   it("closes beta form on submit beta", async () => {
     const user = userEvent.setup();
-    render(<ProviderWrapper initRoute={`/post/${post.id}`} />);
+    render(<ProviderWrapper initRoute={`/posts/${post.id}`} />);
 
     const betaButton = await screen.findByTestId("open-beta-btn");
     await user.click(betaButton);

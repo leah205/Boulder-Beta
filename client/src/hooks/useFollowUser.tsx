@@ -23,6 +23,7 @@ export default function useFollowUser(author_id: number) {
       queryClient.invalidateQueries({
         queryKey: ["users", author_id],
       });
+      setError(null);
     },
     onError: (err) => {
       setError(err);

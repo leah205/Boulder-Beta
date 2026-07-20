@@ -12,11 +12,12 @@ import {
   createTestPost,
 } from "@/tests/factories";
 import { vi } from "vitest";
+import userApi from "@/features/users/userService";
 
 vi.mock("@/features/authentication/auth_service");
 vi.mock("@/features/climbs/climbService");
 
-const user1 = createTestUser(1, "leah");
+const user1 = createTestUser();
 const climb1 = createTestClimb({
   creatorId: user1.id,
   id: 1,
@@ -56,6 +57,8 @@ const attempt3 = createTestAttemptWithVideo({
 
 vi.mocked(auth_api.getUserFromToken).mockResolvedValue(user1);
 vi.mocked(climbApi.logAttempt).mockResolvedValue({});
+vi.mocked(userApi.getUserData).mockResolvedValue(user1);
+
 vi.mocked(climbApi.getClimb).mockResolvedValue(climb1);
 vi.mocked(climbApi.getAttempts).mockResolvedValue([
   attempt1,

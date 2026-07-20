@@ -22,6 +22,7 @@ export default function responseErrorHandler(error: AxiosError) {
       const statusCode = response?.status;
       if (statusCode == 400) {
         console.log(response);
+        console.log(response.data);
         const data = "data" in response ? (response.data as Data) : null;
         if (data && "errors" in data) {
           throw new CustomValidationError(
@@ -30,9 +31,10 @@ export default function responseErrorHandler(error: AxiosError) {
           );
         }
         if (data && "message" in data && data.message) {
-          throw new Error(data.message);
+          throw new ServerError(data.message, 400);
         }
-        throw new Error("User request malfigured");
+        console.log("user request malconfigured");
+        throw new ServerError("User request malfigured", 400);
       }
       if (statusCode == 401) {
         throw new ServerError("Unauthorized", 401);

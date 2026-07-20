@@ -3,6 +3,7 @@ import AuthProvider from "@/features/authentication/AuthProvider";
 
 import { MemoryRouter } from "react-router-dom";
 import RouteElements from "@/app/routes.tsx";
+import CurrentUserContextProvider from "@/contexts/CurrentUserContext";
 
 export default function ProviderWrapper({
   initRoute = "/",
@@ -14,9 +15,11 @@ export default function ProviderWrapper({
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <MemoryRouter initialEntries={[initRoute]}>
-          <RouteElements></RouteElements>
-        </MemoryRouter>
+        <CurrentUserContextProvider>
+          <MemoryRouter initialEntries={[initRoute]}>
+            <RouteElements></RouteElements>
+          </MemoryRouter>
+        </CurrentUserContextProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

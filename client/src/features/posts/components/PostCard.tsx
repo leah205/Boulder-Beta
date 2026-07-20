@@ -2,6 +2,7 @@ import BetaSection from "@/features/betas/components/BetaSection";
 import type { PostResponse } from "@shared/types";
 import { useState } from "react";
 import Button from "@/components/Button";
+import betasIcon from "@/assets/betas.svg";
 
 type PostCardProps = {
   post: PostResponse;
@@ -26,7 +27,7 @@ export default function PostCard({ post }: PostCardProps) {
           {!betasOpen && (
             <img
               className="h-8"
-              src="./src/assets/betas.svg"
+              src={betasIcon}
               data-testid="open-beta-btn"
             ></img>
           )}

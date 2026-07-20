@@ -30,7 +30,7 @@ export default function RouteElements() {
               path="my-posts"
               element={<MyPostsPage></MyPostsPage>}
             ></Route>
-            <Route path="post/:id" element={<PostPage />}></Route>
+            <Route path="posts/:id" element={<PostPage />}></Route>
 
             {/* <Route path="/attempts/:id" element={<AttemptPage />}></Route> */}
           </Route>

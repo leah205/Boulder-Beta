@@ -13,5 +13,7 @@ export default function ErrorMessage({ error }: ErrorMessageProps) {
         {error.status}: {error.message}
       </ErrorWrapper>
     );
+  } else {
+    return <ErrorWrapper>{error.message}</ErrorWrapper>;
   }
 }

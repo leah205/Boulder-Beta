@@ -16,10 +16,7 @@ type BetaFormProps = {
 function BetaForm({ post_id, setBetaFormOpen }: BetaFormProps) {
   const [content, setContent] = useState("");
   const { mutate: postBeta, isPending, errors } = usePostBeta(post_id);
-  console.log(errors);
-  useEffect(() => {
-    console.log("moutning...");
-  }, []);
+
   function submitBetaForm() {
     postBeta({ content });
     if (!errors.length) {
@@ -80,14 +77,14 @@ export default function BetaSection({
         <button
           type="button"
           onClick={toggleBetaFormOpen}
-          className="opacity-100 h-3 w-3 rounded-xl flex justify-center items-center"
+          className="opacity-100 h-3 w-3 rounded-xl flex justify-center items-center p-3 bg-blue-300"
         >
           {betaFormOpen ? "-" : "+"}
         </button>
         <button
           type="button"
           onClick={() => setBetasOpen(false)}
-          className="opacity-100 h-3 w-3 rounded-xl flex justify-center items-center bg-red-400 flex justify-center items-center"
+          className="opacity-100 h-3 w-3 rounded-xl flex justify-center items-center bg-red-400 flex justify-center items-center p-3"
         >
           x
         </button>
