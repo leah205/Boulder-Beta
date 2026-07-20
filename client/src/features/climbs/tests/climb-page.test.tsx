@@ -27,8 +27,16 @@ const attempt1 = createTestAttemptWithVideo({
   climbId: climb1.id,
   send: false,
 });
-attempt1.video = createTestVideo(attempt1, {
-  post: createTestPost(attempt1, {}),
+attempt1.video = createTestVideo({
+  attemptId: attempt1.id,
+  post: createTestPost({
+    attemptId: attempt1.id,
+    climb_id: climb1.id,
+    author: {
+      username: user1.username,
+      id: user1.id,
+    },
+  }),
 });
 
 const attempt2 = createTestAttemptWithVideo({

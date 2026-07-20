@@ -1,11 +1,13 @@
 import type {
   AttemptWithVideoResponse,
   AuthResponse,
+  BetaResponse,
   ClimbResponse,
   PostResponse,
   UserResponse,
   VideoResponse,
 } from "@shared/types";
+import { create } from "domain";
 
 let id = 0;
 
@@ -13,11 +15,18 @@ function createId() {
   return id++;
 }
 
-export function createTestUser(id: number, username: string) {
+export function createTestUser(overrides: Partial<UserResponse> = {}) {
+  const user_id = createId();
   return {
-    id,
-    username,
-  } satisfies AuthResponse;
+    id: user_id,
+    username: "user" + user_id,
+    grade: null,
+    profilePicture: null,
+    private: false,
+    followedBy: [],
+    following: [],
+    ...overrides,
+  } satisfies UserResponse;
 }
 
 export function createTestClimb(climb_input: Partial<ClimbResponse>) {
@@ -35,32 +44,42 @@ export function createTestClimb(climb_input: Partial<ClimbResponse>) {
   } satisfies ClimbResponse;
 }
 
-export function createTestVideo(
-  attempt: AttemptWithVideoResponse,
-  overrides: Partial<VideoResponse>,
-) {
+export function createTestVideo(overrides: Partial<VideoResponse> = {}) {
   return {
-    attemptId: attempt.id,
+    attemptId: createId(),
     clip: "fake_clip",
     post: null,
     ...overrides,
   } satisfies VideoResponse;
 }
 
-export function createTestPost(
-  attempt: AttemptWithVideoResponse,
-  author: UserResponse,
-  overrides: Partial<PostResponse>,
-) {
+export function createTestBeta(overrides = {}) {
+  const beta_id = createId();
   return {
-    attemptId: attempt.id,
+    author: {
+      id: createId(),
+      username: "fake user " + createId(),
+    },
+    id: beta_id,
+    postId: createId(),
+    userId: createId(),
+    uploadedAt: new Date(),
+    starred: false,
+    content: "beta " + beta_id,
+    ...overrides,
+  } satisfies BetaResponse;
+}
+
+export function createTestPost(overrides: Partial<PostResponse> = {}) {
+  return {
+    attemptId: createId(),
     description: null,
     id: createId(),
     betas: [],
-    climb_id: attempt.climbId,
+    climb_id: createId(),
     author: {
-      username: author.username,
-      id: author.id,
+      username: "fake user" + createId(),
+      id: createId(),
     },
     ...overrides,
   } satisfies PostResponse;

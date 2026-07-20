@@ -36,6 +36,7 @@ function BetaForm({ post_id, setBetaFormOpen }: BetaFormProps) {
       <textarea
         className="text-black w-full"
         value={content}
+        data-testid="new-comment-text"
         onChange={(e) => setContent(e.target.value)}
       ></textarea>
       <Button
@@ -76,20 +77,20 @@ export default function BetaSection({
   return (
     <BetasSectionLayout>
       <div className="flex justify-between">
-        <Button
+        <button
           type="button"
           onClick={toggleBetaFormOpen}
           className="opacity-100 h-3 w-3 rounded-xl flex justify-center items-center"
         >
           {betaFormOpen ? "-" : "+"}
-        </Button>
-        <Button
+        </button>
+        <button
           type="button"
           onClick={() => setBetasOpen(false)}
           className="opacity-100 h-3 w-3 rounded-xl flex justify-center items-center bg-red-400 flex justify-center items-center"
         >
           x
-        </Button>
+        </button>
       </div>
       {betaFormOpen && (
         <BetaForm

@@ -24,7 +24,11 @@ export default function PostCard({ post }: PostCardProps) {
           onClick={toggleBetasOpen}
         >
           {!betasOpen && (
-            <img className="h-8" src="./src/assets/betas.svg"></img>
+            <img
+              className="h-8"
+              src="./src/assets/betas.svg"
+              data-testid="open-beta-btn"
+            ></img>
           )}
         </Button>
         {betasOpen && (
