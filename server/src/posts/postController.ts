@@ -7,6 +7,13 @@ const postController = {
     const feed = (await postQueries.getAllPublished()) satisfies PostResponse[];
     res.json(feed);
   },
+  getFollowingPosts: async (req: Request, res: Response) => {
+    const user = req.user;
+    const feed = (await postQueries.getFollowingPosts(
+      user!.id,
+    )) satisfies PostResponse[];
+    res.json(feed);
+  },
 
   deletePost: async (req: Request, res: Response) => {
     const id = Number(req.params.id);

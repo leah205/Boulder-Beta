@@ -74,6 +74,42 @@ const postQueries = {
     });
     return res;
   },
+  getFollowingPosts: async (user_id: number) => {
+    const followList = await prisma.user.findUnique({
+      where: {
+        id: user_id,
+      },
+      select: {
+        following: true,
+      },
+    });
+
+    if (!followList) {
+      throw new AppError("User not found", 404);
+    }
+
+    const followIds = followList?.following.map((user) => user.id);
+
+    const following_posts = await prisma.post.findMany({
+      ...Payload,
+      where: {
+        video: {
+          attempt: {
+            climb: {
+              creatorId: {
+                in: followIds,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const res = following_posts.map((post) => {
+      return formatData(post);
+    });
+    return res;
+  },
 
   getPost: async (post_id: number) => {
     const post = await prisma.post.findUnique({
@@ -96,10 +132,24 @@ const postQueries = {
       },
       ...Payload,
     });
+
+    if (!post) {
+      throw new AppError("Post not found", 404);
+    }
     return formatData(post);
   },
 
   getPosts: async (user_id: number) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: user_id,
+      },
+    });
+
+    if (!user) {
+      throw new AppError("User not found", 404);
+    }
+
     const posts = await prisma.post.findMany({
       where: {
         video: {

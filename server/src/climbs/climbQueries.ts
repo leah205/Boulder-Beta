@@ -47,6 +47,16 @@ const climbQueries = {
   },
 
   getAttempts: async (climb_id: number) => {
+    const climb = await prisma.climb.findUnique({
+      where: {
+        id: climb_id,
+      },
+    });
+
+    if (!climb) {
+      throw new AppError("climb not found", 404);
+    }
+
     const attemptsData = await prisma.attempt.findMany({
       where: {
         climbId: climb_id,
@@ -74,6 +84,15 @@ const climbQueries = {
   },
 
   patchClimb: async (climb: Partial<CreateClimbInput>, climb_id: number) => {
+    const climbData = await prisma.climb.findUnique({
+      where: {
+        id: climb_id,
+      },
+    });
+
+    if (!climbData) {
+      throw new AppError("climb not found", 404);
+    }
     const data = {
       ...climb,
     };

@@ -69,11 +69,14 @@ const attemptQueries = {
         post: {},
       },
     });
+
+    if (!res) {
+      throw new AppError("Video not found", 404);
+    }
     return res;
   },
 
   getAttemptWithUser: async (attempt_id: number) => {
-    console.log(attempt_id);
     const res = await prisma.attempt.findUnique({
       where: {
         id: attempt_id,
@@ -86,10 +89,22 @@ const attemptQueries = {
         },
       },
     });
+    if (!res) {
+      throw new AppError("attempt does not exist", 404);
+    }
     return res;
   },
 
   postVideo: async (attempt_id: number) => {
+    const attempt = await prisma.attempt.findUnique({
+      where: {
+        id: attempt_id,
+      },
+    });
+
+    if (!attempt) {
+      throw new AppError("attempt not found", 404);
+    }
     const video = await prisma.video.update({
       data: {
         post: {

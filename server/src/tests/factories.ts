@@ -6,6 +6,7 @@ import { AttemptWithVideoResponse } from "@shared/types";
 import type { Climb, Post, User } from "generated/prisma/client";
 import betaQueries from "@/betas/betaQueries";
 import userQueries from "@/users/userQueries";
+import { faker, fakerSK } from "@faker-js/faker";
 
 const users = [
   { username: "taylor", password: "swift" },
@@ -26,8 +27,10 @@ const attempts = [
 ];
 
 async function createTestUser(index: number = 0) {
-  const user = users[index];
-  return await authQueries.createUser(user.username, user.password);
+  return await authQueries.createUser(
+    faker.internet.username(),
+    faker.internet.password(),
+  );
 }
 
 async function createTestClimb(user: User, index: number = 0) {

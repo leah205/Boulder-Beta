@@ -6,6 +6,7 @@ import {
   createTestBeta,
   createTestClimb,
   createTestUser,
+  followTestUser,
 } from "@/tests/factories";
 import attemptQueries from "@/attempts/attemptQueries";
 
@@ -30,6 +31,34 @@ describe("GET /posts", async () => {
       .then((res) => {
         expect(res.body).toHaveLength(2);
         expect(res.body[0].author.username).toBe(user1.username);
+      });
+  });
+});
+describe("GET /posts/following", async () => {
+  // change when flip ordering by timestamp
+  it("gets following feed", async () => {
+    const user1 = await createTestUser();
+    const user2 = await createTestUser();
+    const user3 = await createTestUser();
+
+    const climb1 = await createTestClimb(user1, 0);
+    const attempt1 = await createTestAttempt(climb1, 0);
+    await attemptQueries.postVideo(attempt1.id);
+
+    const climb2 = await createTestClimb(user2, 1);
+    const attempt2 = await createTestAttempt(climb2, 1);
+    await attemptQueries.postVideo(attempt2.id);
+
+    await followTestUser(user3, user2);
+
+    const authRequest = new AuthRequest(app, user3.id, user3.username);
+
+    await authRequest
+      .get(`${POST_URL}/following`)
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toHaveLength(1);
+        expect(res.body[0].author.username).toBe(user2.username);
       });
   });
 });

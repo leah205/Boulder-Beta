@@ -13,7 +13,7 @@ const POST_URL = "/api/v1/posts";
 
 describe("betas", () => {
   it("creates posts", async () => {
-    const user1 = await createTestUser(0);
+    const user1 = await createTestUser();
     const climb1 = await createTestClimb(user1, 0);
     const attempt1 = await createTestAttempt(climb1, 0);
     const post = await attemptQueries.postVideo(attempt1.id);

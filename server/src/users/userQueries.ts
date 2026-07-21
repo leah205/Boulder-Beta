@@ -71,7 +71,26 @@ const userQueries = {
   },
 
   followUser: async (follow_id: number, current_id: number) => {
-    //error if uesr
+    if (follow_id == current_id) {
+      throw new AppError("Cannot follow yourself", 400);
+    }
+
+    const userToFollow = await prisma.user.findUnique({
+      where: {
+        id: follow_id,
+      },
+      include: {
+        followedBy: true,
+      },
+    });
+
+    if (!userToFollow) {
+      throw new AppError("User not found", 404);
+    }
+
+    if (userToFollow.followedBy.some((user) => user.id == current_id)) {
+      throw new AppError("Already following user", 400);
+    }
     const user = await prisma.user.update({
       where: {
         id: current_id,
@@ -92,6 +111,26 @@ const userQueries = {
     return user;
   },
   unfollowUser: async (follow_id: number, current_id: number) => {
+    if (follow_id == current_id) {
+      throw new AppError("Cannot unfollow yourself", 400);
+    }
+    const userToFollow = await prisma.user.findUnique({
+      where: {
+        id: follow_id,
+      },
+      include: {
+        followedBy: true,
+      },
+    });
+
+    if (!userToFollow) {
+      throw new AppError("User not found", 404);
+    }
+
+    if (!userToFollow.followedBy.some((user) => user.id == current_id)) {
+      throw new AppError("Not following user", 400);
+    }
+
     const user = await prisma.user.update({
       where: {
         id: current_id,

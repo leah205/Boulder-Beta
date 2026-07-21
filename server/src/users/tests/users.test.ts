@@ -36,28 +36,6 @@ describe("user tests", () => {
           });
       });
   });
-  // it("gets users posts", async () => {
-  //   const user1 = await createTestUser(0);
-  //   const climb1 = await createTestClimb(user1, 0);
-  //   const attempt1 = await createTestAttempt(climb1, 0);
-
-  //   const user2 = await createTestUser(1);
-  //   const climb2 = await createTestClimb(user2, 1);
-  //   const attempt2 = await createTestAttempt(climb2, 1);
-
-  //   const post1 = await attemptQueries.postVideo(attempt1.id);
-  //   await attemptQueries.postVideo(attempt2.id);
-
-  //   const authRequest = new AuthRequest(app, user1.id, user1.username);
-
-  //   await authRequest
-  //     .get(`${USER_URL}/me/posts`)
-  //     .expect(200)
-  //     .then((res) => {
-  //       expect(res.body).toHaveLength(1);
-  //       expect(res.body[0].id).toBe(post1?.id);
-  //     });
-  // });
 
   it("follows uer", async () => {
     const user = await createTestUser();
@@ -65,7 +43,7 @@ describe("user tests", () => {
     const user1 = await createTestUser(1);
 
     return authRequest
-      .post(`${USER_URL}/following/follow`)
+      .post(`${USER_URL}/me/following/follow`)
       .send({ user_id: user1.id })
       .then(() => {
         return authRequest
@@ -77,16 +55,6 @@ describe("user tests", () => {
             expect(data[0].id).toBe(user1.id);
           });
       });
-    // .then(() => {
-    //   return authRequest
-    //     .get(`${USER_URL}/${user1.id}/following`)
-    //     .expect(200)
-    //     .then((res) => {
-    //       const data = res.body;
-    //       expect(data).toHaveLength(1);
-    //       expect(data[0].id).toBe(user1.id);
-    //     });
-    // });
   });
 
   it("unfollows user", async () => {
@@ -96,7 +64,7 @@ describe("user tests", () => {
     await followTestUser(user, user1);
 
     return authRequest
-      .post(`${USER_URL}/following/unfollow`)
+      .post(`${USER_URL}/me/following/unfollow`)
       .send({ user_id: user1.id })
       .expect(200)
       .then(() => {
@@ -109,6 +77,17 @@ describe("user tests", () => {
             expect(data).toHaveLength(0);
           });
       });
+  });
+
+  it("throws error following user that doesnt exist", async () => {
+    const user = await createTestUser();
+    const authRequest = new AuthRequest(app, user.id, user.username);
+    const user1 = await createTestUser(1);
+
+    return authRequest
+      .post(`${USER_URL}/me/following/follow`)
+      .send({ user_id: user1.id + 5 })
+      .expect(404);
   });
   it("gets user", async () => {
     const user = await createTestUser();
