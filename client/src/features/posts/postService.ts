@@ -9,6 +9,11 @@ const postApi = {
     return response.data;
   },
 
+  getFollowFeed: async () => {
+    const response = await http.get<PostResponse[]>(`${POST_URL}/following`);
+    return response.data;
+  },
+
   deletePost: async (id: number) => {
     const response = await http.delete<PostResponse>(`${POST_URL}/${id}`);
     return response.data;

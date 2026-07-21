@@ -1,14 +1,17 @@
 import postApi from "@/features/posts/postService";
 import { useQuery } from "@tanstack/react-query";
 import userApi from "../users/userService";
+import { useState } from "react";
 
 export function useGetAllPosts() {
+  const [feedType, setFeedType] = useState<"following" | "all">("all");
+  const getData = feedType == "all" ? postApi.getFeed : postApi.getFollowFeed;
   const { isPending, error, data } = useQuery({
-    queryKey: postKeys.all,
-    queryFn: async () => postApi.getFeed(),
+    queryKey: feedType == "all" ? postKeys.all : postKeys.following,
+    queryFn: getData,
   });
 
-  return { isPending, error, data };
+  return { isPending, error, data, feedType, setFeedType };
 }
 
 export function useGetUserPosts(id: number) {
@@ -27,8 +30,9 @@ export function useGetPost(id: number) {
   return { isPending, error, data };
 }
 
-const postKeys = {
+export const postKeys = {
   all: ["posts"] as const,
+  following: ["posts", "following"] as const,
   post: (id: number) => [...postKeys.all, id],
   user: (id: number) => [...postKeys.all, "user", id],
 };

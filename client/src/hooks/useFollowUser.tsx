@@ -2,6 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import userApi from "@/features/users/userService";
 import useCurrentUser from "./useCurrentUser";
+import { postKeys } from "@/features/posts/queries";
+
 export default function useFollowUser(author_id: number) {
   const queryClient = useQueryClient();
   const currentUser = useCurrentUser();
@@ -22,6 +24,14 @@ export default function useFollowUser(author_id: number) {
       });
       queryClient.invalidateQueries({
         queryKey: ["users", author_id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["users", author_id],
+      });
+      console.log("invalidating posts?");
+      console.log([postKeys.all]);
+      queryClient.invalidateQueries({
+        queryKey: postKeys.all,
       });
       setError(null);
     },

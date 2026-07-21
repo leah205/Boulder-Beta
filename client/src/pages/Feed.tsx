@@ -6,13 +6,43 @@ import FeedPostList from "@/features/posts/components/FeedPostList";
 import PostCard from "@/features/posts/components/PostCard";
 import FeedPostHeader from "@/features/posts/components/FeedPostHeader";
 import { useGetAllPosts } from "@/features/posts/queries";
+import Button from "@/components/Button";
+
+type FeedTypeButtonsProps = {
+  setFeedType: React.Dispatch<React.SetStateAction<"following" | "all">>;
+  feedType: "all" | "following";
+};
+
+function FeedTypeButtons({ setFeedType, feedType }: FeedTypeButtonsProps) {
+  const feedTypeClass = "p-3 rounded-sm text-black";
+  const currentFeedClass = `bg-mist-300 ${feedTypeClass}`;
+  const otherFeedClass = `bg-mist-100 ${feedTypeClass}`;
+  return (
+    <div className="flex w-60 justify-between m-auto p-8">
+      <button
+        className={feedType == "all" ? currentFeedClass : otherFeedClass}
+        type="button"
+        onClick={() => setFeedType("all")}
+      >
+        All
+      </button>
+      <button
+        type="button"
+        className={feedType == "following" ? currentFeedClass : otherFeedClass}
+        onClick={() => setFeedType("following")}
+      >
+        Following
+      </button>
+    </div>
+  );
+}
 
 function FeedLayout({ children }: { children: React.ReactNode }) {
   return <div>{children}</div>;
 }
 
 export default function Feed() {
-  const { isPending, error, data } = useGetAllPosts();
+  const { isPending, error, data, feedType, setFeedType } = useGetAllPosts();
 
   if (isPending) {
     return (
@@ -31,11 +61,23 @@ export default function Feed() {
   }
 
   if (!data || !data.length) {
-    return <p className="text-center p-5">No posts found!</p>;
+    return (
+      <FeedLayout>
+        <FeedTypeButtons
+          feedType={feedType}
+          setFeedType={setFeedType}
+        ></FeedTypeButtons>
+        <p className="text-center">No posts found!</p>
+      </FeedLayout>
+    );
   }
 
   return (
     <FeedLayout>
+      <FeedTypeButtons
+        feedType={feedType}
+        setFeedType={setFeedType}
+      ></FeedTypeButtons>
       <FeedPostList>
         {data.map((post) => {
           return (

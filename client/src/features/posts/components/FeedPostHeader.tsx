@@ -12,6 +12,8 @@ type FeedPostHeaderProps = {
 };
 
 export default function FeedPostHeader({ author }: FeedPostHeaderProps) {
+  const currentUser = useCurrentUser();
+  const isSelfPost = currentUser.id == author.id;
   const { toggleFollowUser, isFollowing, isPending, error } = useFollowUser(
     author.id,
   );
@@ -23,14 +25,15 @@ export default function FeedPostHeader({ author }: FeedPostHeaderProps) {
       <div className="flex gap-3 my-3">
         {isPending && <Spinner></Spinner>}
         <p className="text-left ml-7">{author.username}</p>
-
-        <Button
-          type="submit"
-          className="text-xs height-5 py-1"
-          onClick={toggleFollowUser}
-        >
-          {isFollowing ? "Unfollow" : "Follow"}
-        </Button>
+        {!isSelfPost && (
+          <Button
+            type="submit"
+            className="text-xs height-5 py-1"
+            onClick={toggleFollowUser}
+          >
+            {isFollowing ? "Unfollow" : "Follow"}
+          </Button>
+        )}
       </div>
     </div>
   );
