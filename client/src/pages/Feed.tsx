@@ -81,7 +81,7 @@ export default function Feed() {
       <FeedPostList>
         {data.map((post) => {
           return (
-            <div className="w-70 text-center ">
+            <div key={post.id} className="w-70 text-center ">
               <FeedPostHeader author={post.author}></FeedPostHeader>
               <PostCard key={post.attemptId} post={post}></PostCard>
             </div>

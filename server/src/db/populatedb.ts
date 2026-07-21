@@ -2,43 +2,40 @@ import authQueries from "@/auth/authQueries";
 import climbQueries from "@/climbs/climbQueries";
 import attemptQueries from "@/attempts/attemptQueries";
 import betaQueries from "@/betas/betaQueries";
+import {
+  createTestUser,
+  createTestClimb,
+  createTestAttempt,
+} from "@/tests/factories";
+import userQueries from "@/users/userQueries";
 
 async function seed_db() {
-  const user1 = await authQueries.createUser("leah", "tiktin");
-  const climb1 = await climbQueries.createClimb(user1.id, {
-    grade: "V8",
+  const user1 = await createTestUser();
+  const climb1 = await createTestClimb(user1, {
     picture: "./src/assets/images/climb1.jpeg",
     sent: false,
-    color: "red",
   });
-
-  const climb2 = await climbQueries.createClimb(user1.id, {
-    grade: "V5",
+  const climb2 = await createTestClimb(user1, {
     picture: "./src/assets/images/climb2.jpeg",
     sent: true,
-    color: "blue",
   });
-
-  await attemptQueries.createAttempt(climb1.id, {
-    send: false,
-    clip: undefined,
-  });
-
-  const attempt2 = await attemptQueries.createAttempt(climb1.id, {
-    send: false,
+  await createTestAttempt(climb1);
+  const attempt2 = await createTestAttempt(climb1, {
     clip: "./src/assets/videos/attempt1.mov",
   });
 
   const post1 = await attemptQueries.postVideo(attempt2.id);
 
-  const attempt3 = await attemptQueries.createAttempt(climb2.id, {
-    send: true,
+  const attempt3 = await createTestAttempt(climb2, {
     clip: "./src/assets/videos/send1.mov",
   });
 
   const post2 = await attemptQueries.postVideo(attempt3.id);
 
-  const user2 = await authQueries.createUser("bob", "dylan");
+  const user2 = await createTestUser();
+
+  //fix
+
   const climb3 = await climbQueries.createClimb(user2.id, {
     grade: "V0",
     picture: "./src/assets/climb3.jpg",

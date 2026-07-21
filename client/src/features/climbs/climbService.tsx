@@ -27,10 +27,7 @@ const climbApi = {
     const response = await http.get<AttemptWithVideoResponse[]>(
       `${API_URL}/${climb_id}/attempts`,
     );
-    response.data = response.data.map((data) => {
-      data.uploadedAt = new Date(data.uploadedAt);
-      return data;
-    });
+    console.log(response.data);
     return response.data;
   },
   logAttempt: async (climbId: number, attempt: CreateAttemptRequest) => {

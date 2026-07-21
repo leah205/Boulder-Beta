@@ -1,56 +1,52 @@
 import attemptQueries from "@/attempts/attemptQueries";
 import authQueries from "@/auth/authQueries";
 import climbQueries from "@/climbs/climbQueries";
-import { AttemptWithVideoResponse } from "@shared/types";
 // import { Prisma } from "generated/prisma/client";
 import type { Climb, Post, User } from "generated/prisma/client";
 import betaQueries from "@/betas/betaQueries";
 import userQueries from "@/users/userQueries";
-import { faker, fakerSK } from "@faker-js/faker";
+import { faker } from "@faker-js/faker";
 
-const users = [
-  { username: "taylor", password: "swift" },
-  { username: "selena", password: "gomez" },
-];
-
-const betas = [{ content: "hello world" }, { content: "bla bla bla" }];
-
-const climbs = [
-  { color: "green", sent: false },
-  { color: "blue", sent: true, picture: "http://fake_picture" },
-];
-
-const attempts = [
-  { clip: "first_fake_clip", send: false },
-  { clip: "second_fake_clip", send: true },
-  { clip: "third_fake_clip", send: false },
-];
-
-async function createTestUser(index: number = 0) {
+async function createTestUser() {
   return await authQueries.createUser(
     faker.internet.username(),
     faker.internet.password(),
   );
 }
 
-async function createTestClimb(user: User, index: number = 0) {
-  const climb = climbs[index];
+async function createTestClimb(
+  user: User,
+  properties: Record<string, unknown> = {},
+) {
   return await climbQueries.createClimb(user.id, {
-    color: climb.color,
-    sent: climb.sent,
+    color: faker.helpers.arrayElement([
+      "red",
+      "green",
+      "blue",
+      "purple",
+      "pink",
+      "yellow",
+    ]),
+    sent: faker.helpers.arrayElement([true, false]),
+    ...properties,
   });
 }
 
-async function createTestBeta(post: Post, user: User, index: number = 0) {
-  return await betaQueries.createBeta(post.id, user.id, betas[index]);
+async function createTestBeta(post: Post, user: User) {
+  return await betaQueries.createBeta(post.id, user.id, {
+    content: faker.string.alpha(10),
+  });
 }
 
 async function createTestAttempt(
   climb: Climb,
-  index: number = 0,
-  properties: Partial<AttemptWithVideoResponse> = {},
+  properties: Record<string, unknown> = {},
 ) {
-  const attempt = { ...attempts[index], ...properties };
+  const attempt = {
+    send: faker.helpers.arrayElement([true, false]),
+    clip: faker.string.alpha(10),
+    ...properties,
+  };
 
   const res = await attemptQueries.createAttempt(climb.id, attempt);
   return res;

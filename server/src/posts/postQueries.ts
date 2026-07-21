@@ -3,6 +3,15 @@ import { AppError } from "@/Errors";
 import { getCloudinarySignedUrl } from "@/utils/cloudinary";
 import type { Prisma } from "generated/prisma/client";
 
+const mostRecent = {
+  video: {
+    attempt: {
+      climb: {
+        uploadedAt: "desc",
+      },
+    },
+  },
+} satisfies Prisma.PostOrderByWithRelationInput;
 const Payload = {
   include: {
     betas: {
@@ -15,6 +24,7 @@ const Payload = {
         },
       },
     },
+
     video: {
       select: {
         public_id: true,
@@ -23,6 +33,7 @@ const Payload = {
             climb: {
               select: {
                 id: true,
+                uploadedAt: true,
                 creator: {
                   select: {
                     id: true,
@@ -51,6 +62,7 @@ function formatData(data: PostPayloadType) {
 
   const author = video.attempt.climb.creator;
   const climb_id = video.attempt.climb.id;
+  const uploadedAt = video.attempt.climb.uploadedAt.toJSON();
   const res = {
     ...post,
     clip,
@@ -58,6 +70,7 @@ function formatData(data: PostPayloadType) {
       id: author.id,
       username: author.username,
     },
+    uploadedAt,
     climb_id,
   };
   return res;
@@ -67,6 +80,7 @@ const postQueries = {
   getAllPublished: async () => {
     const published_posts = await prisma.post.findMany({
       ...Payload,
+      orderBy: mostRecent,
     });
 
     const res = published_posts.map((post) => {
@@ -103,6 +117,7 @@ const postQueries = {
           },
         },
       },
+      orderBy: mostRecent,
     });
 
     const res = following_posts.map((post) => {

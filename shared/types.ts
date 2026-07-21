@@ -38,7 +38,8 @@ export type UserResponse = Omit<User, "password"> & {
 export type FollowResponse = Omit<User, "password">;
 
 // for climb page
-export type AttemptWithVideoResponse = Attempt & {
+export type AttemptWithVideoResponse = Omit<Attempt, "uploadedAt"> & {
+  uploadedAt: string;
   video: {
     clip: string | null;
     post: {
@@ -49,7 +50,9 @@ export type AttemptWithVideoResponse = Attempt & {
   } | null;
 };
 
-export type AttemptResponse = Attempt;
+export type AttemptResponse = Omit<Attempt, "uploadedAt"> & {
+  uploadedAt: string;
+};
 
 export type VideoResponse = Omit<Video, "public_id"> & {
   clip: string;
@@ -68,9 +71,10 @@ const BetaWithUser = {
 
 export type BetaResponse = Prisma.BetaGetPayload<typeof BetaWithUser>;
 
-export type PostResponse = Post & {
+export type PostResponse = Omit<Post, "uploadedAt"> & {
   clip?: string | null;
   climb_id: number;
+  uploadedAt: string;
   author: {
     id: number;
     username: string;

@@ -6,6 +6,7 @@ import Spinner from "@/components/spinner/Spinner";
 import { Link } from "react-router-dom";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import { useParams } from "react-router-dom";
+import formatDate from "@/utils/formatDate";
 
 // type ManageClipProps = {
 //   clip: string | null | undefined;
@@ -18,10 +19,7 @@ import { useParams } from "react-router-dom";
 // }
 
 type AttemptVideoSectionProps = {
-  attempt: AttemptWithVideoResponse & {
-    uploadDate: string;
-    uploadTime: string;
-  };
+  attempt: AttemptWithVideoResponse;
 };
 
 function AttemptVideoSection({ attempt }: AttemptVideoSectionProps) {
@@ -54,12 +52,10 @@ function AttemptVideoSection({ attempt }: AttemptVideoSectionProps) {
 }
 
 type AttemptRowProps = {
-  attempt: AttemptWithVideoResponse & {
-    uploadDate: string;
-    uploadTime: string;
-  };
+  attempt: AttemptWithVideoResponse;
 };
 export default function AttemptRow({ attempt }: AttemptRowProps) {
+  console.log(typeof attempt.uploadedAt);
   const [showVideo, setShowVideo] = useState(false);
 
   function toggleShowVideo() {
@@ -70,7 +66,7 @@ export default function AttemptRow({ attempt }: AttemptRowProps) {
       <div className="flex gap-3 mb-3 items-center" key={attempt.id}>
         {attempt.send && <p className="text-green-400">Send </p>}
         {!attempt.send && <p className="text-red-400">Attempt</p>}
-        <p>{String(attempt.uploadDate) + " " + String(attempt.uploadTime)}</p>
+        <p>{formatDate(attempt.uploadedAt)}</p>
         {attempt.video?.clip && (
           <Button
             type="button"

@@ -51,8 +51,8 @@ describe("attempt integration", () => {
   });
 
   it("throws frobidden error when user tries to post attempt to another climb", async () => {
-    const user1 = await createTestUser(0);
-    const user2 = await createTestUser(1);
+    const user1 = await createTestUser();
+    const user2 = await createTestUser();
     const climb = await createTestClimb(user1);
     const climb_id = climb.id;
     const authRequest2 = new AuthRequest(app, user2.id, user2.username);
@@ -85,8 +85,8 @@ describe("attempt integration", () => {
   }, 10000);
 
   it("does not allow publishing someone else attempt", async () => {
-    const user1 = await createTestUser(0);
-    const user2 = await createTestUser(1);
+    const user1 = await createTestUser();
+    const user2 = await createTestUser();
     const climb = await createTestClimb(user1);
     const attempt = await createTestAttempt(climb);
 

@@ -6,6 +6,7 @@ const POST_URL = `${import.meta.env.VITE_API_URL}/posts`;
 const postApi = {
   getFeed: async () => {
     const response = await http.get<PostResponse[]>(`${POST_URL}`);
+    console.log(typeof response.data[0].uploadedAt);
     return response.data;
   },
 

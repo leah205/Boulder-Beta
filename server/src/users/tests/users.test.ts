@@ -40,7 +40,7 @@ describe("user tests", () => {
   it("follows uer", async () => {
     const user = await createTestUser();
     const authRequest = new AuthRequest(app, user.id, user.username);
-    const user1 = await createTestUser(1);
+    const user1 = await createTestUser();
 
     return authRequest
       .post(`${USER_URL}/me/following/follow`)
@@ -60,7 +60,7 @@ describe("user tests", () => {
   it("unfollows user", async () => {
     const user = await createTestUser();
     const authRequest = new AuthRequest(app, user.id, user.username);
-    const user1 = await createTestUser(1);
+    const user1 = await createTestUser();
     await followTestUser(user, user1);
 
     return authRequest
@@ -82,7 +82,7 @@ describe("user tests", () => {
   it("throws error following user that doesnt exist", async () => {
     const user = await createTestUser();
     const authRequest = new AuthRequest(app, user.id, user.username);
-    const user1 = await createTestUser(1);
+    const user1 = await createTestUser();
 
     return authRequest
       .post(`${USER_URL}/me/following/follow`)
@@ -109,15 +109,15 @@ describe("user tests", () => {
   });
 
   it("gets user posts", async () => {
-    const user1 = await createTestUser(0);
-    const user2 = await createTestUser(1);
+    const user1 = await createTestUser();
+    const user2 = await createTestUser();
 
-    const climb1 = await createTestClimb(user1, 0);
-    const attempt1 = await createTestAttempt(climb1, 0);
+    const climb1 = await createTestClimb(user1);
+    const attempt1 = await createTestAttempt(climb1);
     const post = await attemptQueries.postVideo(attempt1.id);
 
-    const climb2 = await createTestClimb(user2, 1);
-    const attempt2 = await createTestAttempt(climb2, 1);
+    const climb2 = await createTestClimb(user2);
+    const attempt2 = await createTestAttempt(climb2);
     await attemptQueries.postVideo(attempt2.id);
 
     const authRequest = new AuthRequest(app, user1.id, user1.username);

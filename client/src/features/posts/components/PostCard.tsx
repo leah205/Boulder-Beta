@@ -3,6 +3,7 @@ import type { PostResponse } from "@shared/types";
 import { useState } from "react";
 import Button from "@/components/Button";
 import betasIcon from "@/assets/betas.svg";
+import formatDate from "@/utils/formatDate";
 
 type PostCardProps = {
   post: PostResponse;
@@ -14,8 +15,8 @@ export default function PostCard({ post }: PostCardProps) {
   const toggleBetasOpen = () =>
     betasOpen ? setBetasOpen(false) : setBetasOpen(true);
   return (
-    <div className="flex justify-center">
-      <div className=" relative mb-5 w-80">
+    <div className="flex flex-col justify-center items-center gap-3">
+      <div className=" relative mb-5 w-60">
         <video className="w-full" width="320" height="100" controls>
           <source src={post.clip || undefined} type="video/mp4"></source>
         </video>
@@ -40,6 +41,7 @@ export default function PostCard({ post }: PostCardProps) {
           ></BetaSection>
         )}
       </div>
+      <p>{formatDate(post.uploadedAt)}</p>
     </div>
   );
 }

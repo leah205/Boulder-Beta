@@ -14,11 +14,10 @@ const POST_URL = "/api/v1/posts";
 describe("betas", () => {
   it("creates posts", async () => {
     const user1 = await createTestUser();
-    const climb1 = await createTestClimb(user1, 0);
-    const attempt1 = await createTestAttempt(climb1, 0);
+    const climb1 = await createTestClimb(user1);
+    const attempt1 = await createTestAttempt(climb1);
     const post = await attemptQueries.postVideo(attempt1.id);
-    console.log("hey");
-    console.log(post);
+
     const authRequest = new AuthRequest(app, user1.id, user1.username);
 
     await authRequest

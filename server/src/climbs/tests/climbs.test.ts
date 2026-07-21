@@ -77,8 +77,8 @@ describe("GET /climbs", () => {
   });
 
   it("throws error when accessing someone elses climb", async () => {
-    const user1 = await createTestUser(0);
-    const user2 = await createTestUser(1);
+    const user1 = await createTestUser();
+    const user2 = await createTestUser();
     let climb_id = 0;
     const authRequest1 = new AuthRequest(app, user1.id, user1.username);
     const authRequest2 = new AuthRequest(app, user2.id, user2.username);

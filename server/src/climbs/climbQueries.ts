@@ -71,13 +71,17 @@ const climbQueries = {
     });
 
     const res = attemptsData.map((attempt) => {
-      const { video, ...res_obj } = attempt;
+      const { video, uploadedAt, ...res_obj } = attempt;
       if (video) {
         const video_res = replaceIdWithClip(video, "video", "clip");
-        return { ...res_obj, video: video_res };
+        return {
+          ...res_obj,
+          video: video_res,
+          uploadedAt: uploadedAt.toJSON(),
+        };
       }
 
-      return { ...res_obj, video };
+      return { ...res_obj, video, uploadedAt: uploadedAt.toJSON() };
     });
 
     return res;

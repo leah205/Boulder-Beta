@@ -5,6 +5,7 @@ import { PostResponse } from "@shared/types";
 const postController = {
   getPublicFeed: async (req: Request, res: Response) => {
     const feed = (await postQueries.getAllPublished()) satisfies PostResponse[];
+    console.log(typeof feed[0].uploadedAt);
     res.json(feed);
   },
   getFollowingPosts: async (req: Request, res: Response) => {

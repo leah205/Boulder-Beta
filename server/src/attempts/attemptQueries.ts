@@ -52,10 +52,10 @@ const attemptQueries = {
     if (!res) {
       throw new AppError("Attempt not found", 404);
     }
-    const { video, ...res_obj } = res;
+    const { video, uploadedAt, ...res_obj } = res;
     if (video) {
       const video_res = replaceIdWithClip(video, "video", "clip");
-      return { ...res_obj, video: video_res };
+      return { ...res_obj, video: video_res, uploadedAt: uploadedAt.toJSON() };
     }
     return res_obj;
   },

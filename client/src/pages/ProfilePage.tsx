@@ -2,6 +2,7 @@ import useAuth from "@/features/authentication/useAuth";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import useFollowUser from "@/hooks/useFollowUser";
 import Spinner from "@/components/spinner/Spinner";
+import ErrorMessage from "@/components/error/ErrorMessage";
 
 type FollowingRowProps = {
   user: {
@@ -21,6 +22,7 @@ function FollowingRow({ user }: FollowingRowProps) {
   return (
     <div className="flex gap-3">
       {isPending && <Spinner></Spinner>}
+      {error && <ErrorMessage error={error}></ErrorMessage>}
       <p>{user.username}</p>
       <button
         className="bg-red-400 p-3 h-5 text-xs flex items-center rounded-sm text-white"
