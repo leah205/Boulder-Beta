@@ -24,13 +24,13 @@ export function useGetClimb(id: number) {
   return { climbLoading, climbError, climbData };
 }
 export function useGetAttempts(climb_id: number) {
-  console.log(climb_id);
+  console.log(["climb", climb_id, "attempts"]);
   const {
     isPending: attemptsLoading,
     error: attemptsError,
     data: attemptsData,
   } = useQuery({
-    queryKey: ["attempts", "climb", climb_id],
+    queryKey: ["climb", climb_id, "attempts"],
     queryFn: async () => climbApi.getAttempts(climb_id),
   });
 

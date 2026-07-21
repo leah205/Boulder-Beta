@@ -1,5 +1,36 @@
 import useAuth from "@/features/authentication/useAuth";
 import useCurrentUser from "@/hooks/useCurrentUser";
+import useFollowUser from "@/hooks/useFollowUser";
+import Spinner from "@/components/spinner/Spinner";
+
+type FollowingRowProps = {
+  user: {
+    id: number;
+    username: string;
+  };
+};
+
+function FollowingRow({ user }: FollowingRowProps) {
+  const { toggleFollowUser, isPending, error } = useFollowUser(user.id);
+
+  function clickUnfollow(e) {
+    e.preventDefault();
+    toggleFollowUser();
+  }
+
+  return (
+    <div className="flex gap-3">
+      {isPending && <Spinner></Spinner>}
+      <p>{user.username}</p>
+      <button
+        className="bg-red-400 p-3 h-5 text-xs flex items-center rounded-sm text-white"
+        onClick={clickUnfollow}
+      >
+        Unfollow
+      </button>
+    </div>
+  );
+}
 
 export default function ProfilePage() {
   const currentUser = useCurrentUser();
@@ -11,7 +42,7 @@ export default function ProfilePage() {
         <p>Following: </p>
         <ul>
           {currentUser.following.map((user) => {
-            return <p>{user.username}</p>;
+            return <FollowingRow user={user}></FollowingRow>;
           })}
         </ul>
         <p>Followers: </p>
