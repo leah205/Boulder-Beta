@@ -8,7 +8,7 @@
     "dev": "tsx watch src/app.ts",
     "lint": "eslint 'src/**/*.ts'",
     "populate_bad": "node --loader ts-node/esm src/db/populatedb.ts",
-    "populate": "npx tsx  src/db/populatedb.ts DB_SCRIPT=true",
+    "populate": "npx tsx  src/db/populatedb.ts",
     "test": "vitest --run --pool=forks"
   },
   "keywords": [],

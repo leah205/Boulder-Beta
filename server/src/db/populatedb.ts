@@ -9,11 +9,11 @@ import {
 async function seed_db() {
   const user1 = await createTestUser("leah", "tiktin");
   const climb1 = await createTestClimb(user1, {
-    picture: null,
+    picture: "./src/assets/images/climb1.jpeg",
     sent: false,
   });
   const climb2 = await createTestClimb(user1, {
-    picture: null,
+    picture: "./src/assets/images/climb2.jpeg",
     sent: true,
   });
   await createTestAttempt(climb1);
@@ -27,14 +27,14 @@ async function seed_db() {
     clip: "./src/assets/videos/send1.mp4",
   });
 
-  const post2 = await attemptQueries.postVideo(attempt3.id);
+  await attemptQueries.postVideo(attempt3.id);
 
   const user2 = await createTestUser();
 
   //fix
 
   const climb3 = await createTestClimb(user2, {
-    picture: null,
+    picture: "./src/assets/images/climb3.jpeg",
     sent: true,
   });
 

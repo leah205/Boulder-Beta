@@ -37,11 +37,7 @@ const uploadOnCloudinary = async (
   } catch (error) {
     console.error("Error uploading to Cloudinary:", error);
 
-    if (
-      fs.existsSync(file) &&
-      !config.db_script &&
-      file.includes("public/temp")
-    ) {
+    if (fs.existsSync(file) && file.includes("public/temp")) {
       console.log("unlink exists");
       fs.unlinkSync(file);
       console.log("Local file cleaned up after error:", file);
