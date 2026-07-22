@@ -20,7 +20,8 @@ import type { PostPayloadType } from "../server/src/posts/postQueries";
 
 export type AuthResponse = Pick<User, "id" | "username"> | undefined;
 export type LoginResponse = Pick<User, "id" | "username"> & { token: string };
-export type ClimbResponse = Omit<Climb, "public_id"> & {
+export type ClimbResponse = Omit<Climb, "public_id" | "uploadedAt"> & {
+  uploadedAt: string;
   picture?: string | null;
 };
 

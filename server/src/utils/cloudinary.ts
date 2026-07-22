@@ -29,7 +29,7 @@ const uploadOnCloudinary = async (
     });
 
     // Clean up local file after successful upload
-    if (fs.existsSync(file)) {
+    if (fs.existsSync(file) && file.includes("public/temp")) {
       fs.unlinkSync(file);
     }
 
@@ -37,7 +37,12 @@ const uploadOnCloudinary = async (
   } catch (error) {
     console.error("Error uploading to Cloudinary:", error);
 
-    if (fs.existsSync(file) && !config.db_script) {
+    if (
+      fs.existsSync(file) &&
+      !config.db_script &&
+      file.includes("public/temp")
+    ) {
+      console.log("unlink exists");
       fs.unlinkSync(file);
       console.log("Local file cleaned up after error:", file);
     } else {

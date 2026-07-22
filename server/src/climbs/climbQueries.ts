@@ -3,6 +3,14 @@ import { AppError } from "@/Errors";
 import { uploadOnCloudinary } from "@/utils/cloudinary";
 import replaceIdWithClip from "@/utils/replaceIdWithClip";
 
+// function formatClimbData(input: Climb) {
+//   const { public_id, ...res } = input;
+//   const media = public_id
+//     ? getCloudinarySignedUrl(public_id, resource_type)
+//     : null;
+//   return { ...res, [resource_name]: media };
+// }
+
 type CreateClimbInput = {
   grade?: string | null;
   picture?: string | undefined;
@@ -43,7 +51,7 @@ const climbQueries = {
     }
 
     const res = replaceIdWithClip(data, "image", "picture");
-    return res;
+    return { ...res, uploadedAt: res.uploadedAt.toJSON() };
   },
 
   getAttempts: async (climb_id: number) => {

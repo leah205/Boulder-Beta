@@ -7,10 +7,13 @@ import betaQueries from "@/betas/betaQueries";
 import userQueries from "@/users/userQueries";
 import { faker } from "@faker-js/faker";
 
-async function createTestUser() {
+async function createTestUser(
+  username: string | null = null,
+  password: string | null = null,
+) {
   return await authQueries.createUser(
-    faker.internet.username(),
-    faker.internet.password(),
+    username || faker.internet.username(),
+    password || faker.internet.password(),
   );
 }
 
@@ -44,9 +47,11 @@ async function createTestAttempt(
 ) {
   const attempt = {
     send: faker.helpers.arrayElement([true, false]),
-    clip: faker.string.alpha(10),
+    clip: undefined,
     ...properties,
   };
+  console.log(properties);
+  console.log(attempt);
 
   const res = await attemptQueries.createAttempt(climb.id, attempt);
   return res;
