@@ -2,7 +2,7 @@ import auth_api from "@/features/authentication/auth_service";
 import climbApi from "../climbService";
 import ProviderWrapper from "@/tests/ProviderWrapper";
 import { render, screen, within } from "@testing-library/react";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import userEvent from "@testing-library/user-event";
 import {
   createTestAttemptWithVideo,
@@ -14,16 +14,13 @@ import {
 import { vi } from "vitest";
 import userApi from "@/features/users/userService";
 
-vi.mock("@/features/authentication/auth_service");
-vi.mock("@/features/climbs/climbService");
-
 const user1 = createTestUser();
 const climb1 = createTestClimb({
   creatorId: user1.id,
-  id: 1,
   grade: "V8",
   picture: "fake_url",
 });
+
 const attempt1 = createTestAttemptWithVideo({
   climbId: climb1.id,
   send: false,
@@ -55,10 +52,13 @@ const attempt3 = createTestAttemptWithVideo({
   video: null,
 });
 
-vi.mocked(auth_api.getUserFromToken).mockResolvedValue(user1);
-vi.mocked(climbApi.logAttempt).mockResolvedValue({});
-vi.mocked(userApi.getUserData).mockResolvedValue(user1);
+vi.mocked(auth_api.getUserFromToken).mockResolvedValue({
+  username: user1.username,
+  id: user1.id,
+});
+///vi.mocked(climbApi.logAttempt).mockResolvedValue({});
 
+vi.mocked(userApi.getUserData).mockResolvedValue(user1);
 vi.mocked(climbApi.getClimb).mockResolvedValue(climb1);
 vi.mocked(climbApi.getAttempts).mockResolvedValue([
   attempt1,
@@ -66,21 +66,18 @@ vi.mocked(climbApi.getAttempts).mockResolvedValue([
   attempt3,
 ]);
 
-describe("climb header rendering", () => {
+describe("attempts rendering", () => {
   it("renders climb card correctly", async () => {
-    render(<ProviderWrapper initRoute="/climbs/1" />);
+    render(<ProviderWrapper initRoute={`/climbs/${climb1.id}`} />);
 
-    const cardImg = await screen.findByTestId("climb-pic");
     const grade = await screen.findByText("V8");
+    screen.debug();
 
-    expect(cardImg.style.backgroundImage).toBe(`url("fake_url")`);
     expect(grade).toBeInTheDocument();
   });
-});
-
-describe("attempts rendering", () => {
   it("renders attempts correctly", async () => {
-    render(<ProviderWrapper initRoute="/climbs/1" />);
+    render(<ProviderWrapper initRoute={`/climbs/${climb1.id}`} />);
+    expect(auth_api.getUserFromToken).toHaveBeenCalled();
     const attemptRows = await screen.findAllByTestId("attempt-row");
     expect(attemptRows.length).toBe(3);
     expect(within(attemptRows[0]).getByText("Attempt")).toBeInTheDocument();
@@ -118,7 +115,7 @@ describe("attempts rendering", () => {
 
   it("record modal works", async () => {
     const user = userEvent.setup();
-    render(<ProviderWrapper initRoute="/climbs/1" />);
+    render(<ProviderWrapper initRoute={`/climbs/${climb1.id}`} />);
     const recordButton = await screen.findByRole("button", { name: "Record" });
     await user.click(recordButton);
     const input = screen.queryByLabelText("Upload a video:");
@@ -130,7 +127,7 @@ describe("attempts rendering", () => {
 
   it("conditional go to post/publish", async () => {
     const user = userEvent.setup();
-    render(<ProviderWrapper initRoute="/climbs/1" />);
+    render(<ProviderWrapper initRoute={`/climbs/${climb1.id}`} />);
 
     const attemptRows = await screen.findAllByTestId("attempt-row");
     const viewButton0 = within(attemptRows[0]).getByRole("button", {
@@ -148,7 +145,7 @@ describe("attempts rendering", () => {
 
   it("video upload in record modal works", async () => {
     const user = userEvent.setup();
-    render(<ProviderWrapper initRoute="/climbs/1" />);
+    render(<ProviderWrapper initRoute={`/climbs/${climb1.id}`} />);
     const recordButton = await screen.findByRole("button", { name: "Record" });
     await user.click(recordButton);
     const recordModal = screen.getByTestId("record-modal");

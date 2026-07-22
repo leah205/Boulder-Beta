@@ -13,6 +13,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       let userData = null;
       try {
         userData = await authService.getUserFromToken();
+        console.log("in hook");
+        console.log(userData);
       } catch (err) {
       } finally {
         setLoading(false);
@@ -60,6 +62,9 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     loading,
     isAuthenticated: !!user,
   };
+
+  console.log("in auth provider");
+  console.log(user);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

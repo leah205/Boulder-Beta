@@ -1,3 +1,5 @@
+import { faker } from "@faker-js/faker";
+
 import type {
   AttemptWithVideoResponse,
   AuthResponse,
@@ -7,19 +9,14 @@ import type {
   UserResponse,
   VideoResponse,
 } from "@shared/types";
-import { create } from "domain";
 
 let id = 0;
 
-function createId() {
-  return id++;
-}
-
 export function createTestUser(overrides: Partial<UserResponse> = {}) {
-  const user_id = createId();
+  const user_id = faker.number.int();
   return {
     id: user_id,
-    username: "user" + user_id,
+    username: faker.internet.username(),
     grade: null,
     profilePicture: null,
     private: false,
@@ -31,12 +28,12 @@ export function createTestUser(overrides: Partial<UserResponse> = {}) {
 
 export function createTestClimb(climb_input: Partial<ClimbResponse>) {
   return {
-    id: createId(),
+    id: faker.number.int(),
     grade: null,
-    uploadedAt: new Date(),
+    uploadedAt: faker.date.past().toJSON(),
     sent: false,
-    creatorId: createId(),
-    color: "black",
+    creatorId: faker.number.int(),
+    color: faker.helpers.arrayElement(["red", "green", "blue", "purple"]),
     picture: null,
     public: false,
     rating: null,
@@ -46,7 +43,7 @@ export function createTestClimb(climb_input: Partial<ClimbResponse>) {
 
 export function createTestVideo(overrides: Partial<VideoResponse> = {}) {
   return {
-    attemptId: createId(),
+    attemptId: faker.number.int(),
     clip: "fake_clip",
     post: null,
     ...overrides,
@@ -54,15 +51,15 @@ export function createTestVideo(overrides: Partial<VideoResponse> = {}) {
 }
 
 export function createTestBeta(overrides = {}) {
-  const beta_id = createId();
+  const beta_id = faker.number.int();
   return {
     author: {
-      id: createId(),
-      username: "fake user " + createId(),
+      id: faker.number.int(),
+      username: "fake user " + faker.number.int(),
     },
     id: beta_id,
-    postId: createId(),
-    userId: createId(),
+    postId: faker.number.int(),
+    userId: faker.number.int(),
     uploadedAt: new Date(),
     starred: false,
     content: "beta " + beta_id,
@@ -72,14 +69,15 @@ export function createTestBeta(overrides = {}) {
 
 export function createTestPost(overrides: Partial<PostResponse> = {}) {
   return {
-    attemptId: createId(),
+    attemptId: faker.number.int(),
     description: null,
-    id: createId(),
+    id: faker.number.int(),
+    uploadedAt: faker.date.past().toJSON(),
     betas: [],
-    climb_id: createId(),
+    climb_id: faker.number.int(),
     author: {
-      username: "fake user" + createId(),
-      id: createId(),
+      username: "fake user" + faker.number.int(),
+      id: faker.number.int(),
     },
     ...overrides,
   } satisfies PostResponse;
@@ -89,9 +87,9 @@ export function createTestAttemptWithVideo(
   attempt_input: Partial<AttemptWithVideoResponse>,
 ) {
   return {
-    id: createId(),
-    climbId: createId(),
-    uploadedAt: new Date(),
+    id: faker.number.int(),
+    climbId: faker.number.int(),
+    uploadedAt: faker.date.past().toJSON(),
     fallReason: null,
     notes: null,
     send: false,

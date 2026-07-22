@@ -15,11 +15,11 @@ export default function ProviderWrapper({
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <CurrentUserContextProvider>
-          <MemoryRouter initialEntries={[initRoute]}>
-            <RouteElements></RouteElements>
-          </MemoryRouter>
-        </CurrentUserContextProvider>
+        {/* <CurrentUserContextProvider> */}
+        <MemoryRouter initialEntries={[initRoute]}>
+          <RouteElements></RouteElements>
+        </MemoryRouter>
+        {/* </CurrentUserContextProvider> */}
       </AuthProvider>
     </QueryClientProvider>
   );

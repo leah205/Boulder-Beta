@@ -52,14 +52,22 @@ export default function RecordModal({
           accept="video/*"
           onChange={(e) => {
             if (e.target.files) {
+              console.log();
+              console.log(e.target.files[0].type);
               setClip(e.target.files[0]);
             } else setClip(null);
           }}
         />
         {clip && (
           <>
-            <video className="h-100" width="320" height="100" controls>
-              <source src={URL.createObjectURL(clip)} type="video/mp4"></source>
+            <video
+              className="h-100"
+              width="320"
+              height="100"
+              controls
+              src={URL.createObjectURL(clip)}
+            >
+              {/* <source src={URL.createObjectURL(clip)} type="video/mp4"></source> */}
             </video>
             <div className="flex gap-2 mt-10">
               <Button

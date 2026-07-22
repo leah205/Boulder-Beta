@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import ClimbAttemptsCard from "@/features/climbs/components/ClimbAttemptsCard";
+import ClimbAttemptsCard from "@/features/climbs/components/attempts/ClimbAttemptsCard";
 import ClimbCard from "@/features/climbs/components/ClimbCard";
 import { ServerError } from "@/utils/Error";
 import ErrorMessage from "@/components/error/ErrorMessage";

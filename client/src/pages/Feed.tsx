@@ -1,12 +1,10 @@
 import ErrorMessage from "@/components/error/ErrorMessage";
 import ContentSpinner from "@/components/spinner/ContentSpinner";
-
+import PostsListLayout from "@/features/posts/components/PostsListLayout";
 import type React from "node_modules/@types/react/index";
-import FeedPostList from "@/features/posts/components/FeedPostList";
 import PostCard from "@/features/posts/components/PostCard";
 import FeedPostHeader from "@/features/posts/components/FeedPostHeader";
 import { useGetAllPosts } from "@/features/posts/queries";
-import Button from "@/components/Button";
 
 type FeedTypeButtonsProps = {
   setFeedType: React.Dispatch<React.SetStateAction<"following" | "all">>;
@@ -78,7 +76,7 @@ export default function Feed() {
         feedType={feedType}
         setFeedType={setFeedType}
       ></FeedTypeButtons>
-      <FeedPostList>
+      <PostsListLayout>
         {data.map((post) => {
           return (
             <div key={post.id} className="w-70 text-center ">
@@ -87,10 +85,7 @@ export default function Feed() {
             </div>
           );
         })}
-      </FeedPostList>
+      </PostsListLayout>
     </FeedLayout>
   );
-
-  return;
-  return <p>feed</p>;
 }

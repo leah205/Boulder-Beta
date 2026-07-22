@@ -41,6 +41,7 @@ export default function CurrentUserContextProvider({
   if (isPending && isAuthenticated) {
     return <Spinner></Spinner>;
   }
+  console.log(currentUser);
 
   return (
     <CurrentUserContext.Provider value={{ currentUser }}>

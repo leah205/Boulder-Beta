@@ -1,7 +1,7 @@
 import Spinner from "@/components/spinner/Spinner";
 import ErrorMessage from "@/components/error/ErrorMessage";
-import FeedPostList from "@/features/posts/components/FeedPostList";
-import MyPostCard from "@/features/posts/components/MyPostCard";
+import PostsListLayout from "@/features/posts/components/PostsListLayout";
+import MyPostWrapper from "@/features/posts/components/MyPostWrapper";
 import { useGetUserPosts } from "@/features/posts/queries";
 import useCurrentUser from "@/hooks/useCurrentUser";
 
@@ -26,11 +26,13 @@ export default function MyPostsPage() {
 
   return (
     <>
-      <FeedPostList>
+      <PostsListLayout>
         {data.map((post) => {
-          return <MyPostCard navigateOut={false} post={post}></MyPostCard>;
+          return (
+            <MyPostWrapper navigateOut={false} post={post}></MyPostWrapper>
+          );
         })}
-      </FeedPostList>
+      </PostsListLayout>
     </>
   );
 }
