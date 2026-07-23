@@ -1,10 +1,35 @@
 import attemptQueries from "@/attempts/attemptQueries";
+import { v2 as cloudinary } from "cloudinary";
+import prisma from "./prisma_client";
 import {
   createTestUser,
   createTestClimb,
   createTestAttempt,
   createTestBeta,
 } from "@/tests/factories";
+
+async function reset_db() {
+  // await prisma.$queryRaw`DROP schema public CASCADE`;
+  await prisma.$transaction([
+    prisma.beta.deleteMany(),
+    prisma.post.deleteMany(),
+    prisma.video.deleteMany(),
+    prisma.attempt.deleteMany(),
+    prisma.climb.deleteMany(),
+    prisma.user.deleteMany(),
+  ]);
+}
+
+async function reset_cloudinary() {
+  await cloudinary.api.delete_resources_by_prefix("boulder_beta/", {
+    type: "authenticated",
+    resource_type: "image",
+  });
+  await cloudinary.api.delete_resources_by_prefix("boulder_beta/", {
+    type: "authenticated",
+    resource_type: "video",
+  });
+}
 
 async function seed_db() {
   const user1 = await createTestUser("leah", "tiktin");
@@ -57,6 +82,8 @@ async function seed_db() {
 }
 
 async function main() {
+  await reset_db();
+  await reset_cloudinary();
   await seed_db();
 }
 
