@@ -1,24 +1,127 @@
 import prisma from "@/db/prisma_client";
 import { AppError } from "@/Errors";
 import { getCloudinarySignedUrl } from "@/utils/cloudinary";
+import type { Prisma } from "generated/prisma/client";
+
+const mostRecent = {
+  video: {
+    attempt: {
+      climb: {
+        uploadedAt: "desc",
+      },
+    },
+  },
+} satisfies Prisma.PostOrderByWithRelationInput;
+const Payload = {
+  include: {
+    betas: {
+      include: {
+        author: {
+          select: {
+            username: true,
+            id: true,
+          },
+        },
+      },
+    },
+
+    video: {
+      select: {
+        public_id: true,
+        attempt: {
+          include: {
+            climb: {
+              select: {
+                id: true,
+                uploadedAt: true,
+                creator: {
+                  select: {
+                    id: true,
+                    username: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+} satisfies Prisma.PostDefaultArgs;
+
+export type PostPayloadType = Prisma.PostGetPayload<typeof Payload>;
+
+function formatData(data: PostPayloadType) {
+  const { video, ...post } = data;
+
+  if (!video) {
+    throw new AppError("video not found", 404);
+  }
+
+  const clip = getCloudinarySignedUrl(video.public_id, "video");
+
+  const author = video.attempt.climb.creator;
+  const climb_id = video.attempt.climb.id;
+  const uploadedAt = video.attempt.climb.uploadedAt.toJSON();
+  const res = {
+    ...post,
+    clip,
+    author: {
+      id: author.id,
+      username: author.username,
+    },
+    uploadedAt,
+    climb_id,
+  };
+  return res;
+}
 
 const postQueries = {
   getAllPublished: async () => {
     const published_posts = await prisma.post.findMany({
-      include: {
-        video: {
-          select: { public_id: true },
-        },
-      },
+      ...Payload,
+      orderBy: mostRecent,
     });
 
     const res = published_posts.map((post) => {
-      const { video, ...res_obj } = post;
-      let clip = null;
-      if (video) {
-        clip = getCloudinarySignedUrl(video.public_id, "video");
-      }
-      return { ...res_obj, clip };
+      return formatData(post);
+    });
+    return res;
+  },
+  getFollowingPosts: async (user_id: number) => {
+    const followList = await prisma.user.findUnique({
+      where: {
+        id: user_id,
+      },
+      select: {
+        following: true,
+      },
+    });
+
+    if (!followList) {
+      throw new AppError("User not found", 404);
+    }
+
+    const followIds = followList?.following.map((user) => user.id);
+
+    const following_posts = await prisma.post.findMany({
+      ...Payload,
+      where: {
+        video: {
+          attempt: {
+            climb: {
+              creatorId: {
+                in: followIds,
+              },
+            },
+          },
+        },
+      },
+      orderBy: mostRecent,
+    });
+
+    const res = following_posts.map((post) => {
+      return formatData(post);
     });
     return res;
   },
@@ -28,24 +131,13 @@ const postQueries = {
       where: {
         id: post_id,
       },
-      include: {
-        video: {
-          select: { public_id: true },
-        },
-      },
+      ...Payload,
     });
     if (!post) {
       throw new AppError("Post not found", 404);
     }
-    if (post.video) {
-      const { video, ...res_obj } = post;
-      let clip = null;
-      if (video) {
-        clip = getCloudinarySignedUrl(video.public_id, "video");
-      }
-      return { ...res_obj, clip };
-    }
-    return post;
+
+    return formatData(post);
   },
 
   deletePost: async (id: number) => {
@@ -53,8 +145,43 @@ const postQueries = {
       where: {
         id: id,
       },
+      ...Payload,
     });
-    return post;
+
+    if (!post) {
+      throw new AppError("Post not found", 404);
+    }
+    return formatData(post);
+  },
+
+  getPosts: async (user_id: number) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: user_id,
+      },
+    });
+
+    if (!user) {
+      throw new AppError("User not found", 404);
+    }
+
+    const posts = await prisma.post.findMany({
+      where: {
+        video: {
+          attempt: {
+            climb: {
+              creatorId: user_id,
+            },
+          },
+        },
+      },
+      ...Payload,
+    });
+
+    const data_obj = posts.map((post) => {
+      return formatData(post);
+    });
+    return data_obj;
   },
 };
 

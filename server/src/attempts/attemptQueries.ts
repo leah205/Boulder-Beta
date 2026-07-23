@@ -12,6 +12,7 @@ import replaceIdWithClip from "@/utils/replaceIdWithClip";
 const attemptQueries = {
   createAttempt: async (climb_id: number, attemptInput: AttemptInput) => {
     const { clip, ...input_data } = attemptInput;
+    console.log(clip);
     const public_id = clip ? await uploadOnCloudinary(clip, "video") : null;
     const video_data = public_id
       ? {
@@ -52,10 +53,10 @@ const attemptQueries = {
     if (!res) {
       throw new AppError("Attempt not found", 404);
     }
-    const { video, ...res_obj } = res;
+    const { video, uploadedAt, ...res_obj } = res;
     if (video) {
       const video_res = replaceIdWithClip(video, "video", "clip");
-      return { ...res_obj, video: video_res };
+      return { ...res_obj, video: video_res, uploadedAt: uploadedAt.toJSON() };
     }
     return res_obj;
   },
@@ -69,11 +70,14 @@ const attemptQueries = {
         post: {},
       },
     });
+
+    if (!res) {
+      throw new AppError("Video not found", 404);
+    }
     return res;
   },
 
   getAttemptWithUser: async (attempt_id: number) => {
-    console.log(attempt_id);
     const res = await prisma.attempt.findUnique({
       where: {
         id: attempt_id,
@@ -86,10 +90,22 @@ const attemptQueries = {
         },
       },
     });
+    if (!res) {
+      throw new AppError("attempt does not exist", 404);
+    }
     return res;
   },
 
   postVideo: async (attempt_id: number) => {
+    const attempt = await prisma.attempt.findUnique({
+      where: {
+        id: attempt_id,
+      },
+    });
+
+    if (!attempt) {
+      throw new AppError("attempt not found", 404);
+    }
     const video = await prisma.video.update({
       data: {
         post: {
@@ -103,6 +119,10 @@ const attemptQueries = {
         post: {},
       },
     });
+
+    if (!video.post) {
+      throw new Error("something went wrong...");
+    }
 
     return video.post;
 

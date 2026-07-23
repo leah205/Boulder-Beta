@@ -13,5 +13,5 @@ export default function replaceIdWithClip<
     ? getCloudinarySignedUrl(public_id, resource_type)
     : null;
   return { ...res, [resource_name]: media } as Omit<Type, "public_id"> &
-    Record<K, string | null>;
+    Record<K, string | null> & { clip: string };
 }

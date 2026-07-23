@@ -14,6 +14,7 @@ import auth_router from "@/auth/auth_routes";
 import postRouter from "@/posts/postRoutes";
 import { ErrorResponse } from "@shared/types";
 import { z } from "zod";
+import beta_router from "@/betas/betaRoutes";
 
 // figure out express user type
 
@@ -48,6 +49,7 @@ export default function initialize_app() {
   app.use("/api/v1/users", userRouter);
   app.use("/api/v1/attempts", attemptRouter);
   app.use("/api/v1/posts", postRouter);
+  app.use("/api/v1/posts", beta_router);
 
   app.use(
     (
@@ -57,7 +59,7 @@ export default function initialize_app() {
         ErrorResponse,
         Record<string, unknown>
       >,
-      res: Response<ErrorResponse>,
+      res: Response,
       next: NextFunction,
     ) => {
       if (err instanceof z.ZodError) {
@@ -68,7 +70,7 @@ export default function initialize_app() {
       }
       console.error(err);
       const status = err instanceof AppError && err.status ? err.status : 500;
-      res.status(status).json(err.message);
+      res.status(status).json({ message: err.message });
       next();
     },
   );

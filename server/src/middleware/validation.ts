@@ -54,6 +54,12 @@ const validation = {
     //   .isInt({ min: 1, max: 5 })
     //   .withMessage("rating must be between 1 and 5"),
   ],
+  createBeta: [
+    body("content")
+      .trim()
+      .notEmpty()
+      .withMessage("Please provide comment content"),
+  ],
 };
 
 export default validation;

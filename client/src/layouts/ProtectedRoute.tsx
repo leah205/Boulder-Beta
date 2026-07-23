@@ -3,6 +3,7 @@ import useAuth from "@/features/authentication/useAuth";
 import Spinner from "@/components/spinner/Spinner";
 export default function ProtectedRoute() {
   const { isAuthenticated, loading } = useAuth();
+
   console.log(isAuthenticated);
   if (loading) {
     return <Spinner></Spinner>;

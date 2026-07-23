@@ -1,37 +1,63 @@
-import { Client } from "pg";
-import config from "../config";
-console.log(config.db_url);
-const SQL = `
-INSERT INTO posts (title, content, published, "authorId")
-VALUES 
-('taco', 'cat', true, 12);
+import attemptQueries from "@/attempts/attemptQueries";
+import {
+  createTestUser,
+  createTestClimb,
+  createTestAttempt,
+  createTestBeta,
+} from "@/tests/factories";
 
-
-INSERT INTO comments (content, "authorId", "postId")
-VALUES
-  ('cool taco', 12,
-(SELECT id FROM posts WHERE title = 'taco')),
-  ('ugly taco', 13, (SELECT id FROM posts WHERE title = 'taco'))
-  
-
-`;
-// INSERT INTO posts (title, content, "authorId", published)
-// VALUES
-//   ('title 1', 'content 1', 1, FALSE),
-//   ('title 2', 'content 2', 1, TRUE);
-
-async function main() {
-  console.log("seeding...");
-  const client = new Client({
-    connectionString: config.db_url,
+async function seed_db() {
+  const user1 = await createTestUser("leah", "tiktin");
+  const climb1 = await createTestClimb(user1, {
+    picture: "./src/assets/images/climb1.jpeg",
+    sent: false,
+  });
+  const climb2 = await createTestClimb(user1, {
+    picture: "./src/assets/images/climb2.jpeg",
+    sent: true,
+  });
+  await createTestAttempt(climb1);
+  const attempt2 = await createTestAttempt(climb1, {
+    clip: "./src/assets/videos/attempt2.mp4",
   });
 
-  await client.connect();
-  const check = await client.query("SELECT * FROM users WHERE id = 2");
-  console.log(check["rows"]);
-  await client.query(SQL);
-  await client.end();
-  console.log("done");
+  const post1 = await attemptQueries.postVideo(attempt2.id);
+
+  const attempt3 = await createTestAttempt(climb2, {
+    clip: "./src/assets/videos/send1.mp4",
+  });
+
+  await attemptQueries.postVideo(attempt3.id);
+
+  const user2 = await createTestUser();
+
+  //fix
+
+  const climb3 = await createTestClimb(user2, {
+    picture: "./src/assets/images/climb3.jpeg",
+    sent: true,
+  });
+
+  const attempt4 = await createTestAttempt(climb3, {
+    clip: "./src/assets/videos/attempt2.mp4",
+  });
+
+  const attempt5 = await createTestAttempt(climb3, {
+    send: true,
+    clip: "./src/assets/videos/send2.mp4",
+  });
+
+  const post3 = await attemptQueries.postVideo(attempt4.id);
+  const post4 = await attemptQueries.postVideo(attempt5.id);
+
+  await createTestBeta(post1, user1);
+  await createTestBeta(post1, user2);
+  await createTestBeta(post3, user1);
+  await createTestBeta(post4, user1);
+}
+
+async function main() {
+  await seed_db();
 }
 
 main();

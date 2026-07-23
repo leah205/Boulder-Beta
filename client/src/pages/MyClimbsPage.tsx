@@ -1,10 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import userApi from "@/features/users/userService";
 import Spinner from "@/components/spinner/Spinner";
 import type { ClimbResponse } from "@shared/types";
 import { Link } from "react-router-dom";
 import ClimbPic from "@/features/climbs/components/ClimbPic";
 import ErrorMessage from "@/components/error/ErrorMessage";
+import { useGetClimbs } from "@/features/climbs/queries";
 
 type climbCardProps = {
   climb: ClimbResponse;
@@ -37,10 +36,7 @@ function ClimbCard(props: climbCardProps) {
 }
 
 export default function MyClimbPage() {
-  const { isPending, error, data } = useQuery({
-    queryKey: ["myclimbs"],
-    queryFn: async () => userApi.getMyClimbs(),
-  });
+  const { isPending, error, data } = useGetClimbs();
 
   if (isPending) {
     return <Spinner></Spinner>;

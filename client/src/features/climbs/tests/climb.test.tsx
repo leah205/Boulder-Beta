@@ -9,20 +9,23 @@ import auth_api from "@/features/authentication/auth_service";
 import user_api from "@/features/users/userService";
 import { vi } from "vitest";
 import { createTestUser, createTestClimb } from "@/tests/factories";
+import userApi from "@/features/users/userService";
 
 vi.mock("@/features/authentication/auth_service");
 vi.mock("@/features/climbs/climbService");
 vi.mock("@/features/users/userService");
 
 const user1 = createTestUser(1, "leah");
-const climb1 = createTestClimb(user1.id, {
+const climb1 = createTestClimb({
+  creatorId: user1.id,
   id: 1,
   grade: "V3",
   sent: false,
   color: "blue",
   picture: undefined,
 });
-const climb2 = createTestClimb(user1.id, {
+const climb2 = createTestClimb({
+  creatorId: user1.id,
   id: 2,
   grade: null,
   color: "pink",
@@ -33,6 +36,7 @@ const climb2 = createTestClimb(user1.id, {
 vi.mocked(auth_api.getUserFromToken).mockResolvedValue(user1);
 
 vi.mocked(user_api.getMyClimbs).mockResolvedValue([climb1, climb2]);
+vi.mocked(userApi.getUserData).mockResolvedValue(user1);
 
 describe("log climb", () => {
   it("renders form component on log form page", async () => {

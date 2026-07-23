@@ -7,7 +7,8 @@
     "start": "nodemon --exec \"node --loader ts-node/esm\" src/app.ts",
     "dev": "tsx watch src/app.ts",
     "lint": "eslint 'src/**/*.ts'",
-    "populate": "node --loader ts-node/esm src/db/populatedb.ts",
+    "populate_bad": "node --loader ts-node/esm src/db/populatedb.ts",
+    "populate": "npx tsx  src/db/populatedb.ts",
     "test": "vitest --run --pool=forks"
   },
   "keywords": [],
@@ -49,6 +50,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@faker-js/faker": "^10.5.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jest": "^30.0.0",
@@ -56,6 +58,7 @@
     "@types/pg": "^8.20.0",
     "@types/sinon": "^22.0.0",
     "@types/supertest": "^7.2.0",
+    "cross-env": "^10.1.0",
     "jest": "^30.4.2",
     "prisma": "^7.8.0",
     "supertest": "^7.2.2",

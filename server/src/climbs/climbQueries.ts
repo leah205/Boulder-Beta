@@ -3,6 +3,14 @@ import { AppError } from "@/Errors";
 import { uploadOnCloudinary } from "@/utils/cloudinary";
 import replaceIdWithClip from "@/utils/replaceIdWithClip";
 
+// function formatClimbData(input: Climb) {
+//   const { public_id, ...res } = input;
+//   const media = public_id
+//     ? getCloudinarySignedUrl(public_id, resource_type)
+//     : null;
+//   return { ...res, [resource_name]: media };
+// }
+
 type CreateClimbInput = {
   grade?: string | null;
   picture?: string | undefined;
@@ -43,10 +51,20 @@ const climbQueries = {
     }
 
     const res = replaceIdWithClip(data, "image", "picture");
-    return res;
+    return { ...res, uploadedAt: res.uploadedAt.toJSON() };
   },
 
   getAttempts: async (climb_id: number) => {
+    const climb = await prisma.climb.findUnique({
+      where: {
+        id: climb_id,
+      },
+    });
+
+    if (!climb) {
+      throw new AppError("climb not found", 404);
+    }
+
     const attemptsData = await prisma.attempt.findMany({
       where: {
         climbId: climb_id,
@@ -61,19 +79,32 @@ const climbQueries = {
     });
 
     const res = attemptsData.map((attempt) => {
-      const { video, ...res_obj } = attempt;
+      const { video, uploadedAt, ...res_obj } = attempt;
       if (video) {
         const video_res = replaceIdWithClip(video, "video", "clip");
-        return { ...res_obj, video: video_res };
+        return {
+          ...res_obj,
+          video: video_res,
+          uploadedAt: uploadedAt.toJSON(),
+        };
       }
 
-      return { ...res_obj, video };
+      return { ...res_obj, video, uploadedAt: uploadedAt.toJSON() };
     });
 
     return res;
   },
 
   patchClimb: async (climb: Partial<CreateClimbInput>, climb_id: number) => {
+    const climbData = await prisma.climb.findUnique({
+      where: {
+        id: climb_id,
+      },
+    });
+
+    if (!climbData) {
+      throw new AppError("climb not found", 404);
+    }
     const data = {
       ...climb,
     };

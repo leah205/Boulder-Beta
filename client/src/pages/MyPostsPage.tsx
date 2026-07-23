@@ -1,20 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
-import userApi from "@/features/users/userService";
 import Spinner from "@/components/spinner/Spinner";
 import ErrorMessage from "@/components/error/ErrorMessage";
-
-import FeedPostList from "@/features/posts/components/FeedPostList";
-import MyPostCard from "@/features/posts/components/MyPostCard";
+import PostsListLayout from "@/features/posts/components/PostsListLayout";
+import MyPostWrapper from "@/features/posts/components/MyPostWrapper";
+import { useGetUserPosts } from "@/features/posts/queries";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 export default function MyPostsPage() {
+  const currentUser = useCurrentUser();
   const {
     isPending: isPendingPosts,
     error: errorPosts,
     data,
-  } = useQuery({
-    queryKey: ["posts", "me"],
-    queryFn: async () => userApi.getMyPosts(),
-  });
+  } = useGetUserPosts(currentUser.id);
 
   if (isPendingPosts) {
     return <Spinner></Spinner>;
@@ -23,17 +20,19 @@ export default function MyPostsPage() {
     return <ErrorMessage error={errorPosts}></ErrorMessage>;
   }
 
-  if (!data.length) {
+  if (!data || !data.length) {
     return <p className="text-center p-5">No posts found!</p>;
   }
 
   return (
     <>
-      <FeedPostList>
+      <PostsListLayout>
         {data.map((post) => {
-          return <MyPostCard post={post}></MyPostCard>;
+          return (
+            <MyPostWrapper navigateOut={false} post={post}></MyPostWrapper>
+          );
         })}
-      </FeedPostList>
+      </PostsListLayout>
     </>
   );
 }

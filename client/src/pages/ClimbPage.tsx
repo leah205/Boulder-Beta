@@ -1,11 +1,10 @@
-import climbApi from "@/features/climbs/climbService";
-import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import ClimbAttemptsCard from "@/features/climbs/components/ClimbAttemptsCard";
+import ClimbAttemptsCard from "@/features/climbs/components/attempts/ClimbAttemptsCard";
 import ClimbCard from "@/features/climbs/components/ClimbCard";
 import { ServerError } from "@/utils/Error";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import ContentSpinner from "@/components/spinner/ContentSpinner";
+import { useGetAttempts, useGetClimb } from "@/features/climbs/queries";
 
 function ClimbPageLayout({ children }: { children: React.ReactNode }) {
   return <div className="px-2 py-6">{children}</div>;
@@ -13,23 +12,12 @@ function ClimbPageLayout({ children }: { children: React.ReactNode }) {
 
 export default function ClimbPage() {
   const { id: climbId } = useParams();
-  const {
-    isPending: climbLoading,
-    error: climbError,
-    data: climbData,
-  } = useQuery({
-    queryKey: ["climb", climbId],
-    queryFn: async () => climbApi.getClimb(Number(climbId)),
-  });
 
-  const {
-    isPending: attemptsLoading,
-    error: attemptsError,
-    data: attemptsData,
-  } = useQuery({
-    queryKey: ["climb", "attempts", climbId],
-    queryFn: async () => climbApi.getAttempts(Number(climbId)),
-  });
+  const { climbLoading, climbError, climbData } = useGetClimb(Number(climbId));
+  const { attemptsLoading, attemptsError, attemptsData } = useGetAttempts(
+    Number(climbId),
+  );
+
   if (climbLoading) {
     return (
       <ClimbPageLayout>
