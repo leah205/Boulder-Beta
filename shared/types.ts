@@ -84,6 +84,12 @@ export type PostResponse = Omit<Post, "uploadedAt"> & {
   betas: BetaResponse[];
 };
 
+export type FeedResponse = {
+  data: PostResponse[];
+  nextCursor: string | null;
+  // prevCursor: string | null;
+};
+
 //zod schemas
 
 export type { PostPayloadType } from "../server/src/posts/postQueries";
@@ -103,6 +109,7 @@ export const CreateClimbSchema = z.object({
   grade: z.string().nullable(),
   color: z.string(),
   picture: z.nullish(z.file()),
+  // uploadedAt: z.nullish(z.date()),
 });
 
 export const CreateAttemptSchema = z.object({

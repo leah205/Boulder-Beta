@@ -5,6 +5,8 @@ import type React from "node_modules/@types/react/index";
 import PostCard from "@/features/posts/components/PostCard";
 import FeedPostHeader from "@/features/posts/components/FeedPostHeader";
 import { useGetAllPosts } from "@/features/posts/queries";
+import { useEffect, Fragment, useState, useRef } from "react";
+import useInfiniteScroll from "@/features/posts/hooks/useInfiniteScroll";
 
 type FeedTypeButtonsProps = {
   setFeedType: React.Dispatch<React.SetStateAction<"following" | "all">>;
@@ -15,6 +17,7 @@ function FeedTypeButtons({ setFeedType, feedType }: FeedTypeButtonsProps) {
   const feedTypeClass = "p-3 rounded-sm text-black";
   const currentFeedClass = `bg-mist-300 ${feedTypeClass}`;
   const otherFeedClass = `bg-mist-100 ${feedTypeClass}`;
+
   return (
     <div className="flex w-60 justify-between m-auto p-8">
       <button
@@ -40,15 +43,30 @@ function FeedLayout({ children }: { children: React.ReactNode }) {
 }
 
 export default function Feed() {
-  const { isPending, error, data, feedType, setFeedType } = useGetAllPosts();
+  const [feedType, setFeedType] = useState<"following" | "all">("all");
 
-  if (isPending) {
-    return (
-      <FeedLayout>
-        <ContentSpinner />
-      </FeedLayout>
-    );
-  }
+  const nextRef = useRef<HTMLDivElement | null>(null);
+  const prevRef = useRef<HTMLDivElement | null>(null);
+
+  // const { isPending, error, data } = useGetAllPosts(getNext, getPrev, feedType);
+  const { isFetchingNextPage, hasNextPage, fetchNextPage, data, error } =
+    useGetAllPosts(feedType);
+  console.log(isFetchingNextPage);
+  const {} = useInfiniteScroll(
+    prevRef,
+    nextRef,
+    fetchNextPage,
+    data,
+    isFetchingNextPage,
+  );
+
+  // if (isFetchingNextPage) {
+  //   return (
+  //     <FeedLayout>
+  //       <ContentSpinner />
+  //     </FeedLayout>
+  //   );
+  // }
 
   if (error) {
     return (
@@ -58,7 +76,11 @@ export default function Feed() {
     );
   }
 
-  if (!data || !data.length) {
+  const postPages = data?.pages;
+  console.log("first page!!!");
+  console.log(data);
+
+  if (!postPages || !postPages.length) {
     return (
       <FeedLayout>
         <FeedTypeButtons
@@ -76,16 +98,25 @@ export default function Feed() {
         feedType={feedType}
         setFeedType={setFeedType}
       ></FeedTypeButtons>
-      <PostsListLayout>
-        {data.map((post) => {
+      <div ref={prevRef} id="load-prev"></div>
+      <div className="flex flex-col justify-center gap-10 w-full items-center">
+        {postPages.map((page) => {
           return (
-            <div key={post.id} className="w-70 text-center ">
-              <FeedPostHeader author={post.author}></FeedPostHeader>
-              <PostCard key={post.attemptId} post={post}></PostCard>
-            </div>
+            <Fragment key={page.nextCursor}>
+              {page.data.map((post) => {
+                return (
+                  <div key={post.id} className="w-70 text-center ">
+                    <FeedPostHeader author={post.author}></FeedPostHeader>
+                    <PostCard key={post.attemptId} post={post}></PostCard>
+                  </div>
+                );
+              })}
+            </Fragment>
           );
         })}
-      </PostsListLayout>
+
+        <div ref={nextRef} id="load-more"></div>
+      </div>
     </FeedLayout>
   );
 }

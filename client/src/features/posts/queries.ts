@@ -1,17 +1,32 @@
 import postApi from "@/features/posts/postService";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import userApi from "../users/userService";
 import { useState } from "react";
 
-export function useGetAllPosts() {
-  const [feedType, setFeedType] = useState<"following" | "all">("all");
-  const getData = feedType == "all" ? postApi.getFeed : postApi.getFollowFeed;
-  const { isPending, error, data } = useQuery({
-    queryKey: feedType == "all" ? postKeys.all : postKeys.following,
-    queryFn: getData,
-  });
+export function useGetAllPosts(feedType: "following" | "all") {
+  const fetchNext =
+    feedType == "all" ? postApi.getNextFeedPage : postApi.getFollowFeed;
+  // const { isPending, error, data } = useQuery({
+  //   queryKey: feedType == "all" ? postKeys.all : postKeys.following,
+  //   queryFn: getData,
+  // });
+  const { fetchNextPage, hasNextPage, isFetchingNextPage, data, error } =
+    useInfiniteQuery({
+      queryKey: feedType == "all" ? postKeys.all : postKeys.following,
+      queryFn: ({ pageParam }: { pageParam: string | null }) =>
+        fetchNext(pageParam),
+      initialPageParam: null,
+      getNextPageParam: (lastPage) => lastPage.nextCursor || undefined,
+      //getPrevPageParam: (curPage) => curPage.prevCursor,
+    });
 
-  return { isPending, error, data, feedType, setFeedType };
+  return {
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    data,
+    error,
+  };
 }
 
 export function useGetUserPosts(id: number) {

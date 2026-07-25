@@ -117,10 +117,12 @@ const postQueries = {
       nextPage = await prisma.post.findMany({
         ...Payload,
         take: limit,
-        orderBy: {
-          // uploadedAt: "desc",
-          id: "asc",
-        },
+        orderBy: [
+          {
+            uploadedAt: "desc",
+          },
+          { id: "asc" },
+        ],
       });
     }
 

@@ -1,5 +1,4 @@
 export default function formatDate(date: string) {
-  console.log(date);
   const date_obj = new Date(date);
   return (
     date_obj.getMonth() +
