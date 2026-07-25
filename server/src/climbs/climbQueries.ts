@@ -16,6 +16,7 @@ type CreateClimbInput = {
   picture?: string | undefined;
   sent?: boolean;
   color: string;
+  uploadedAt: Date | undefined;
 };
 
 const climbQueries = {

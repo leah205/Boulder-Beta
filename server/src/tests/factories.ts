@@ -31,6 +31,7 @@ async function createTestClimb(
       "yellow",
     ]),
     sent: faker.helpers.arrayElement([true, false]),
+    uploadedAt: faker.date.anytime(),
     ...properties,
   });
 }
@@ -48,6 +49,7 @@ async function createTestAttempt(
   const attempt = {
     send: faker.helpers.arrayElement([true, false]),
     clip: undefined,
+    uploadedAt: faker.date.anytime(),
     ...properties,
   };
   console.log(properties);

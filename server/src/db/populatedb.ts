@@ -7,6 +7,7 @@ import {
   createTestAttempt,
   createTestBeta,
 } from "@/tests/factories";
+import { faker } from "@faker-js/faker";
 
 async function reset_db() {
   // await prisma.$queryRaw`DROP schema public CASCADE`;
@@ -44,6 +45,7 @@ async function seed_db() {
   await createTestAttempt(climb1);
   const attempt2 = await createTestAttempt(climb1, {
     clip: "./src/assets/videos/attempt2.mp4",
+    uploadedAt: faker.date.anytime(),
   });
 
   const post1 = await attemptQueries.postVideo(attempt2.id);

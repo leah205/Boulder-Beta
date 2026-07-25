@@ -2,6 +2,9 @@ import prisma from "@/db/prisma_client";
 import { AppError } from "@/Errors";
 import { getCloudinarySignedUrl } from "@/utils/cloudinary";
 import type { Prisma } from "generated/prisma/client";
+import { decodeCursor, encodeCursor } from "./utils/cursor";
+import { getNextFeedPage } from "generated/prisma/sql/getNextFeedPage";
+import { getFirstFeedPage } from "generated/prisma/sql/getFirstFeedPage";
 
 const mostRecent = {
   video: {
@@ -88,6 +91,58 @@ const postQueries = {
     });
     return res;
   },
+
+  getNextFeedPage: async (cursor: string | null) => {
+    const limit = 3;
+    let nextPage;
+    if (cursor) {
+      const { id, createdAt } = decodeCursor(cursor);
+      nextPage = await prisma.post.findMany({
+        where: {
+          uploadedAt: {
+            gt: createdAt,
+          },
+          id: {
+            gt: id,
+          },
+        },
+        take: limit,
+        ...Payload,
+        orderBy: {
+          // uploadedAt: "desc",
+          id: "asc",
+        },
+      });
+    } else {
+      nextPage = await prisma.post.findMany({
+        ...Payload,
+        take: limit,
+        orderBy: {
+          // uploadedAt: "desc",
+          id: "asc",
+        },
+      });
+    }
+
+    const lastPost = nextPage[nextPage.length - 1];
+    const hasMore = nextPage.length == limit;
+
+    const nextCursor = hasMore
+      ? encodeCursor({
+          createdAt: lastPost.uploadedAt.toISOString(),
+          id: lastPost.id,
+        })
+      : null;
+
+    const data = nextPage.map((post) => {
+      return formatData(post);
+    });
+    return {
+      data,
+      nextCursor,
+    };
+  },
+
   getFollowingPosts: async (user_id: number) => {
     const followList = await prisma.user.findUnique({
       where: {
