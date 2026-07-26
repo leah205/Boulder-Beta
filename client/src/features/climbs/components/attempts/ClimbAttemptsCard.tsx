@@ -7,6 +7,7 @@ import RecordModal from "./RecordModal";
 import ClimbAttemptsList from "./ClimbAttemptsList";
 import type { AttemptWithVideoResponse } from "@shared/types";
 import ErrorMessage from "@/components/error/ErrorMessage";
+import LogAttemptBtn from "./LogAttemptBtn";
 
 function AttemptsHeader() {
   const [recordModal, setRecordModal] = useState(false);
@@ -32,20 +33,20 @@ function AttemptsHeader() {
       {logPending && <Spinner></Spinner>}
       {logError && <ErrorMessage error={logError}></ErrorMessage>}
       <div className="flex justify-around py-5 gap-3">
-        <Button
-          type="submit"
+        <LogAttemptBtn
           className="bg-red-400 block"
-          onClick={() => logAttempt({ send: false, clip: undefined })}
+          onSubmit={() => logAttempt({ send: false, clip: undefined })}
         >
           Log Attempt
-        </Button>
-        <Button
-          type="submit"
+        </LogAttemptBtn>
+        <LogAttemptBtn
           className="block bg-green-400"
-          onClick={() => logAttempt({ send: true, clip: undefined })}
+          onSubmit={(height: number) =>
+            logAttempt({ send: true, clip: undefined, height: height })
+          }
         >
           Log Send
-        </Button>
+        </LogAttemptBtn>
         <Button type="button" onClick={openRecord}>
           Record
         </Button>

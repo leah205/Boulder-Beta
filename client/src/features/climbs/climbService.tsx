@@ -32,7 +32,9 @@ const climbApi = {
   },
   logAttempt: async (climbId: number, attempt: CreateAttemptRequest) => {
     const formData = new FormData();
+
     formData.append("send", String(attempt.send));
+    formData.append("height", attempt.height ? String(attempt.height) : "");
     formData.append("clip", attempt.clip || "");
     const response = await http.post(
       `${API_URL}/${climbId}/attempts`,
