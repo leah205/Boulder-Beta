@@ -61,6 +61,8 @@ const postQueries = {
 
     const lastPost = page[page.length - 1];
     const hasMore = page.length == limit;
+    console.log(page.length);
+    console.log(limit);
 
     const nextCursor = hasMore
       ? encodeCursor({

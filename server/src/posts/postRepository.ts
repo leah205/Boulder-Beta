@@ -7,13 +7,22 @@ const postRepository = {
     cursorId: number,
     cursorCreatedAt: Date,
   ) => {
+    const posts = await prisma.post.findMany({
+      select: {
+        uploadedAt: true,
+        id: true,
+      },
+    });
+    console.log(posts);
+    console.log(cursorId);
+    console.log(cursorCreatedAt);
     const nextPage = await prisma.post.findMany({
       where: {
         uploadedAt: {
-          gt: cursorCreatedAt,
+          lt: cursorCreatedAt,
         },
         id: {
-          gt: cursorId,
+          lt: cursorId,
         },
       },
       take: limit,
@@ -39,6 +48,7 @@ const postRepository = {
         { id: "asc" },
       ],
     });
+    console.log(firstPage);
     return firstPage;
   },
 
