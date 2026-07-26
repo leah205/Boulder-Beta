@@ -38,8 +38,20 @@ function FeedTypeButtons({ setFeedType, feedType }: FeedTypeButtonsProps) {
   );
 }
 
-function FeedLayout({ children }: { children: React.ReactNode }) {
-  return <div>{children}</div>;
+type FeedLayoutProps = {
+  prevRef: React.RefObject<HTMLDivElement | null>;
+  nextRef: React.RefObject<HTMLDivElement | null>;
+  children: React.ReactNode;
+};
+
+function FeedLayout({ prevRef, nextRef, children }: FeedLayoutProps) {
+  return (
+    <div>
+      <div ref={prevRef} id="load-prev"></div>
+      {children}
+      <div ref={nextRef} id="load-next"></div>
+    </div>
+  );
 }
 
 export default function Feed() {
@@ -49,40 +61,46 @@ export default function Feed() {
   const prevRef = useRef<HTMLDivElement | null>(null);
 
   // const { isPending, error, data } = useGetAllPosts(getNext, getPrev, feedType);
-  const { isFetchingNextPage, hasNextPage, fetchNextPage, data, error } =
-    useGetAllPosts(feedType);
-  console.log(isFetchingNextPage);
-  const {} = useInfiniteScroll(
-    prevRef,
-    nextRef,
+  const {
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+    hasNextPage,
     fetchNextPage,
     data,
-    isFetchingNextPage,
+    error,
+  } = useGetAllPosts(feedType);
+  const isData = !!data;
+  console.log("is there data?", isData);
+  const { scrolledBottom, scrolledTop } = useInfiniteScroll(
+    prevRef,
+    nextRef,
+    isData,
   );
 
-  // if (isFetchingNextPage) {
-  //   return (
-  //     <FeedLayout>
-  //       <ContentSpinner />
-  //     </FeedLayout>
-  //   );
-  // }
+  const needFetchMore = scrolledBottom && !isFetchingNextPage && hasNextPage;
+  if (needFetchMore) {
+    fetchNextPage();
+  }
+
+  // const needFetchPrev =
+  //   scrolledTop && !isFetchingPreviousPage && hasPreviousPage;
+  // console.log("need fetch prev" + needFetchPrev);
 
   if (error) {
     return (
-      <FeedLayout>
+      <FeedLayout prevRef={prevRef} nextRef={nextRef}>
         <ErrorMessage error={error}></ErrorMessage>
+        <div ref={prevRef} id="load-more"></div>
       </FeedLayout>
     );
   }
 
   const postPages = data?.pages;
-  console.log("first page!!!");
-  console.log(data);
+  console.log(postPages);
 
-  if (!postPages || !postPages.length) {
+  if (!postPages || !postPages[0].data?.length) {
     return (
-      <FeedLayout>
+      <FeedLayout prevRef={prevRef} nextRef={nextRef}>
         <FeedTypeButtons
           feedType={feedType}
           setFeedType={setFeedType}
@@ -93,12 +111,11 @@ export default function Feed() {
   }
 
   return (
-    <FeedLayout>
+    <FeedLayout prevRef={prevRef} nextRef={nextRef}>
       <FeedTypeButtons
         feedType={feedType}
         setFeedType={setFeedType}
       ></FeedTypeButtons>
-      <div ref={prevRef} id="load-prev"></div>
       <div className="flex flex-col justify-center gap-10 w-full items-center">
         {postPages.map((page) => {
           return (
@@ -114,8 +131,6 @@ export default function Feed() {
             </Fragment>
           );
         })}
-
-        <div ref={nextRef} id="load-more"></div>
       </div>
     </FeedLayout>
   );

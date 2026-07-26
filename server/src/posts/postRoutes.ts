@@ -6,8 +6,8 @@ import ownPostAuth from "@/middleware/ownPostAuth";
 const postRouter = express.Router();
 
 //postRouter.get("/", verifyToken, postController.getPublicFeed);
-postRouter.get("/", verifyToken, postController.getNextFeedPage);
-postRouter.get("/following", verifyToken, postController.getFollowingPosts);
+postRouter.get("/", verifyToken, postController.getFeedPage);
+postRouter.get("/following", verifyToken, postController.getFollowingPage);
 postRouter.delete("/:id", ownPostAuth, postController.deletePost);
 postRouter.get("/:id", verifyToken, postController.getPost);
 

@@ -1,58 +1,40 @@
-import { useState, useEffect, useRef } from "react";
-import type { FeedResponse } from "@shared/types";
-import type {
-  FetchNextPageOptions,
-  InfiniteQueryObserverResult,
-  InfiniteData,
-} from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 
 export default function useInfiniteScroll(
   prevRef: React.RefObject<HTMLDivElement | null>,
   nextRef: React.RefObject<HTMLDivElement | null>,
-  fetchNextPage: (
-    options?: FetchNextPageOptions | undefined,
-  ) => Promise<
-    InfiniteQueryObserverResult<InfiniteData<FeedResponse, unknown>, Error>
-  >,
-  data: InfiniteData<FeedResponse, unknown> | undefined,
-  isFetchingNextPage: boolean,
+  isData: boolean,
 ) {
-  const [getNext, setGetNext] = useState(false);
-  const [getPrev, setGetPrev] = useState(false);
+  const [scrolledBottom, setScrolledBottom] = useState(false);
+  const [scrolledTop, setScrolledTop] = useState(false);
 
   useEffect(() => {
     const options = {
-      rootMargin: "100px",
+      rootMargin: "50px",
       threshold: 0,
     };
 
-    if (!nextRef.current || !prevRef.current) {
-      console.log("yoo");
-      fetchNextPage();
+    if (!nextRef.current || !prevRef.current || !isData) {
       return;
     }
-
-    console.log(data);
+    console.log(nextRef.current);
 
     const intersectionCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach(
-        (entry) => {
-          const element_id = entry.target.id;
-
-          if (entry.isIntersecting) {
-            if (
-              element_id == "load-more" &&
-              nextRef.current &&
-              !isFetchingNextPage
-            ) {
-              console.log("fetching next");
-              fetchNextPage();
-            } else if (element_id == "load-prev" && prevRef.current) {
-            }
+      entries.forEach((entry) => {
+        const element_id = entry.target.id;
+        if (entry.isIntersecting) {
+          if (element_id == "load-next" && nextRef.current) {
+            setScrolledBottom(true);
+            setScrolledTop(false);
+          } else if (element_id == "load-prev" && prevRef.current) {
+            setScrolledTop(true);
+            setScrolledBottom(false);
+          } else {
+            setScrolledTop(false);
+            setScrolledBottom(false);
           }
-        },
-        [data],
-      );
+        }
+      });
     };
 
     const observer = new IntersectionObserver(intersectionCallback, options);
@@ -63,7 +45,7 @@ export default function useInfiniteScroll(
     return () => {
       observer.disconnect();
     };
-  }, [!data]);
+  }, [isData]);
 
-  return { getNext, getPrev, setGetNext, setGetPrev };
+  return { scrolledBottom, scrolledTop };
 }

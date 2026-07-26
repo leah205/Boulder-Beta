@@ -1,33 +1,36 @@
 import http from "@/services/axiosInstance";
-import type {
-  PostResponse,
-  FeedResponse,
-  PostPayloadType,
-} from "@shared/types";
+import type { PostResponse, FeedResponse } from "@shared/types";
 
 const POST_URL = `${import.meta.env.VITE_API_URL}/posts`;
 
-const postApi = {
-  // getFeed: async () => {
-  //   const response = await http.get<FeedResponse>(`${POST_URL}`);
-  //   console.log(typeof response.data[0].uploadedAt);
-  //   return response.data;
-  // },
+type CursorParamType =
+  | {
+      cursorType: string;
+      cursor: string | null;
+    }
+  | undefined;
 
-  getNextFeedPage: async (cursor: string | null) => {
-    const cursorParam = cursor ? cursor : "";
-    console.log(cursorParam);
+const postApi = {
+  getFeedPage: async (cursor: CursorParamType) => {
+    const cursorParam = cursor ? cursor.cursor : "";
+    const cursorType = cursor ? cursor.cursorType : "";
     const response = await http.get<FeedResponse>(`${POST_URL}`, {
+      params: {
+        cursor: cursorParam,
+        cursorType,
+      },
+    });
+    return response.data;
+  },
+
+  getFollowFeed: async (cursor: CursorParamType) => {
+    const cursorParam = cursor ? cursor.cursor : "";
+
+    const response = await http.get<FeedResponse>(`${POST_URL}/following`, {
       params: {
         cursor: cursorParam,
       },
     });
-    console.log("page request");
-    return response.data;
-  },
-
-  getFollowFeed: async () => {
-    const response = await http.get<FeedResponse>(`${POST_URL}/following`);
     return response.data;
   },
 
