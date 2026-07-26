@@ -7,13 +7,6 @@ const postRepository = {
     cursorId: number,
     cursorCreatedAt: Date,
   ) => {
-    const posts = await prisma.post.findMany({
-      select: {
-        uploadedAt: true,
-        id: true,
-      },
-    });
-
     const nextPage = await prisma.post.findMany({
       where: {
         uploadedAt: {

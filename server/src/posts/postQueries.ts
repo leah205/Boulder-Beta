@@ -18,7 +18,6 @@ const postQueries = {
 
     const lastPost = page[page.length - 1];
     const hasMore = page.length == limit;
-
     const nextCursor = hasMore
       ? encodeCursor({
           createdAt: lastPost.uploadedAt.toISOString(),
@@ -79,37 +78,6 @@ const postQueries = {
       nextCursor,
     };
   },
-
-  // getFollowingPosts: async (user_id: number) => {
-  //   const followList = await postRepository.getFollowList(user_id);
-
-  //   if (!followList) {
-  //     throw new AppError("User not found", 404);
-  //   }
-
-  //   const followIds = followList?.following.map((user) => user.id);
-
-  //   const following_posts = await prisma.post.findMany({
-  //     ...postPayload,
-  //     where: {
-  //       video: {
-  //         attempt: {
-  //           climb: {
-  //             creatorId: {
-  //               in: followIds,
-  //             },
-  //           },
-  //         },
-  //       },
-  //     },
-  //     orderBy: mostRecent,
-  //   });
-
-  //   const res = following_posts.map((post) => {
-  //     return formatData(post);
-  //   });
-  //   return res;
-  // },
 
   getPost: async (post_id: number) => {
     const post = await prisma.post.findUnique({
