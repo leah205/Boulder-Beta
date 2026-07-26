@@ -13,9 +13,7 @@ const postRepository = {
         id: true,
       },
     });
-    console.log(posts);
-    console.log(cursorId);
-    console.log(cursorCreatedAt);
+
     const nextPage = await prisma.post.findMany({
       where: {
         uploadedAt: {

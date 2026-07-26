@@ -70,10 +70,7 @@ const postQueries = {
           id: lastPost.id,
         })
       : null;
-    // const prevCursor = encodeCursor({
-    //   createdAt: page[0].uploadedAt.toISOString(),
-    //   id: page[0].id,
-    // });
+
     const data = page.map((post) => {
       return formatData(post);
     });
