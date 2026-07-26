@@ -1,6 +1,7 @@
 import express from "express";
 const userRouter = express.Router();
 import userController from "./userController";
+
 import verifyToken from "@/middleware/authenticateToken";
 //create new climb
 

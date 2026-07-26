@@ -8,13 +8,14 @@ import {
   type ClimbResponse,
   type PostResponse,
 } from "@shared/types";
+import climbQueries from "@/climbs/climbQueries";
 
 const userController = {
   getMyClimbs: async (req: Request, res: Response) => {
     //filter by visibility with authentication
     //remove when add in authentication
     const id = req.user!.id!;
-    const data_obj = (await userQueries.getMyClimbs(
+    const data_obj = (await climbQueries.getMyClimbs(
       id,
     )) satisfies ClimbResponse[];
     return res.json(data_obj);
