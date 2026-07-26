@@ -9,12 +9,19 @@ const postRepository = {
   ) => {
     const nextPage = await prisma.post.findMany({
       where: {
-        uploadedAt: {
-          lt: cursorCreatedAt,
-        },
-        id: {
-          lt: cursorId,
-        },
+        OR: [
+          {
+            uploadedAt: {
+              lt: cursorCreatedAt,
+            },
+          },
+          {
+            uploadedAt: cursorCreatedAt,
+            id: {
+              lt: cursorId,
+            },
+          },
+        ],
       },
       take: limit,
       ...postPayload,
@@ -22,7 +29,7 @@ const postRepository = {
         {
           uploadedAt: "desc",
         },
-        { id: "asc" },
+        { id: "desc" },
       ],
     });
     return nextPage;

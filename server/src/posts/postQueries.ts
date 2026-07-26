@@ -94,16 +94,21 @@ const postQueries = {
   },
 
   deletePost: async (id: number) => {
-    const post = await prisma.post.delete({
+    const post = await prisma.post.findUnique({
+      where: { id: id },
+      ...postPayload,
+    });
+    if (!post) {
+      throw new AppError("Post not found", 404);
+    }
+
+    await prisma.post.delete({
       where: {
         id: id,
       },
       ...postPayload,
     });
 
-    if (!post) {
-      throw new AppError("Post not found", 404);
-    }
     return formatData(post);
   },
 

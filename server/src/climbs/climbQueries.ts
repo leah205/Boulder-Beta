@@ -33,6 +33,10 @@ const climbQueries = {
       public_id = await uploadOnCloudinary(picture, "image");
     }
 
+    if (!climb.color) {
+      throw new AppError("no color provided", 400);
+    }
+
     const data = {
       ...input_data,
       public_id: public_id,
