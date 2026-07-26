@@ -2,6 +2,7 @@ import prisma from "../db/prisma_client";
 import { AppError } from "@/Errors";
 import { uploadOnCloudinary } from "@/utils/cloudinary";
 import replaceIdWithClip from "@/utils/replaceIdWithClip";
+import type { Climb } from "generated/prisma/client";
 
 // function formatClimbData(input: Climb) {
 //   const { public_id, ...res } = input;
@@ -19,12 +20,21 @@ type CreateClimbInput = {
   uploadedAt: Date | undefined;
 };
 
+function formatClimbData(input: Climb) {
+  const res = replaceIdWithClip(input, "image", "picture");
+  return { ...res, uploadedAt: res.uploadedAt.toJSON() };
+}
+
 const climbQueries = {
   createClimb: async (creatorId: number, climb: CreateClimbInput) => {
     let public_id = null;
     const { picture, ...input_data } = climb;
     if (picture) {
       public_id = await uploadOnCloudinary(picture, "image");
+    }
+
+    if (!climb.color) {
+      throw new AppError("no color provided", 400);
     }
 
     const data = {
@@ -36,23 +46,24 @@ const climbQueries = {
         },
       },
     };
-    return await prisma.climb.create({
+    const res = await prisma.climb.create({
       data: data,
     });
+
+    return formatClimbData(res);
   },
 
   getClimb: async (climb_id: number) => {
-    const data = await prisma.climb.findUnique({
+    const res = await prisma.climb.findUnique({
       where: {
         id: climb_id,
       },
     });
-    if (!data) {
+    if (!res) {
       throw new AppError("climb not found", 404);
     }
 
-    const res = replaceIdWithClip(data, "image", "picture");
-    return { ...res, uploadedAt: res.uploadedAt.toJSON() };
+    return formatClimbData(res);
   },
 
   getAttempts: async (climb_id: number) => {
@@ -109,12 +120,27 @@ const climbQueries = {
     const data = {
       ...climb,
     };
-    return await prisma.climb.update({
+    const res = await prisma.climb.update({
       data: data,
       where: {
         id: climb_id,
       },
     });
+
+    return formatClimbData(res);
+  },
+
+  getMyClimbs: async (user_id: number) => {
+    const climbs = await prisma.climb.findMany({
+      where: {
+        creatorId: user_id,
+      },
+    });
+
+    const data_obj = climbs.map((climb) => {
+      return formatClimbData(climb);
+    });
+    return data_obj;
   },
 };
 

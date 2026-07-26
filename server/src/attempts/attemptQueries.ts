@@ -95,12 +95,13 @@ const attemptQueries = {
     return res;
   },
 
-  postVideo: async (attempt_id: number) => {
+  postVideo: async (attempt_id: number, date: Date | undefined = undefined) => {
     const attempt = await prisma.attempt.findUnique({
       where: {
         id: attempt_id,
       },
     });
+    const postCreateObj = date ? { uploadedAt: date } : null;
 
     if (!attempt) {
       throw new AppError("attempt not found", 404);
@@ -108,7 +109,7 @@ const attemptQueries = {
     const video = await prisma.video.update({
       data: {
         post: {
-          create: {},
+          create: postCreateObj || {},
         },
       },
       where: {

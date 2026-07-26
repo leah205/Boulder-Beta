@@ -11,21 +11,61 @@ import type {
   Beta,
   Video,
 } from "../server/generated/prisma/client";
-
-import type { UserPayloadType } from "../server/src/users/userQueries";
-import type { FollowPayloadType } from "../server/src/users/userQueries";
-import type { PostPayloadType } from "../server/src/posts/postQueries";
+import { UserMaxOrderByAggregateInput } from "generated/prisma/models";
 
 // response types
 
-export type AuthResponse = Pick<User, "id" | "username"> | undefined;
-export type LoginResponse = Pick<User, "id" | "username"> & { token: string };
-export type ClimbResponse = Omit<Climb, "public_id" | "uploadedAt"> & {
+//export type AuthResponse = Pick<User, "id" | "username"> | undefined;
+
+export type AuthResponse =
+  | {
+      username: string;
+      id: number;
+    }
+  | undefined;
+
+//export type LoginResponse = Pick<User, "id" | "username"> & { token: string };
+
+export type LoginResponse = {
+  username: string;
+  id: number;
+  token: string;
+};
+
+// export type ClimbResponse = Omit<Climb, "public_id" | "uploadedAt"> & {
+//   uploadedAt: string;
+//   picture?: string | null;
+// };
+
+export type ClimbResponse = {
+  id: number;
   uploadedAt: string;
+  grade: string | null;
+  color: string;
+  rating: number | null;
+  public: boolean;
+  sent: boolean;
+  creatorId: number;
   picture?: string | null;
 };
 
-export type UserResponse = Omit<User, "password"> & {
+// export type UserResponse = Omit<User, "password"> & {
+//   followedBy: {
+//     id: number;
+//     username: string;
+//   }[];
+//   following: {
+//     id: number;
+//     username: string;
+//   }[];
+// };
+
+export type UserResponse = {
+  id: number;
+  username: string;
+  grade: number | null;
+  profilePicture: string | null;
+  private: boolean;
   followedBy: {
     id: number;
     username: string;
@@ -36,10 +76,23 @@ export type UserResponse = Omit<User, "password"> & {
   }[];
 };
 
-export type FollowResponse = Omit<User, "password">;
+// export type FollowResponse = Omit<User, "password">;
+
+export type FollowResponse = {
+  id: number;
+  username: string;
+  grade: number | null;
+  profilePicture: string | null;
+  private: boolean;
+};
 
 // for climb page
-export type AttemptWithVideoResponse = Omit<Attempt, "uploadedAt"> & {
+export type AttemptWithVideoResponse = {
+  id: number;
+  send: boolean;
+  climbId: number;
+  fallReason: string | null;
+  notes: string | null;
   uploadedAt: string;
   video: {
     clip: string | null;
@@ -51,28 +104,51 @@ export type AttemptWithVideoResponse = Omit<Attempt, "uploadedAt"> & {
   } | null;
 };
 
-export type AttemptResponse = Omit<Attempt, "uploadedAt"> & {
+export type AttemptResponse = {
+  id: number;
+  climbId: number;
+  send: boolean;
+  fallReason: string | null;
+  notes: string | null;
   uploadedAt: string;
 };
 
-export type VideoResponse = Omit<Video, "public_id"> & {
+export type VideoResponse = {
+  attemptId: number;
   clip: string;
   post: PostResponse | null;
 };
 
 // export type UserResponse = Omit<User, "password">;
 
-const BetaWithUser = {
-  include: {
-    author: {
-      select: { id: true, username: true },
-    },
-  },
-} satisfies Prisma.BetaDefaultArgs;
+// const BetaWithUser = {
+//   include: {
+//     author: {
+//       select: { id: true, username: true },
+//     },
+//   },
+// } satisfies Prisma.BetaDefaultArgs;
 
-export type BetaResponse = Prisma.BetaGetPayload<typeof BetaWithUser>;
+// export type BetaResponse = Prisma.BetaGetPayload<typeof BetaWithUser>;
 
-export type PostResponse = Omit<Post, "uploadedAt"> & {
+export type BetaResponse = {
+  author: {
+    id: number;
+    username: string;
+  };
+} & {
+  id: number;
+  content: string;
+  uploadedAt: Date;
+  starred: boolean;
+  userId: number;
+  postId: number;
+};
+
+export type PostResponse = {
+  id: number;
+  attemptId: number;
+  description: string | null;
   clip?: string | null;
   climb_id: number;
   uploadedAt: string;
@@ -87,12 +163,9 @@ export type PostResponse = Omit<Post, "uploadedAt"> & {
 export type FeedResponse = {
   data: PostResponse[];
   nextCursor: string | null;
-  // prevCursor: string | null;
 };
 
 //zod schemas
-
-export type { PostPayloadType } from "../server/src/posts/postQueries";
 
 export const LoginSchema = z.object({
   username: z.string(),

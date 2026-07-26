@@ -6,6 +6,12 @@ import type { Climb, Post, User } from "generated/prisma/client";
 import betaQueries from "@/betas/betaQueries";
 import userQueries from "@/users/userQueries";
 import { faker } from "@faker-js/faker";
+import {
+  AuthResponse,
+  ClimbResponse,
+  PostResponse,
+  UserResponse,
+} from "@shared/types";
 
 async function createTestUser(
   username: string | null = null,
@@ -18,10 +24,10 @@ async function createTestUser(
 }
 
 async function createTestClimb(
-  user: User,
+  user: AuthResponse,
   properties: Record<string, unknown> = {},
 ) {
-  return await climbQueries.createClimb(user.id, {
+  return await climbQueries.createClimb(user!.id, {
     color: faker.helpers.arrayElement([
       "red",
       "green",
@@ -43,7 +49,7 @@ async function createTestBeta(post: Post, user: User) {
 }
 
 async function createTestAttempt(
-  climb: Climb,
+  climb: ClimbResponse,
   properties: Record<string, unknown> = {},
 ) {
   const attempt = {
@@ -57,7 +63,7 @@ async function createTestAttempt(
 }
 
 async function createTestAttemptWithVideo(
-  climb: Climb,
+  climb: ClimbResponse,
   properties: Record<string, unknown> = {},
 ) {
   const attempt = {

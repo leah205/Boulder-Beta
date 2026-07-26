@@ -60,7 +60,6 @@ export default function initialize_app() {
         Record<string, unknown>
       >,
       res: Response,
-      next: NextFunction,
     ) => {
       if (err instanceof z.ZodError) {
         // console.log(err.errors);
@@ -71,7 +70,6 @@ export default function initialize_app() {
       console.error(err);
       const status = err instanceof AppError && err.status ? err.status : 500;
       res.status(status).json({ message: err.message });
-      next();
     },
   );
 

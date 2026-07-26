@@ -19,7 +19,7 @@ const climbController = {
     const id = req.user!.id!;
     const picture = req.file?.path;
 
-    const climb_obj: Climb = (await climbQueries.createClimb(id, {
+    const climb_obj = (await climbQueries.createClimb(id, {
       picture,
       ...req.body,
     })) satisfies ClimbResponse;

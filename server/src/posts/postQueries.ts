@@ -5,8 +5,29 @@ import { mostRecent, postPayload } from "./prismaBlocks";
 import formatData from "./utils/formatData";
 import postRepository from "./postRepository";
 
+type HasIdAndUploadedAt = {
+  uploadedAt: Date;
+  id: number;
+};
+
+function getNextCursor(page: HasIdAndUploadedAt[], limit: number) {
+  const lastPost = page.length && page[page.length - 1];
+  if (!lastPost) {
+    return null;
+  }
+
+  const hasMore = page.length && page.length == limit;
+  const nextCursor = hasMore
+    ? encodeCursor({
+        createdAt: lastPost.uploadedAt.toISOString(),
+        id: lastPost.id,
+      })
+    : null;
+  return nextCursor;
+}
+
 const postQueries = {
-  getFeedPage: async (cursor: string | null, cursorType: string | null) => {
+  getFeedPage: async (cursor: string | null) => {
     const limit = 3;
     let page;
     if (cursor) {
@@ -16,14 +37,6 @@ const postQueries = {
       page = await postRepository.getFirstFeedPage(limit);
     }
 
-    const lastPost = page[page.length - 1];
-    const hasMore = page.length == limit;
-    const nextCursor = hasMore
-      ? encodeCursor({
-          createdAt: lastPost.uploadedAt.toISOString(),
-          id: lastPost.id,
-        })
-      : null;
     // const prevCursor = encodeCursor({
     //   createdAt: page[0].uploadedAt.toISOString(),
     //   id: page[0].id,
@@ -33,7 +46,7 @@ const postQueries = {
     });
     return {
       data,
-      nextCursor,
+      nextCursor: getNextCursor(page, limit),
     };
   },
   getFollowingPage: async (user_id: number, cursor: string | null) => {
@@ -57,25 +70,12 @@ const postQueries = {
     } else {
       page = await postRepository.getFirstFollowingPage(limit, followIds);
     }
-
-    const lastPost = page[page.length - 1];
-    const hasMore = page.length == limit;
-    console.log(page.length);
-    console.log(limit);
-
-    const nextCursor = hasMore
-      ? encodeCursor({
-          createdAt: lastPost.uploadedAt.toISOString(),
-          id: lastPost.id,
-        })
-      : null;
-
     const data = page.map((post) => {
       return formatData(post);
     });
     return {
       data,
-      nextCursor,
+      nextCursor: getNextCursor(page, limit),
     };
   },
 
@@ -94,16 +94,21 @@ const postQueries = {
   },
 
   deletePost: async (id: number) => {
-    const post = await prisma.post.delete({
+    const post = await prisma.post.findUnique({
+      where: { id: id },
+      ...postPayload,
+    });
+    if (!post) {
+      throw new AppError("Post not found", 404);
+    }
+
+    await prisma.post.delete({
       where: {
         id: id,
       },
       ...postPayload,
     });
 
-    if (!post) {
-      throw new AppError("Post not found", 404);
-    }
     return formatData(post);
   },
 
