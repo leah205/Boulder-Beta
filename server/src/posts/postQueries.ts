@@ -1,129 +1,82 @@
 import prisma from "@/db/prisma_client";
 import { AppError } from "@/Errors";
-import { getCloudinarySignedUrl } from "@/utils/cloudinary";
-import type { Prisma } from "generated/prisma/client";
-
-const mostRecent = {
-  video: {
-    attempt: {
-      climb: {
-        uploadedAt: "desc",
-      },
-    },
-  },
-} satisfies Prisma.PostOrderByWithRelationInput;
-const Payload = {
-  include: {
-    betas: {
-      include: {
-        author: {
-          select: {
-            username: true,
-            id: true,
-          },
-        },
-      },
-    },
-
-    video: {
-      select: {
-        public_id: true,
-        attempt: {
-          include: {
-            climb: {
-              select: {
-                id: true,
-                uploadedAt: true,
-                creator: {
-                  select: {
-                    id: true,
-                    username: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-} satisfies Prisma.PostDefaultArgs;
-
-export type PostPayloadType = Prisma.PostGetPayload<typeof Payload>;
-
-function formatData(data: PostPayloadType) {
-  const { video, ...post } = data;
-
-  if (!video) {
-    throw new AppError("video not found", 404);
-  }
-
-  const clip = getCloudinarySignedUrl(video.public_id, "video");
-
-  const author = video.attempt.climb.creator;
-  const climb_id = video.attempt.climb.id;
-  const uploadedAt = video.attempt.climb.uploadedAt.toJSON();
-  const res = {
-    ...post,
-    clip,
-    author: {
-      id: author.id,
-      username: author.username,
-    },
-    uploadedAt,
-    climb_id,
-  };
-  return res;
-}
+import { decodeCursor, encodeCursor } from "./utils/cursor";
+import { mostRecent, postPayload } from "./prismaBlocks";
+import formatData from "./utils/formatData";
+import postRepository from "./postRepository";
 
 const postQueries = {
-  getAllPublished: async () => {
-    const published_posts = await prisma.post.findMany({
-      ...Payload,
-      orderBy: mostRecent,
-    });
+  getFeedPage: async (cursor: string | null, cursorType: string | null) => {
+    const limit = 3;
+    let page;
+    if (cursor) {
+      const { id, createdAt } = decodeCursor(cursor);
+      page = await postRepository.getNextFeedPage(limit, id, createdAt);
+    } else {
+      page = await postRepository.getFirstFeedPage(limit);
+    }
 
-    const res = published_posts.map((post) => {
+    const lastPost = page[page.length - 1];
+    const hasMore = page.length == limit;
+    const nextCursor = hasMore
+      ? encodeCursor({
+          createdAt: lastPost.uploadedAt.toISOString(),
+          id: lastPost.id,
+        })
+      : null;
+    // const prevCursor = encodeCursor({
+    //   createdAt: page[0].uploadedAt.toISOString(),
+    //   id: page[0].id,
+    // });
+    const data = page.map((post) => {
       return formatData(post);
     });
-    return res;
+    return {
+      data,
+      nextCursor,
+    };
   },
-  getFollowingPosts: async (user_id: number) => {
-    const followList = await prisma.user.findUnique({
-      where: {
-        id: user_id,
-      },
-      select: {
-        following: true,
-      },
-    });
-
+  getFollowingPage: async (user_id: number, cursor: string | null) => {
+    const limit = 3;
+    let page;
+    const followList = await postRepository.getFollowList(user_id);
     if (!followList) {
       throw new AppError("User not found", 404);
     }
 
     const followIds = followList?.following.map((user) => user.id);
 
-    const following_posts = await prisma.post.findMany({
-      ...Payload,
-      where: {
-        video: {
-          attempt: {
-            climb: {
-              creatorId: {
-                in: followIds,
-              },
-            },
-          },
-        },
-      },
-      orderBy: mostRecent,
-    });
+    if (cursor) {
+      const { id, createdAt } = decodeCursor(cursor);
+      page = await postRepository.getNextFollowingPage(
+        limit,
+        id,
+        createdAt,
+        followIds,
+      );
+    } else {
+      page = await postRepository.getFirstFollowingPage(limit, followIds);
+    }
 
-    const res = following_posts.map((post) => {
+    const lastPost = page[page.length - 1];
+    const hasMore = page.length == limit;
+    console.log(page.length);
+    console.log(limit);
+
+    const nextCursor = hasMore
+      ? encodeCursor({
+          createdAt: lastPost.uploadedAt.toISOString(),
+          id: lastPost.id,
+        })
+      : null;
+
+    const data = page.map((post) => {
       return formatData(post);
     });
-    return res;
+    return {
+      data,
+      nextCursor,
+    };
   },
 
   getPost: async (post_id: number) => {
@@ -131,7 +84,7 @@ const postQueries = {
       where: {
         id: post_id,
       },
-      ...Payload,
+      ...postPayload,
     });
     if (!post) {
       throw new AppError("Post not found", 404);
@@ -145,7 +98,7 @@ const postQueries = {
       where: {
         id: id,
       },
-      ...Payload,
+      ...postPayload,
     });
 
     if (!post) {
@@ -175,7 +128,7 @@ const postQueries = {
           },
         },
       },
-      ...Payload,
+      ...postPayload,
     });
 
     const data_obj = posts.map((post) => {

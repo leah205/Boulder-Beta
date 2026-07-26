@@ -12,7 +12,6 @@ import replaceIdWithClip from "@/utils/replaceIdWithClip";
 const attemptQueries = {
   createAttempt: async (climb_id: number, attemptInput: AttemptInput) => {
     const { clip, ...input_data } = attemptInput;
-    console.log(clip);
     const public_id = clip ? await uploadOnCloudinary(clip, "video") : null;
     const video_data = public_id
       ? {

@@ -69,7 +69,9 @@ describe("attempt integration", () => {
     const user1 = await createTestUser();
     const climb = await createTestClimb(user1);
     const authRequest = new AuthRequest(app, user1.id, user1.username);
-    const attempt = await createTestAttempt(climb);
+    const attempt = await createTestAttempt(climb, {
+      clip: "fake_clip",
+    });
 
     await authRequest
       .post(`${ATTEMPT_URL}/${attempt.id}/video/post`)

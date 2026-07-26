@@ -5,6 +5,8 @@ import type React from "node_modules/@types/react/index";
 import PostCard from "@/features/posts/components/PostCard";
 import FeedPostHeader from "@/features/posts/components/FeedPostHeader";
 import { useGetAllPosts } from "@/features/posts/queries";
+import { useEffect, Fragment, useState, useRef } from "react";
+import useInfiniteScroll from "@/features/posts/hooks/useInfiniteScroll";
 
 type FeedTypeButtonsProps = {
   setFeedType: React.Dispatch<React.SetStateAction<"following" | "all">>;
@@ -15,6 +17,7 @@ function FeedTypeButtons({ setFeedType, feedType }: FeedTypeButtonsProps) {
   const feedTypeClass = "p-3 rounded-sm text-black";
   const currentFeedClass = `bg-mist-300 ${feedTypeClass}`;
   const otherFeedClass = `bg-mist-100 ${feedTypeClass}`;
+
   return (
     <div className="flex w-60 justify-between m-auto p-8">
       <button
@@ -35,32 +38,69 @@ function FeedTypeButtons({ setFeedType, feedType }: FeedTypeButtonsProps) {
   );
 }
 
-function FeedLayout({ children }: { children: React.ReactNode }) {
-  return <div>{children}</div>;
+type FeedLayoutProps = {
+  prevRef: React.RefObject<HTMLDivElement | null>;
+  nextRef: React.RefObject<HTMLDivElement | null>;
+  children: React.ReactNode;
+};
+
+function FeedLayout({ prevRef, nextRef, children }: FeedLayoutProps) {
+  return (
+    <div>
+      <div ref={prevRef} id="load-prev"></div>
+      {children}
+      <div ref={nextRef} id="load-next"></div>
+    </div>
+  );
 }
 
 export default function Feed() {
-  const { isPending, error, data, feedType, setFeedType } = useGetAllPosts();
+  const [feedType, setFeedType] = useState<"following" | "all">("all");
 
-  if (isPending) {
-    return (
-      <FeedLayout>
-        <ContentSpinner />
-      </FeedLayout>
-    );
+  const nextRef = useRef<HTMLDivElement | null>(null);
+  const prevRef = useRef<HTMLDivElement | null>(null);
+
+  // const { isPending, error, data } = useGetAllPosts(getNext, getPrev, feedType);
+  const {
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+    hasNextPage,
+    fetchNextPage,
+    data,
+    error,
+  } = useGetAllPosts(feedType);
+  const isData = !!data;
+  console.log("is there data?", isData);
+  const { scrolledBottom, scrolledTop } = useInfiniteScroll(
+    prevRef,
+    nextRef,
+    isData,
+  );
+
+  const needFetchMore = scrolledBottom && !isFetchingNextPage && hasNextPage;
+  if (needFetchMore) {
+    fetchNextPage();
   }
+
+  // const needFetchPrev =
+  //   scrolledTop && !isFetchingPreviousPage && hasPreviousPage;
+  // console.log("need fetch prev" + needFetchPrev);
 
   if (error) {
     return (
-      <FeedLayout>
+      <FeedLayout prevRef={prevRef} nextRef={nextRef}>
         <ErrorMessage error={error}></ErrorMessage>
+        <div ref={prevRef} id="load-more"></div>
       </FeedLayout>
     );
   }
 
-  if (!data || !data.length) {
+  const postPages = data?.pages;
+  console.log(postPages);
+
+  if (!postPages || !postPages[0].data?.length) {
     return (
-      <FeedLayout>
+      <FeedLayout prevRef={prevRef} nextRef={nextRef}>
         <FeedTypeButtons
           feedType={feedType}
           setFeedType={setFeedType}
@@ -71,21 +111,27 @@ export default function Feed() {
   }
 
   return (
-    <FeedLayout>
+    <FeedLayout prevRef={prevRef} nextRef={nextRef}>
       <FeedTypeButtons
         feedType={feedType}
         setFeedType={setFeedType}
       ></FeedTypeButtons>
-      <PostsListLayout>
-        {data.map((post) => {
+      <div className="flex flex-col justify-center gap-10 w-full items-center">
+        {postPages.map((page) => {
           return (
-            <div key={post.id} className="w-70 text-center ">
-              <FeedPostHeader author={post.author}></FeedPostHeader>
-              <PostCard key={post.attemptId} post={post}></PostCard>
-            </div>
+            <Fragment key={page.nextCursor}>
+              {page.data.map((post) => {
+                return (
+                  <div key={post.id} className="w-70 text-center ">
+                    <FeedPostHeader author={post.author}></FeedPostHeader>
+                    <PostCard key={post.attemptId} post={post}></PostCard>
+                  </div>
+                );
+              })}
+            </Fragment>
           );
         })}
-      </PostsListLayout>
+      </div>
     </FeedLayout>
   );
 }

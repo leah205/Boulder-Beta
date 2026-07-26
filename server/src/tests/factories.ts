@@ -31,6 +31,7 @@ async function createTestClimb(
       "yellow",
     ]),
     sent: faker.helpers.arrayElement([true, false]),
+    uploadedAt: faker.date.anytime(),
     ...properties,
   });
 }
@@ -48,11 +49,23 @@ async function createTestAttempt(
   const attempt = {
     send: faker.helpers.arrayElement([true, false]),
     clip: undefined,
+    uploadedAt: faker.date.anytime(),
     ...properties,
   };
-  console.log(properties);
-  console.log(attempt);
+  const res = await attemptQueries.createAttempt(climb.id, attempt);
+  return res;
+}
 
+async function createTestAttemptWithVideo(
+  climb: Climb,
+  properties: Record<string, unknown> = {},
+) {
+  const attempt = {
+    send: faker.helpers.arrayElement([true, false]),
+    clip: faker.string.alpha(10),
+    uploadedAt: faker.date.anytime(),
+    ...properties,
+  };
   const res = await attemptQueries.createAttempt(climb.id, attempt);
   return res;
 }
@@ -66,5 +79,6 @@ export {
   createTestClimb,
   createTestAttempt,
   createTestBeta,
+  createTestAttemptWithVideo,
   followTestUser,
 };

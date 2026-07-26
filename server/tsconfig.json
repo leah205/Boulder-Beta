@@ -13,9 +13,14 @@
     "esModuleInterop": true,
     "strict": true,
     "types": ["jest", "passport", "passport-local", "express", "node"],
-    "paths": { "*": ["*.d.ts"], "@/*": ["src/*"], "@shared/*": ["../shared/*"] }
+    "paths": {
+      // "*": ["*.d.ts"],
+      "@/*": ["src/*"],
+      "@shared/*": ["../shared/*"],
+      "@sql/*": ["prisma/sql/*"]
+    }
 
     //"noImplicitAny": false
   },
-  "include": ["src", "type-defs"]
+  "include": ["src", "type-defs", "generated"]
 }

@@ -6,6 +6,7 @@
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
+  previewFeatures = ["typedSql"]
 }
 
 datasource db {
@@ -61,6 +62,7 @@ model Attempt {
     fallReason String?
     notes String?
     video Video?
+    @@map("attempts")
     
 }
 
@@ -71,16 +73,18 @@ model Video {
   attemptId Int @unique
   public_id String 
   post Post?
+  @@map("videos")
 }
 
 model Post {
     id Int @id @default(autoincrement()) 
     video Video @relation(fields: [attemptId], references: [attemptId])
+    uploadedAt DateTime @default(now())
     attemptId Int @unique
     claps Clap[]
     betas Beta[]
     description String?
-
+    @@map("posts")
 }
 
 model Beta {
