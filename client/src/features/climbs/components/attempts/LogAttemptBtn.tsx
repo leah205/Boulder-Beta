@@ -5,12 +5,16 @@ import Modal from "@/components/Modal";
 
 type AttemptTagModalProps = {
   setTagModal: React.Dispatch<React.SetStateAction<boolean>>;
+  onSubmit: (arg0: number | undefined) => void;
 };
 
 function AttemptTagModal(props: AttemptTagModalProps) {
+  function onClick() {
+    props.onSubmit(undefined);
+  }
   return (
     <Modal setModal={props.setTagModal}>
-      <Button onClick={() => {}}>Submit</Button>
+      <Button onClick={onClick}>Submit</Button>
     </Modal>
   );
 }
@@ -18,7 +22,7 @@ function AttemptTagModal(props: AttemptTagModalProps) {
 type LogAttemptBtnProps = {
   children: React.ReactNode;
   className: string;
-  onSubmit: (arg0: number) => void;
+  onSubmit: (arg0: number | undefined) => void;
 };
 export default function LogAttemptBtn(props: LogAttemptBtnProps) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -28,7 +32,10 @@ export default function LogAttemptBtn(props: LogAttemptBtnProps) {
   return (
     <>
       {modalOpen && (
-        <AttemptTagModal setTagModal={setModalOpen}></AttemptTagModal>
+        <AttemptTagModal
+          setTagModal={setModalOpen}
+          onSubmit={props.onSubmit}
+        ></AttemptTagModal>
       )}
       <Button className={props.className} onClick={handleClick}>
         {props.children}

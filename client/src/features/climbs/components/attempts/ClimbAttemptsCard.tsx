@@ -41,7 +41,7 @@ function AttemptsHeader() {
         </LogAttemptBtn>
         <LogAttemptBtn
           className="block bg-green-400"
-          onSubmit={(height: number) =>
+          onSubmit={(height: number | undefined) =>
             logAttempt({ send: true, clip: undefined, height: height })
           }
         >
