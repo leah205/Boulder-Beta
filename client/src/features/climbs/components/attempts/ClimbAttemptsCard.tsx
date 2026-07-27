@@ -35,7 +35,9 @@ function AttemptsHeader() {
       <div className="flex justify-around py-5 gap-3">
         <LogAttemptBtn
           className="bg-red-400 block"
-          onSubmit={() => logAttempt({ send: false, clip: undefined })}
+          onSubmit={(height: number | undefined) =>
+            logAttempt({ send: true, clip: undefined, height: height })
+          }
         >
           Log Attempt
         </LogAttemptBtn>

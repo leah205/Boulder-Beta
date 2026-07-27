@@ -1,8 +1,6 @@
 import { createContext } from "react";
 import type { ClimbResponse } from "@shared/types";
-type ClimbContextType = {
-  climb: ClimbResponse | null;
-};
-const ClimbDataContext = createContext<ClimbContextType | null>(null);
+// type ClimbContextType = ClimbResponse | null
+const ClimbDataContext = createContext<ClimbResponse | undefined>(undefined);
 
 export default ClimbDataContext;

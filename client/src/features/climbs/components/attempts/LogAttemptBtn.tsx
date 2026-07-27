@@ -1,23 +1,6 @@
-import type React from "react";
-import { useState } from "react";
 import Button from "@/components/Button";
-import Modal from "@/components/Modal";
-
-type AttemptTagModalProps = {
-  setTagModal: React.Dispatch<React.SetStateAction<boolean>>;
-  onSubmit: (arg0: number | undefined) => void;
-};
-
-function AttemptTagModal(props: AttemptTagModalProps) {
-  function onClick() {
-    props.onSubmit(undefined);
-  }
-  return (
-    <Modal setModal={props.setTagModal}>
-      <Button onClick={onClick}>Submit</Button>
-    </Modal>
-  );
-}
+import AttemptTagModal from "./AttemptTagModal";
+import { useState } from "react";
 
 type LogAttemptBtnProps = {
   children: React.ReactNode;

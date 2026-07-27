@@ -28,6 +28,7 @@ const climbApi = {
       `${API_URL}/${climb_id}/attempts`,
     );
     response.data;
+    console.log(response.data);
     return response.data;
   },
   logAttempt: async (climbId: number, attempt: CreateAttemptRequest) => {
