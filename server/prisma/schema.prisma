@@ -60,6 +60,7 @@ model Attempt {
     climb Climb @relation(fields: [climbId], references: [id])
     send Boolean @default(false)
     fallReason String?
+    height Int?
     notes String?
     video Video?
     @@map("attempts")
