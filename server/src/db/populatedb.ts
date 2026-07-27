@@ -60,7 +60,7 @@ async function seed_db() {
   await attemptQueries.postVideo(attempt3.id, faker.date.anytime());
 
   const user2 = await createTestUser();
-  console.log(user2.username);
+  user2.username;
 
   const climb3 = await createTestClimb(user2, {
     picture: "./src/assets/images/climb3.jpeg",
@@ -86,7 +86,7 @@ async function seed_db() {
   );
 
   const user3 = await createTestUser();
-  console.log(user3.username);
+  user3.username;
 
   const climb = await createTestClimb(user3, {
     picture: "./src/assets/images/climb3.jpeg",

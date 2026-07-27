@@ -37,8 +37,8 @@ export default function RecordModal({
         accept="video/*"
         onChange={(e) => {
           if (e.target.files) {
-            console.log();
-            console.log(e.target.files[0].type);
+            ();
+            (e.target.files[0].type);
             setClip(e.target.files[0]);
           } else setClip(null);
         }}

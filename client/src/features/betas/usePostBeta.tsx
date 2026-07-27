@@ -9,7 +9,7 @@ import { CustomValidationError } from "@/utils/Error";
 export function usePostBeta(post_id: number) {
   const queryClient = useQueryClient();
   const [errors, setErrors] = useState<string[]>([]);
-  console.log(errors);
+  errors;
   const { mutate, isPending } = useMutation({
     mutationFn: (data_obj: CreateBetaRequest) =>
       betaApi.createBeta(data_obj, post_id),

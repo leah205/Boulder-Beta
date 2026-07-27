@@ -10,7 +10,7 @@ export const handlers = [
   //   }),
   // should respond with data
   http.get(`${API_URL}/auth/userFromToken`, () => {
-    console.log("eeeeeeeeeeeeeeeeeeeeeeeeq");
+    ("eeeeeeeeeeeeeeeeeeeeeeeeq");
     return HttpResponse.json({
       id: 1,
       username: "leah",
@@ -18,7 +18,7 @@ export const handlers = [
   }),
 
   http.post(`hi`, () => {
-    console.log("eeeeeeeeeeeeeeeeeeeeeeeeq");
+    ("eeeeeeeeeeeeeeeeeeeeeeeeq");
     return HttpResponse.json({
       id: 1,
       username: "leah",

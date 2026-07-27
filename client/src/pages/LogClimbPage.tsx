@@ -17,7 +17,7 @@ function get_ratings() {
   const ratings = Array(5)
     .fill(null)
     .map((_, i) => `${i + 1}/5`);
-  console.log(ratings);
+  ratings;
   return ratings;
 }
 

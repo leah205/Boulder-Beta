@@ -24,7 +24,7 @@ export function useGetClimb(id: number) {
   return { climbLoading, climbError, climbData };
 }
 export function useGetAttempts(climb_id: number) {
-  console.log(["climb", climb_id, "attempts"]);
+  ["climb", climb_id, "attempts"];
   const {
     isPending: attemptsLoading,
     error: attemptsError,

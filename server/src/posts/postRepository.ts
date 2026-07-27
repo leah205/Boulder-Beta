@@ -46,7 +46,7 @@ const postRepository = {
         { id: "asc" },
       ],
     });
-    console.log(firstPage);
+    firstPage;
     return firstPage;
   },
 

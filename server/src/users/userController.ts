@@ -61,7 +61,7 @@ const userController = {
 
   getUserPosts: async (req: Request, res: Response) => {
     const { id } = req.params;
-    console.log(id);
+    id;
     const data_obj = (await postQueries.getPosts(
       Number(id),
     )) satisfies PostResponse[];

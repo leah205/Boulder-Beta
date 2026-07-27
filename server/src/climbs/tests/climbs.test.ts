@@ -58,7 +58,7 @@ describe("GET /climbs", () => {
           authRequest
             .get(`/api/v1/climbs/${climb_id}`)
             .then((res) => {
-              console.log(res.body);
+              res.body;
               return res;
             })
             //.expect(200)

@@ -6,11 +6,11 @@ export default function usePostAttempt(attempt_id: number, climb_id: number) {
   const queryClient = useQueryClient();
   const [error, setError] = useState<Error | null>(null);
 
-  console.log(["attempts", "climb", climb_id]);
+  ["attempts", "climb", climb_id];
   const { mutate: postAttempt, isPending } = useMutation({
     mutationFn: () => attemptApi.postAttempt(attempt_id),
     onSuccess: () => {
-      console.log("success");
+      ("success");
       queryClient.invalidateQueries({
         queryKey: ["posts"],
       });

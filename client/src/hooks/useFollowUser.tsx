@@ -28,8 +28,8 @@ export default function useFollowUser(author_id: number) {
       queryClient.invalidateQueries({
         queryKey: ["users", author_id],
       });
-      console.log("invalidating posts?");
-      console.log([postKeys.all]);
+      ("invalidating posts?");
+      [postKeys.all];
       queryClient.invalidateQueries({
         queryKey: postKeys.all,
       });

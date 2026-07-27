@@ -14,9 +14,9 @@ const betaController = {
       throw new AppError("user does not exist", 404);
     }
     req.body = createBetaSchema.parse(req.body);
-    console.log(req.params);
+    req.params;
     const post_id = Number(req.params.post_id);
-    console.log(post_id);
+    post_id;
     const beta = (await betaQueries.createBeta(
       post_id,
       req.user?.id,
