@@ -1,27 +1,40 @@
 import Button from "@/components/Button";
-import type { UseMutateFunction } from "node_modules/@tanstack/react-query/build/modern/_tsup-dts-rollup";
-import type { CreateAttemptRequest, AttemptResponse } from "@shared/types";
 import { useState } from "react";
 import ErrorWrapper from "@/components/error/ErrorWrapper";
 import Modal from "@/components/Modal";
 type RecordModalProps = {
-  logAttempt: UseMutateFunction<AttemptResponse, Error, CreateAttemptRequest>;
   setRecordModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setNewAttemptData: React.Dispatch<
+    React.SetStateAction<{
+      send: boolean;
+      clip: undefined | File;
+      height: undefined | number;
+      leftOffset: undefined | number;
+    }>
+  >;
+  setTagModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function RecordModal({
-  logAttempt,
+  setNewAttemptData,
+  setTagModalOpen,
   setRecordModal,
 }: RecordModalProps) {
   const [clip, setClip] = useState<File | null>(null);
   const [error, setError] = useState<Error | null>(null);
-  function handleSubmit(attempt: CreateAttemptRequest) {
+  function handleClick(send: boolean) {
     if (!clip) {
       setError(Error("Please attach recording"));
       return;
     }
-    logAttempt(attempt);
+    setNewAttemptData({
+      send: send,
+      clip,
+      height: undefined,
+      leftOffset: undefined,
+    });
     setRecordModal(false);
+    setTagModalOpen(true);
   }
 
   return (
@@ -54,6 +67,21 @@ export default function RecordModal({
           </video>
           <div className="flex gap-2 mt-10">
             <Button
+              className="bg-red-400 block"
+              onClick={() => handleClick(false)}
+            >
+              Log Attempt
+            </Button>
+            <Button
+              className="block bg-green-400"
+              onClick={() => {
+                handleClick(true);
+              }}
+            >
+              Log Send
+            </Button>
+
+            {/* <Button
               type="submit"
               className="bg-red-400"
               onClick={() =>
@@ -70,7 +98,7 @@ export default function RecordModal({
               }
             >
               Log Send
-            </Button>
+            </Button> */}
           </div>
         </>
       )}

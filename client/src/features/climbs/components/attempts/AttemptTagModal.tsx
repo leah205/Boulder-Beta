@@ -22,25 +22,32 @@ function HeightTag({ x, y }: HeightTagProps) {
 type BoundingRectType = {
   children: React.ReactNode;
   coors: CoorType;
-  setCoors: React.Dispatch<React.SetStateAction<CoorType | null>>;
+  setCoors: React.Dispatch<React.SetStateAction<CoorType>>;
 };
 type CoorType = {
   x: number;
   y: number;
+  height: number;
+  leftOffset: number;
 } | null;
 
 function BoundingRect({ children, setCoors, coors }: BoundingRectType) {
-  function handleClick(e) {
+  function handleClick(e: React.MouseEvent<HTMLDivElement>) {
+    if (!(e.target instanceof HTMLElement)) {
+      return;
+    }
     const rect = e.target.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = rect.bottom - e.clientY;
+
+    const boxHeight = rect.bottom - rect.top;
+
     setCoors({
       x,
       y,
+      height: y / boxHeight,
+      leftOffset: x / boxHeight,
     });
-    const boxHeight = rect.bottom - rect.top;
-    const height = y / boxHeight;
-    console.log(height);
   }
 
   return (
@@ -53,17 +60,21 @@ function BoundingRect({ children, setCoors, coors }: BoundingRectType) {
 
 type AttemptTagModalProps = {
   setTagModal: React.Dispatch<React.SetStateAction<boolean>>;
-  onSubmit: (arg0: number | undefined) => void;
+  onSubmit: (
+    height: number | undefined,
+    leftOffset: number | undefined,
+  ) => void;
 };
 
 export default function AttemptTagModal(props: AttemptTagModalProps) {
   const [coors, setCoors] = useState<CoorType | null>(null);
-
   const climbData = useClimb();
-  function onClick() {
-    props.onSubmit(coors?.y || undefined);
-    props.setTagModal(false);
+
+  function handleSubmitClick() {
+    console.log(coors?.leftOffset);
+    props.onSubmit(coors?.height, coors?.leftOffset);
   }
+
   return (
     <Modal setModal={props.setTagModal}>
       <BoundingRect coors={coors} setCoors={setCoors}>
@@ -73,7 +84,7 @@ export default function AttemptTagModal(props: AttemptTagModalProps) {
         ></ClimbPic>
       </BoundingRect>
 
-      <Button onClick={onClick}>Submit</Button>
+      <Button onClick={handleSubmitClick}>Submit</Button>
     </Modal>
   );
 }
