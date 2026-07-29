@@ -89,7 +89,7 @@ describe("GET /climbs", () => {
         climb_id = res.body.id;
       })
       .then(() => {
-        authRequest2.get(`/api/v1/climbs/${climb_id}`).expect(401);
+        return authRequest2.get(`/api/v1/climbs/${climb_id}`).expect(403);
       });
   });
 });
