@@ -8,6 +8,17 @@ type AttemptInput = Omit<z.infer<typeof CreateAttemptSchema>, "clip"> & {
 import { uploadOnCloudinary } from "@/utils/cloudinary";
 import { AppError } from "@/Errors";
 import replaceIdWithClip from "@/utils/replaceIdWithClip";
+import type { Attempt } from "generated/prisma/client";
+
+function formatAttempt(attempt: Attempt) {
+  const { uploadedAt, height, leftOffset, ...rest } = attempt;
+  return {
+    uploadedAt: uploadedAt.toJSON(),
+    height: Number(height),
+    leftOffset: Number(leftOffset),
+    ...rest,
+  };
+}
 
 const attemptQueries = {
   createAttempt: async (climb_id: number, attemptInput: AttemptInput) => {
@@ -32,7 +43,7 @@ const attemptQueries = {
         video: video_data,
       },
     });
-    return attempt;
+    return formatAttempt(attempt);
   },
 
   getAttemptWithVideo: async (attempt_id: number) => {
@@ -52,12 +63,13 @@ const attemptQueries = {
     if (!res) {
       throw new AppError("Attempt not found", 404);
     }
-    const { video, uploadedAt, ...res_obj } = res;
+    const { video, ...attempt } = res;
+    const formattedAttempt = formatAttempt(attempt);
     if (video) {
       const video_res = replaceIdWithClip(video, "video", "clip");
-      return { ...res_obj, video: video_res, uploadedAt: uploadedAt.toJSON() };
+      return { ...formatAttempt, video: video_res };
     }
-    return res_obj;
+    return formattedAttempt;
   },
 
   getVideoWithPost: async (attempt_id: number) => {
@@ -73,6 +85,46 @@ const attemptQueries = {
     if (!res) {
       throw new AppError("Video not found", 404);
     }
+    return res;
+  },
+
+  getClimbAttempts: async (climb_id: number) => {
+    const climb = await prisma.climb.findUnique({
+      where: {
+        id: climb_id,
+      },
+    });
+
+    if (!climb) {
+      throw new AppError("climb not found", 404);
+    }
+
+    const attemptsData = await prisma.attempt.findMany({
+      where: {
+        climbId: climb_id,
+      },
+      include: {
+        video: {
+          include: {
+            post: true,
+          },
+        },
+      },
+    });
+
+    const res = attemptsData.map((attempt) => {
+      const { video, ...attemptInput } = attempt;
+      if (video) {
+        const video_res = replaceIdWithClip(video, "video", "clip");
+        return {
+          ...formatAttempt(attemptInput),
+          video: video_res,
+        };
+      }
+
+      return { video, ...formatAttempt(attemptInput) };
+    });
+
     return res;
   },
 

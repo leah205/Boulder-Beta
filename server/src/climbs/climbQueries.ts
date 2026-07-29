@@ -33,7 +33,9 @@ const climbQueries = {
       public_id = await uploadOnCloudinary(picture, "image");
     }
 
-    if (!climb.color) {
+    console.log(climb.color);
+
+    if (!climb.color || !climb.color.length) {
       throw new AppError("no color provided", 400);
     }
 
@@ -64,47 +66,6 @@ const climbQueries = {
     }
 
     return formatClimbData(res);
-  },
-
-  getAttempts: async (climb_id: number) => {
-    const climb = await prisma.climb.findUnique({
-      where: {
-        id: climb_id,
-      },
-    });
-
-    if (!climb) {
-      throw new AppError("climb not found", 404);
-    }
-
-    const attemptsData = await prisma.attempt.findMany({
-      where: {
-        climbId: climb_id,
-      },
-      include: {
-        video: {
-          include: {
-            post: true,
-          },
-        },
-      },
-    });
-
-    const res = attemptsData.map((attempt) => {
-      const { video, uploadedAt, ...res_obj } = attempt;
-      if (video) {
-        const video_res = replaceIdWithClip(video, "video", "clip");
-        return {
-          ...res_obj,
-          video: video_res,
-          uploadedAt: uploadedAt.toJSON(),
-        };
-      }
-
-      return { ...res_obj, video, uploadedAt: uploadedAt.toJSON() };
-    });
-
-    return res;
   },
 
   patchClimb: async (climb: Partial<CreateClimbInput>, climb_id: number) => {
