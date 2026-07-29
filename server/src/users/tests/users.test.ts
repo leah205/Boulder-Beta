@@ -130,4 +130,14 @@ describe("user tests", () => {
         expect(res.body[0].id).toBe(post.id);
       });
   });
+
+  it("throws error trying to follow self", async () => {
+    const user = await createTestUser();
+    const authRequest = new AuthRequest(app, user.id, user.username);
+
+    return authRequest
+      .post(`${USER_URL}/me/following/follow`)
+      .send({ user_id: user.id })
+      .expect(400);
+  });
 });
