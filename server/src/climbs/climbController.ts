@@ -10,8 +10,6 @@ import attemptQueries from "@/attempts/attemptQueries";
 const climbController = {
   createClimb: async (req: Request, res: Response) => {
     req.body = CreateClimbSchema.parse(req.body);
-    // req.body.grade = req.body.grade.length ? req.body.grade : null;
-    // delete req.body.picture;
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

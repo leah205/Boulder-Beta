@@ -14,6 +14,7 @@ import auth_router from "@/auth/auth_routes";
 import postRouter from "@/posts/postRoutes";
 import { ErrorResponse } from "@shared/types";
 import { z } from "zod";
+import { ZodError } from "zod";
 import beta_router from "@/betas/betaRoutes";
 
 // figure out express user type
@@ -60,14 +61,13 @@ export default function initialize_app() {
         Record<string, unknown>
       >,
       res: Response,
+      next: NextFunction,
     ) => {
-      if (err instanceof z.ZodError) {
-        // (err.errors);
-        ("zod error");
-        err.issues;
+      if (err instanceof Error && "issues" in err) {
+        console.log("zod error");
+        console.log(err.issues);
         return res.status(400).json("Validation failed");
       }
-      console.error(err);
       const status = err instanceof AppError && err.status ? err.status : 500;
       res.status(status).json({ message: err.message });
     },
