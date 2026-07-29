@@ -187,6 +187,7 @@ export const CreateClimbSchema = z.object({
 
 export const CreateAttemptSchema = z.object({
   send: z.boolean(),
+  height: z.number().nullish(),
   clip: z.file().optional().nullable(),
   published: z.boolean().optional(),
 });

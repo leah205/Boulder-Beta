@@ -70,7 +70,7 @@ export default function Feed() {
     error,
   } = useGetAllPosts(feedType);
   const isData = !!data;
-  console.log("is there data?", isData);
+  ("is there data?", isData);
   const { scrolledBottom, scrolledTop } = useInfiniteScroll(
     prevRef,
     nextRef,
@@ -84,7 +84,7 @@ export default function Feed() {
 
   // const needFetchPrev =
   //   scrolledTop && !isFetchingPreviousPage && hasPreviousPage;
-  // console.log("need fetch prev" + needFetchPrev);
+  // ("need fetch prev" + needFetchPrev);
 
   if (error) {
     return (
@@ -96,7 +96,7 @@ export default function Feed() {
   }
 
   const postPages = data?.pages;
-  console.log(postPages);
+  postPages;
 
   if (!postPages || !postPages[0].data?.length) {
     return (

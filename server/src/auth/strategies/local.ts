@@ -12,7 +12,7 @@ export default new LocalStrategy(async (username, password, done) => {
     });
 
     if (!user) {
-      console.log("incorrect username");
+      ("incorrect username");
       return done(null, false, { message: "Username not registered" });
     }
     const match = await bcryptjs.compare(password, user.password);

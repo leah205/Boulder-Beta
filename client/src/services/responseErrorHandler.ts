@@ -14,15 +14,15 @@ export default function responseErrorHandler(error: AxiosError) {
   if (axios.isAxiosError(error)) {
     const response = error?.response;
     if (error.code == "ERR_NETWORK") {
-      console.log("connection problems...");
+      ("connection problems...");
     } else if (error.code == "ERR_CANCELED") {
-      console.log("connection canceled");
+      ("connection canceled");
     }
     if (response) {
       const statusCode = response?.status;
       if (statusCode == 400) {
-        console.log(response);
-        console.log(response.data);
+        response;
+        response.data;
         const data = "data" in response ? (response.data as Data) : null;
         if (data && "errors" in data) {
           throw new CustomValidationError(
@@ -33,7 +33,7 @@ export default function responseErrorHandler(error: AxiosError) {
         if (data && "message" in data && data.message) {
           throw new ServerError(data.message, 400);
         }
-        console.log("user request malconfigured");
+        ("user request malconfigured");
         throw new ServerError("User request malfigured", 400);
       }
       if (statusCode == 401) {

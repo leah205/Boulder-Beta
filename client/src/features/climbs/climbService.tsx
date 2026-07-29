@@ -27,12 +27,18 @@ const climbApi = {
     const response = await http.get<AttemptWithVideoResponse[]>(
       `${API_URL}/${climb_id}/attempts`,
     );
+    response.data;
     console.log(response.data);
     return response.data;
   },
   logAttempt: async (climbId: number, attempt: CreateAttemptRequest) => {
     const formData = new FormData();
     formData.append("send", String(attempt.send));
+    formData.append("height", attempt.height ? String(attempt.height) : "");
+    formData.append(
+      "leftOffset",
+      attempt.leftOffset ? String(attempt.leftOffset) : "",
+    );
     formData.append("clip", attempt.clip || "");
     const response = await http.post(
       `${API_URL}/${climbId}/attempts`,

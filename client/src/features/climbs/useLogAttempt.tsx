@@ -14,7 +14,7 @@ export default function useLogAttempt() {
       climbApi.logAttempt(Number(climbId), attempt),
     onSuccess: (res: AttemptResponse) => {
       navigate(`/climbs/${climbId}`);
-      console.log(["climb", climbId, "attempts"]);
+      ["climb", climbId, "attempts"];
       queryClient.invalidateQueries({
         queryKey: ["climb", Number(climbId), "attempts"],
       });

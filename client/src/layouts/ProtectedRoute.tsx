@@ -4,13 +4,13 @@ import Spinner from "@/components/spinner/Spinner";
 export default function ProtectedRoute() {
   const { isAuthenticated, loading } = useAuth();
 
-  console.log(isAuthenticated);
+  isAuthenticated;
   if (loading) {
     return <Spinner></Spinner>;
   }
 
   if (!isAuthenticated) {
-    console.log("redirect");
+    ("redirect");
     return <Navigate to="/signin" replace />;
   }
   return (

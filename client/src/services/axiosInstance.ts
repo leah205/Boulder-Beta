@@ -21,7 +21,7 @@ http.interceptors.request.use(
 );
 
 http.interceptors.response.use((response) => {
-  console.log(response);
+  response;
   return response;
 }, responseErrorHandler);
 export default http;

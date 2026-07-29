@@ -24,6 +24,12 @@ const parseFormData = async (
       case "clip":
         data[key] = null;
         break;
+      case "height":
+        data[key] = value.length ? Number(value) : undefined;
+        break;
+      case "leftOffset":
+        data[key] = value.length ? Number(value) : undefined;
+        break;
       case "picture":
         data[key] = null;
         break;

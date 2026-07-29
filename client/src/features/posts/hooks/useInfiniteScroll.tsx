@@ -17,7 +17,7 @@ export default function useInfiniteScroll(
     if (!nextRef.current || !prevRef.current || !isData) {
       return;
     }
-    console.log(nextRef.current);
+    nextRef.current;
 
     const intersectionCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {

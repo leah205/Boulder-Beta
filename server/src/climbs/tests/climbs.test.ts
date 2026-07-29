@@ -57,10 +57,7 @@ describe("GET /climbs", () => {
         return (
           authRequest
             .get(`/api/v1/climbs/${climb_id}`)
-            .then((res) => {
-              console.log(res.body);
-              return res;
-            })
+
             //.expect(200)
             .then((res) => {
               expect(res.body.grade).toEqual("V5");

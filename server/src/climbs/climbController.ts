@@ -5,6 +5,7 @@ import type { Climb } from "../../generated/prisma/client";
 import { validationResult } from "express-validator";
 import { CreateClimbSchema } from "@shared/types";
 import type { ClimbResponse, AttemptWithVideoResponse } from "@shared/types";
+import attemptQueries from "@/attempts/attemptQueries";
 
 const climbController = {
   createClimb: async (req: Request, res: Response) => {
@@ -55,7 +56,7 @@ const climbController = {
 
   getAttempts: async (req: Request, res: Response) => {
     const climb_id = Number(req.params.climb_id);
-    const attempts = (await climbQueries.getAttempts(
+    const attempts = (await attemptQueries.getClimbAttempts(
       climb_id,
     )) satisfies AttemptWithVideoResponse[];
     res.status(200).json(attempts);

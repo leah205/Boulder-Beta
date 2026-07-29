@@ -7,9 +7,24 @@ import RecordModal from "./RecordModal";
 import ClimbAttemptsList from "./ClimbAttemptsList";
 import type { AttemptWithVideoResponse } from "@shared/types";
 import ErrorMessage from "@/components/error/ErrorMessage";
+import AttemptTagModal from "./AttemptTagModal";
+
+type AttemptDataType = {
+  send: boolean;
+  clip: undefined | File;
+  height: undefined | number;
+  leftOffset: undefined | number;
+};
 
 function AttemptsHeader() {
   const [recordModal, setRecordModal] = useState(false);
+  const [tagModalOpen, setTagModalOpen] = useState(false);
+  const [newAttemptData, setNewAttemptData] = useState<AttemptDataType>({
+    send: false,
+    clip: undefined,
+    height: undefined,
+    leftOffset: undefined,
+  });
 
   const {
     logAttempt,
@@ -21,28 +36,59 @@ function AttemptsHeader() {
     setRecordModal(true);
   }
 
+  function handleTagHeightSubmit(
+    height: number | undefined,
+    leftOffset: number | undefined,
+  ) {
+    setTagModalOpen(false);
+
+    logAttempt({ ...newAttemptData, height, leftOffset });
+  }
+
   return (
     <>
       {recordModal && (
         <RecordModal
-          logAttempt={logAttempt}
+          // logAttempt={logAttempt}
+          setNewAttemptData={setNewAttemptData}
+          setTagModalOpen={setTagModalOpen}
           setRecordModal={setRecordModal}
         ></RecordModal>
+      )}
+      {tagModalOpen && (
+        <AttemptTagModal
+          setTagModal={setTagModalOpen}
+          onSubmit={handleTagHeightSubmit}
+        ></AttemptTagModal>
       )}
       {logPending && <Spinner></Spinner>}
       {logError && <ErrorMessage error={logError}></ErrorMessage>}
       <div className="flex justify-around py-5 gap-3">
         <Button
-          type="submit"
           className="bg-red-400 block"
-          onClick={() => logAttempt({ send: false, clip: undefined })}
+          onClick={() => {
+            setTagModalOpen(true);
+            setNewAttemptData({
+              send: false,
+              clip: undefined,
+              height: undefined,
+              leftOffset: undefined,
+            });
+          }}
         >
           Log Attempt
         </Button>
         <Button
-          type="submit"
           className="block bg-green-400"
-          onClick={() => logAttempt({ send: true, clip: undefined })}
+          onClick={() => {
+            setTagModalOpen(true);
+            setNewAttemptData({
+              send: true,
+              clip: undefined,
+              height: undefined,
+              leftOffset: undefined,
+            });
+          }}
         >
           Log Send
         </Button>

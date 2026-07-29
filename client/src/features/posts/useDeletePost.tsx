@@ -9,7 +9,7 @@ export default function useDeletePost() {
   const { mutate, isPending } = useMutation({
     mutationFn: (post_id: number) => postApi.deletePost(post_id),
     onSuccess: (res: PostResponse) => {
-      console.log(res.climb_id);
+      res.climb_id;
       queryClient.invalidateQueries({
         queryKey: ["posts"],
       });
