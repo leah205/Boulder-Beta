@@ -29,7 +29,11 @@ export default function MyPostsPage() {
       <PostsListLayout>
         {data.map((post) => {
           return (
-            <MyPostWrapper navigateOut={false} post={post}></MyPostWrapper>
+            <MyPostWrapper
+              navigateOut={false}
+              key={post.id}
+              post={post}
+            ></MyPostWrapper>
           );
         })}
       </PostsListLayout>
