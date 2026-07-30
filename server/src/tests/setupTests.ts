@@ -4,8 +4,8 @@ import prisma from "@/db/prisma_client";
 import { uploadOnCloudinary, getCloudinarySignedUrl } from "@/utils/cloudinary";
 
 vi.mock(import("@/utils/cloudinary"), () => ({
-  uploadOnCloudinary: vi.fn(),
-  getCloudinarySignedUrl: vi.fn(),
+  uploadOnCloudinary: vi.fn().mockResolvedValue("taco_cat"),
+  getCloudinarySignedUrl: vi.fn().mockReturnValue("https://fake_url.com"),
 }));
 
 beforeEach(async () => {
@@ -18,13 +18,11 @@ beforeEach(async () => {
     prisma.climb.deleteMany(),
     prisma.user.deleteMany(),
   ]);
-  vi.mocked(uploadOnCloudinary).mockResolvedValue("taco_cat");
-  vi.mocked(getCloudinarySignedUrl).mockReturnValue("https://fake_url.com");
 });
 
-afterEach(async () => {
-  vi.resetAllMocks();
-});
+// afterEach(async () => {
+//   vi.resetAllMocks();
+// });
 
 // afterAll(async () => {
 //   await cloudinary.api.delete_resources_by_prefix("boulder_beta/", {
