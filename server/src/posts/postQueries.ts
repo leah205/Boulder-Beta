@@ -41,6 +41,8 @@ const postQueries = {
     //   createdAt: page[0].uploadedAt.toISOString(),
     //   id: page[0].id,
     // });
+    console.log("post page");
+    console.log(page);
     const data = page.map((post) => {
       return formatData(post);
     });
