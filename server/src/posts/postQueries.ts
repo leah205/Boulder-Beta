@@ -27,11 +27,17 @@ function getNextCursor(page: HasIdAndUploadedAt[], limit: number) {
 }
 
 const postQueries = {
-  getFeedPage: async (cursor: string | null) => {
-    const limit = 3;
+  getFeedPage: async (cursor: string | null, limit: number) => {
     let page;
+
     if (cursor) {
-      const { id, createdAt } = decodeCursor(cursor);
+      const decoded = decodeCursor(cursor);
+
+      if (!decoded || !decoded.id || !decoded.createdAt) {
+        throw new AppError("invalid cursor", 400);
+      }
+      const { id, createdAt } = decoded;
+
       page = await postRepository.getNextFeedPage(limit, id, createdAt);
     } else {
       page = await postRepository.getFirstFeedPage(limit);
@@ -41,6 +47,7 @@ const postQueries = {
     //   createdAt: page[0].uploadedAt.toISOString(),
     //   id: page[0].id,
     // });
+
     const data = page.map((post) => {
       return formatData(post);
     });
@@ -49,8 +56,11 @@ const postQueries = {
       nextCursor: getNextCursor(page, limit),
     };
   },
-  getFollowingPage: async (user_id: number, cursor: string | null) => {
-    const limit = 3;
+  getFollowingPage: async (
+    user_id: number,
+    cursor: string | null,
+    limit: number,
+  ) => {
     let page;
     const followList = await postRepository.getFollowList(user_id);
     if (!followList) {
@@ -60,7 +70,12 @@ const postQueries = {
     const followIds = followList?.following.map((user) => user.id);
 
     if (cursor) {
-      const { id, createdAt } = decodeCursor(cursor);
+      const decoded = decodeCursor(cursor);
+      if (!decoded || !decoded.id || !decoded.createdAt) {
+        throw new AppError("invalid cursor", 400);
+      }
+      const { id, createdAt } = decoded;
+
       page = await postRepository.getNextFollowingPage(
         limit,
         id,

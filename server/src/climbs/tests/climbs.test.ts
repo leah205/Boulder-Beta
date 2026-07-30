@@ -31,6 +31,17 @@ describe("POST /climbs", () => {
       .expect(200);
   });
 
+  it("throws error when invalid grade specified", async () => {
+    const user = await createTestUser();
+    const authRequest = new AuthRequest(app, user.id, user.username);
+
+    await authRequest
+      .post("/api/v1/climbs")
+      .field("grade", "Vdskf")
+      .field("color", "green")
+      .expect(400);
+  });
+
   it("throws error when no color provided", async () => {
     const user = await createTestUser();
     const authRequest = new AuthRequest(app, user.id, user.username);
@@ -89,7 +100,7 @@ describe("GET /climbs", () => {
         climb_id = res.body.id;
       })
       .then(() => {
-        authRequest2.get(`/api/v1/climbs/${climb_id}`).expect(401);
+        return authRequest2.get(`/api/v1/climbs/${climb_id}`).expect(403);
       });
   });
 });

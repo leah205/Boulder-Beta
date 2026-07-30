@@ -152,7 +152,11 @@ const attemptQueries = {
       where: {
         id: attempt_id,
       },
+      include: {
+        video: true,
+      },
     });
+
     const postCreateObj = date ? { uploadedAt: date } : null;
 
     if (!attempt) {

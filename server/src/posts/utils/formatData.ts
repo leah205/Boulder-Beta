@@ -16,7 +16,7 @@ export default function formatData(data: PostPayloadType) {
 
   const author = video.attempt.climb.creator;
   const climb_id = video.attempt.climb.id;
-  const uploadedAt = video.attempt.climb.uploadedAt.toJSON();
+  const uploadedAt = post.uploadedAt.toJSON();
   const res = {
     ...post,
     clip,
