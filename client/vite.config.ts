@@ -6,6 +6,7 @@ import path from "node:path";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/",
   plugins: [
     tailwindcss(),
     react(),
@@ -18,6 +19,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       "@shared": path.resolve(__dirname, "../shared"),
+      "@assets": path.resolve(__dirname, "./assets"),
     },
   },
 });

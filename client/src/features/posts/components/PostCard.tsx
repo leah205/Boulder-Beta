@@ -2,7 +2,7 @@ import BetaSection from "@/features/betas/components/BetaSection";
 import type { PostResponse } from "@shared/types";
 import { useState } from "react";
 import Button from "@/components/Button";
-import betasIcon from "@/assets/betas.svg";
+import betasIcon from "@assets/betas.svg";
 import formatDate from "@/utils/formatDate";
 
 type PostCardProps = {

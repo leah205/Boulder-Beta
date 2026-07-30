@@ -10,7 +10,7 @@ import user_api from "@/features/users/userService";
 import { vi } from "vitest";
 import { createTestUser, createTestClimb } from "@/tests/factories";
 import userApi from "@/features/users/userService";
-
+import mountainSvg from "@assets/mountain.svg";
 vi.mock("@/features/authentication/auth_service");
 vi.mock("@/features/climbs/climbService");
 vi.mock("@/features/users/userService");
@@ -55,9 +55,7 @@ describe("my climbs ", () => {
     expect(climbCards.length).toBe(2);
 
     const card1Img = within(climbCards[0]).getByTestId("climb-pic");
-    expect(card1Img.style.backgroundImage).toBe(
-      `url("/src/assets/mountain.svg")`,
-    );
+    expect(card1Img.style.backgroundImage).toBe(`url("${mountainSvg}")`);
 
     const card1Sent = within(climbCards[0]).queryByTestId("sent-check");
     expect(card1Sent).not.toBeInTheDocument();

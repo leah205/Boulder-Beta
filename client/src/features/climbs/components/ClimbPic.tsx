@@ -1,5 +1,5 @@
 import type React from "node_modules/@types/react/index";
-
+import mountainSvg from "@assets/mountain.svg";
 type ClimbPicProps = {
   children?: React.ReactNode;
   picture: string | undefined;
@@ -12,7 +12,7 @@ export default function ClimbPic({ children, picture, color }: ClimbPicProps) {
         backgroundImage: `url(${picture})`,
       }
     : {
-        backgroundImage: `url("/src/assets/mountain.svg")`,
+        backgroundImage: `url("${mountainSvg}")`,
         backgroundColor: "rgb(235, 235, 235)",
       };
 

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import ClimbPic from "@/features/climbs/components/ClimbPic";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import { useGetClimbs } from "@/features/climbs/queries";
+import sentSvg from "@assets/sent.svg";
 
 type climbCardProps = {
   climb: ClimbResponse;
@@ -19,7 +20,7 @@ function ClimbCard(props: climbCardProps) {
           <img
             data-testid="sent-check"
             className="text-white absolute top-0 right-0 h-8 w-8 "
-            src="./src/assets/sent.svg"
+            src={sentSvg}
           />
         )}
         {climb.grade && (
