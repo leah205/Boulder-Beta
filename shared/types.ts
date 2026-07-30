@@ -94,6 +94,8 @@ export type AttemptWithVideoResponse = {
   fallReason: string | null;
   notes: string | null;
   uploadedAt: string;
+  height: number | null;
+  leftOffset: number | null;
   video: {
     clip: string | null;
     post: {
@@ -111,6 +113,8 @@ export type AttemptResponse = {
   fallReason: string | null;
   notes: string | null;
   uploadedAt: string;
+  height: number | null;
+  leftOffset: number | null;
 };
 
 export type VideoResponse = {
@@ -188,6 +192,7 @@ export const CreateClimbSchema = z.object({
 export const CreateAttemptSchema = z.object({
   send: z.boolean(),
   height: z.number().nullish(),
+  leftOffset: z.number().nullish(),
   clip: z.file().optional().nullable(),
   published: z.boolean().optional(),
 });
