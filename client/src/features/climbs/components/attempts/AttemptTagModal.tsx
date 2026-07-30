@@ -71,7 +71,6 @@ export default function AttemptTagModal(props: AttemptTagModalProps) {
   const climbData = useClimb();
 
   function handleSubmitClick() {
-    console.log(coors?.leftOffset);
     props.onSubmit(coors?.height, coors?.leftOffset);
   }
 
