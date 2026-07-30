@@ -64,7 +64,6 @@ export default function initialize_app() {
       next: NextFunction,
     ) => {
       if (err instanceof Error && "issues" in err) {
-        console.log("zod error");
         console.log(err.issues);
         return res.status(400).json("Validation failed");
       }

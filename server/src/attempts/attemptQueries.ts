@@ -157,8 +157,6 @@ const attemptQueries = {
       },
     });
 
-    console.log(attempt);
-
     const postCreateObj = date ? { uploadedAt: date } : null;
 
     if (!attempt) {

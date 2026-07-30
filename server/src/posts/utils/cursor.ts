@@ -1,3 +1,5 @@
+import { json } from "zod";
+
 const encodeCursor = (data) => {
   return Buffer.from(JSON.stringify(data)).toString("base64");
 };
@@ -8,7 +10,14 @@ const decodeCursor = (cursor: string) => {
   }
 
   const decoded = Buffer.from(cursor, "base64").toString("utf-8");
-  return JSON.parse(decoded);
+
+  let res;
+  try {
+    res = JSON.parse(decoded);
+  } catch {
+    res = null;
+  }
+  return res;
 };
 
 export { encodeCursor, decodeCursor };
