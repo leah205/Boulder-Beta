@@ -97,7 +97,7 @@ export default function BetaSection({
       )}
       <div>
         {betas.map((beta) => {
-          return <Beta beta={beta}></Beta>;
+          return <Beta beta={beta} key={beta.id}></Beta>;
         })}
       </div>
     </BetasSectionLayout>

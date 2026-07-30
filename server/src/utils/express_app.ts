@@ -24,7 +24,7 @@ export default function initialize_app() {
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
   const corsOptions = {
-    origin: ["http://localhost:5173"],
+    origin: ["http://localhost:5173", "https://boulder-beta.onrender.com"],
   };
 
   app.use(cors(corsOptions));

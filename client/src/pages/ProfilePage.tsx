@@ -44,13 +44,13 @@ export default function ProfilePage() {
         <p>Following: </p>
         <ul>
           {currentUser.following.map((user) => {
-            return <FollowingRow user={user}></FollowingRow>;
+            return <FollowingRow user={user} key={user.id}></FollowingRow>;
           })}
         </ul>
         <p>Followers: </p>
         <ul>
           {currentUser.followedBy.map((user) => {
-            return <p>{user.username}</p>;
+            return <p key={user.id}>{user.username}</p>;
           })}
         </ul>
       </div>
