@@ -13,8 +13,7 @@ import climb_router from "@/climbs/climbRoutes";
 import auth_router from "@/auth/auth_routes";
 import postRouter from "@/posts/postRoutes";
 import { ErrorResponse } from "@shared/types";
-import { z } from "zod";
-import { ZodError } from "zod";
+
 import beta_router from "@/betas/betaRoutes";
 
 // figure out express user type
@@ -27,7 +26,8 @@ export default function initialize_app() {
     origin: [
       "http://localhost:5173",
       "http://localhost:4173",
-      "https://boulder-beta.onrender.com",
+      "https://boulder-beta-1.onrender.com",
+      "https://boulder-beta-1.onrender.com",
     ],
   };
 
