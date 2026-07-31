@@ -38,7 +38,7 @@ export default function ProfilePage() {
   const currentUser = useCurrentUser();
 
   return (
-    <div className="w-80 m-auto border-1 h-100 my-10 p-6">
+    <div className="w-80 m-auto border-1 h-100 my-10 p-6 max-w-4/5">
       <p>{currentUser.username}</p>
       <div>
         <p>Following: </p>

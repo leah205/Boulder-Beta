@@ -19,7 +19,7 @@ function FeedTypeButtons({ setFeedType, feedType }: FeedTypeButtonsProps) {
   const otherFeedClass = `bg-mist-100 ${feedTypeClass}`;
 
   return (
-    <div className="flex w-60 justify-between m-auto p-8">
+    <div className="flex w-60 justify-between m-auto px-8">
       <button
         className={feedType == "all" ? currentFeedClass : otherFeedClass}
         type="button"
@@ -46,11 +46,11 @@ type FeedLayoutProps = {
 
 function FeedLayout({ prevRef, nextRef, children }: FeedLayoutProps) {
   return (
-    <div>
+    <PostsListLayout>
       <div ref={prevRef} id="load-prev"></div>
       {children}
       <div ref={nextRef} id="load-next"></div>
-    </div>
+    </PostsListLayout>
   );
 }
 

@@ -63,7 +63,7 @@ function AttemptsHeader() {
       )}
       {logPending && <Spinner></Spinner>}
       {logError && <ErrorMessage error={logError}></ErrorMessage>}
-      <div className="flex justify-around py-5 gap-3">
+      <div className="flex justify-center py-5 gap-3">
         <Button
           className="bg-red-400 block"
           onClick={() => {
@@ -101,7 +101,7 @@ function AttemptsHeader() {
 }
 
 function AttemptsCardLayout({ children }: { children: React.ReactNode }) {
-  return <div className="w-full p-3">{children}</div>;
+  return <div className="w-full py-3 px-3">{children}</div>;
 }
 
 type AttemptsCardProps = {

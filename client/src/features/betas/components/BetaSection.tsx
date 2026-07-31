@@ -79,14 +79,14 @@ export default function BetaSection({
           onClick={toggleBetaFormOpen}
           className="opacity-100 h-3 w-3 rounded-xl flex justify-center items-center p-3 bg-blue-300"
         >
-          {betaFormOpen ? "-" : "+"}
+          <span className="-top-0.5 relative">{betaFormOpen ? "-" : "+"}</span>
         </button>
         <button
           type="button"
           onClick={() => setBetasOpen(false)}
           className="opacity-100 h-3 w-3 rounded-xl flex justify-center items-center bg-red-400 flex justify-center items-center p-3"
         >
-          x
+          <span className="-top-0.5 relative ">x</span>
         </button>
       </div>
       {betaFormOpen && (

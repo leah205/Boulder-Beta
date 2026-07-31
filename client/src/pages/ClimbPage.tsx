@@ -14,7 +14,7 @@ type ClimbPageLayoutProps = {
 };
 
 function ClimbPageLayout({ children }: ClimbPageLayoutProps) {
-  return <div className="px-2 py-6">{children}</div>;
+  return <div className="px-2 py-6 pb-20">{children}</div>;
 }
 
 export default function ClimbPage() {

@@ -18,18 +18,20 @@ export default function Modal(props: ModalProps) {
         data-testid="record-modal"
         className="absolute top-30 flex justify-center w-full "
       >
-        <div ref={modalRef} className="max-w-1/2">
+        <div ref={modalRef} className="max-w-4/5">
           <Form
             className=" h-50  w-full bg-white relative m-auto min-h-70 overflow-scroll p-5 "
             enctype="multipart/form-data"
           >
-            <Button
-              className="absolute top-2 right-2 rounded-xl bg-red-500 w-8 h-8 flex items-center justify-center"
-              type="button"
-              onClick={() => props.setModal(false)}
-            >
-              x
-            </Button>
+            <div className="mb-10">
+              <Button
+                className="absolute top-2 right-2  rounded-xl bg-red-500 w-6 h-6 flex items-center justify-center"
+                type="button"
+                onClick={() => props.setModal(false)}
+              >
+                <span className="relative -top-0.5">x</span>
+              </Button>
+            </div>
             {props.children}
           </Form>
         </div>

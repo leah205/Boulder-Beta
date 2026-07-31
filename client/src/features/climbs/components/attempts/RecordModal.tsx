@@ -41,12 +41,20 @@ export default function RecordModal({
     // -translate-y-full
     <Modal setModal={setRecordModal}>
       {error && <ErrorWrapper>{error.message}</ErrorWrapper>}
-      <label htmlFor="clip">Upload a video:</label>
+
+      <label
+        className="mt-7 border-1 border-black hover:bg-mist-200 rounded-sm bg-mist-100 p-5"
+        htmlFor="clip"
+      >
+        Upload a video
+      </label>
+
       <input
         type="file"
         name="clip"
         id="clip"
         capture="environment"
+        hidden
         accept="video/*"
         onChange={(e) => {
           if (e.target.files) {
@@ -54,6 +62,7 @@ export default function RecordModal({
           } else setClip(null);
         }}
       />
+
       {clip && (
         <>
           <video

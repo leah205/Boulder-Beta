@@ -5,6 +5,7 @@ import ClimbPic from "@/features/climbs/components/ClimbPic";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import { useGetClimbs } from "@/features/climbs/queries";
 import sentSvg from "@assets/sent.svg";
+import PageHeader from "@/components/PageHeader";
 
 type climbCardProps = {
   climb: ClimbResponse;
@@ -47,8 +48,8 @@ export default function MyClimbPage() {
   }
   return (
     <>
-      <h1>My Climbs</h1>
-      <div className="flex flex-row gap-10 p-5 w-full justify-center flex-wrap">
+      <PageHeader>My Climbs</PageHeader>
+      <div className="flex flex-row gap-10 p-5 pb-20 w-full justify-center flex-wrap">
         {data &&
           data.map((climb) => {
             return <ClimbCard key={climb.id} climb={climb}></ClimbCard>;
