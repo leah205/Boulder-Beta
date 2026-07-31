@@ -7,8 +7,8 @@ export default function formatDate(date: string) {
     "/" +
     date_obj.getFullYear() +
     " " +
-    date_obj.getHours() +
+    String(date_obj.getHours()).padStart(2, "0") +
     ":" +
-    date_obj.getMinutes()
+    String(date_obj.getMinutes()).padStart(2, "0")
   );
 }
