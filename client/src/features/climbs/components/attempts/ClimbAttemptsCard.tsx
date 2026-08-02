@@ -3,22 +3,20 @@ import AttemptsHeader from "./AttemptsHeader";
 import ClimbAttemptsList from "./ClimbAttemptsList";
 import type { AttemptWithVideoResponse } from "@shared/types";
 import ErrorMessage from "@/components/error/ErrorMessage";
+import { useOutletContext } from "react-router-dom";
 
 function AttemptsCardLayout({ children }: { children: React.ReactNode }) {
   return <div className="w-full py-3 px-3">{children}</div>;
 }
 
-type AttemptsCardProps = {
+type AttemptContext = {
   pending: boolean;
   error: Error | null;
-  data?: AttemptWithVideoResponse[];
+  data: AttemptWithVideoResponse[] | undefined;
 };
 
-export default function ClimbAttemptsCard({
-  pending,
-  error,
-  data,
-}: AttemptsCardProps) {
+export default function ClimbAttemptsCard() {
+  const { pending, error, data } = useOutletContext<AttemptContext>();
   if (pending) {
     return (
       <AttemptsCardLayout>

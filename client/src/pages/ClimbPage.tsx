@@ -7,7 +7,9 @@ import ContentSpinner from "@/components/spinner/ContentSpinner";
 import { useGetAttempts, useGetClimb } from "@/features/climbs/queries";
 import ClimbDataContext from "@/features/climbs/context/ClimbDataContext";
 import type React from "node_modules/@types/react/index";
+import { Outlet } from "react-router-dom";
 import type { ClimbResponse } from "@shared/types";
+import ClimbPageNav from "@/features/climbs/components/ClimbPageNav";
 
 type ClimbPageLayoutProps = {
   children: React.ReactNode;
@@ -46,12 +48,20 @@ export default function ClimbPage() {
           error={climbError}
           data={climbData}
         ></ClimbCard>
+        <ClimbPageNav></ClimbPageNav>
         <ClimbDataContext value={climbData}>
-          <ClimbAttemptsCard
+          <Outlet
+            context={{
+              pending: attemptsLoading,
+              error: attemptsError,
+              data: attemptsData,
+            }}
+          ></Outlet>
+          {/* <ClimbAttemptsCard
             pending={attemptsLoading}
             error={attemptsError}
             data={attemptsData}
-          ></ClimbAttemptsCard>
+          ></ClimbAttemptsCard> */}
         </ClimbDataContext>
       </ClimbPageLayout>
     </>

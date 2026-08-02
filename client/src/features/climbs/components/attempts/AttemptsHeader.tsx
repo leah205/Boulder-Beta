@@ -23,10 +23,6 @@ export default function AttemptsHeader() {
         <RecordModal
           handleSubmit={handleClickLogAttempt}
           closeModal={closeModal}
-          // logAttempt={handleLogAttempt}
-          // setNewAttemptData={setNewAttemptData}
-          // setTagModalOpen={setTagModalOpen}
-          // setRecordModal={setRecordModal}
         ></RecordModal>
       )}
       {modal == "height" && (

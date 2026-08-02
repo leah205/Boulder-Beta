@@ -13,7 +13,8 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import PostPage from "@/pages/PostPage";
 import ProfilePage from "@/pages/ProfilePage";
-
+import ClimbAttemptsCard from "@/features/climbs/components/attempts/ClimbAttemptsCard";
+import ProgressTracker from "@/features/climbs/components/ProgressTracker";
 export default function RouteElements() {
   return (
     <Routes>
@@ -23,7 +24,15 @@ export default function RouteElements() {
             <Route index element={<Navigate to="my-climbs" replace />}></Route>
             <Route path="log-climb" element={<LogClimbPage />}></Route>
             <Route path="my-climbs" element={<MyClimbsPage />}></Route>
-            <Route path="/climbs/:id" element={<ClimbPage />}></Route>
+            <Route path="climbs/:id" element={<ClimbPage />}>
+              <Route
+                index
+                element={<Navigate to="attempts" replace></Navigate>}
+                path=""
+              ></Route>
+              <Route element={<ClimbAttemptsCard />} path="attempts"></Route>
+              <Route element={<ProgressTracker />} path="progress"></Route>
+            </Route>
             <Route path="/feed" element={<Feed />}></Route>
             <Route path="/my-profile-page" element={<ProfilePage />}></Route>
             <Route

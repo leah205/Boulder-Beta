@@ -2,22 +2,7 @@ import type React from "node_modules/@types/react/index";
 import useAuth from "../features/authentication/useAuth";
 import { Outlet, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-
-type NavLinkProps = {
-  children: React.ReactNode;
-  selected?: boolean;
-};
-
-function NavLink({ children, selected }: NavLinkProps) {
-  return (
-    <li
-      className="gap-10 text-mist-500 hover:text-mist-700 px-5 hover:bg-mist-100 rounded-sm py-5"
-      style={selected ? { textDecorationLine: "underline" } : {}}
-    >
-      {children}
-    </li>
-  );
-}
+import NavLink from "@/components/NavLink";
 
 function TopNav({ children }: { children: React.ReactNode }) {
   return (
