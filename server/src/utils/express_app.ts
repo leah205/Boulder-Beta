@@ -15,6 +15,7 @@ import postRouter from "@/posts/postRoutes";
 import { ErrorResponse } from "@shared/types";
 
 import beta_router from "@/betas/betaRoutes";
+import { ZodError } from "zod";
 
 // figure out express user type
 
@@ -25,8 +26,9 @@ export default function initialize_app() {
   const corsOptions = {
     origin: [
       "http://localhost:5173",
+      "http://localhost:5174",
       "http://localhost:4173",
-      "https://boulder-beta-1.onrender.com",
+      "https://boulder-beta.onrender.com",
       "https://boulder-beta-1.onrender.com",
     ],
   };
@@ -58,7 +60,7 @@ export default function initialize_app() {
 
   app.use(
     (
-      err: AppError | Error,
+      err: AppError | Error | ZodError,
       req: Request<
         Record<string, unknown>,
         ErrorResponse,
@@ -67,10 +69,12 @@ export default function initialize_app() {
       res: Response,
       next: NextFunction,
     ) => {
-      if (err instanceof Error && "issues" in err) {
+      console.log("helllllooooo");
+      if (err instanceof ZodError) {
         console.log(err.issues);
         return res.status(400).json("Validation failed");
       }
+      console.log(err);
       const status = err instanceof AppError && err.status ? err.status : 500;
       res.status(status).json({ message: err.message });
     },

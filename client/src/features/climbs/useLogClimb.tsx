@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import climbApi from "./climbService";
+import { CustomValidationError } from "@/utils/Error";
 import type { CreateClimbRequest, ClimbResponse } from "@shared/types";
 
 export function useClimbLog() {
@@ -15,6 +16,10 @@ export function useClimbLog() {
       navigate(`/climbs/${res.id}`);
     },
     onError: (err) => {
+      if (err instanceof CustomValidationError) {
+        console.log("yoohoo");
+        setErrors(err.validation_errors);
+      }
       if (err.message == "unauthorized") {
         navigate("/signin");
       } else {

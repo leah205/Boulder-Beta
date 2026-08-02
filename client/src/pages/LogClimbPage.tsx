@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Form from "@/components/form/Form";
-
+import ClimbPic from "@/features/climbs/components/ClimbPic";
 import Button from "@/components/Button";
 import { useClimbLog } from "@/features/climbs/useLogClimb";
 import Spinner from "@/components/spinner/Spinner";
 import FormField from "@/components/form/FormField";
 import ErrorWrapper from "@/components/error/ErrorWrapper";
+import BoundingRect from "@/components/BoundingRect";
+import type { CoorType } from "@/components/BoundingRect";
 
 function get_grades() {
   const gradeOptions = new Array(15).fill("V").map((ele, index) => ele + index);
@@ -13,24 +15,33 @@ function get_grades() {
   return gradeOptions;
 }
 
-function get_ratings() {
-  const ratings = Array(5)
-    .fill(null)
-    .map((_, i) => `${i + 1}/5`);
-  ratings;
-  return ratings;
-}
+// function get_ratings() {
+//   const ratings = Array(5)
+//     .fill(null)
+//     .map((_, i) => `${i + 1}/5`);
+//   ratings;
+//   return ratings;
+// }
 
 export default function LogClimbPage() {
   const [grade, setGrade] = useState<string | null>(null);
-  const [color, setColor] = useState<string>("black");
+  const [color, setColor] = useState<string>("#000000");
   const [picture, setPicture] = useState<File | null>(null);
+  const [coors, setCoors] = useState<CoorType | null>(null);
+
+  const pictureUrl = useMemo(
+    () => (picture ? URL.createObjectURL(picture) : undefined),
+    [picture],
+  );
+
   const { logClimb, isPending, errors } = useClimbLog();
   function handleSubmit() {
     logClimb({
       grade: grade,
       picture: picture,
       color: color,
+      topHeight: coors?.height,
+      topLeftOffset: coors?.leftOffset,
     });
   }
 
@@ -92,6 +103,16 @@ export default function LogClimbPage() {
             }}
           ></input>
         </FormField>
+
+        {picture && (
+          // <img className="h-30" src={URL.createObjectURL(picture)}></img>
+          <>
+            <p>Indicate the top hold of the climb: </p>
+            <ClimbPic picture={pictureUrl} color={color}>
+              <BoundingRect coors={coors} setCoors={setCoors}></BoundingRect>
+            </ClimbPic>
+          </>
+        )}
 
         <Button type="submit" className="" onClick={handleSubmit}>
           Save Climb

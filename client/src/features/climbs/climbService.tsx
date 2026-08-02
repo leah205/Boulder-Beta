@@ -12,7 +12,11 @@ const climbApi = {
   create: async (data_obj: CreateClimbRequest) => {
     const formData = new FormData();
     for (const [field, val] of Object.entries(data_obj)) {
-      formData.append(field, val || "");
+      if (typeof val == "string" || typeof val == "number") {
+        formData.append(field, String(val) || "");
+      } else {
+        formData.append(field, val || "");
+      }
     }
     const response = await http.post<ClimbResponse>(`${API_URL}`, formData);
     return response.data;
@@ -20,6 +24,7 @@ const climbApi = {
 
   getClimb: async (climb_id: number) => {
     const response = await http.get<ClimbResponse>(`${API_URL}/${climb_id}`);
+    console.log(response.data);
     return response.data;
   },
 

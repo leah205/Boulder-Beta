@@ -50,6 +50,8 @@ model Climb {
   creator   User    @relation(fields: [creatorId], references: [id])
   creatorId Int
   public_id String?
+  topHeight Decimal?
+  topLeftOffset Decimal?
   @@map("climbs")
 }
 

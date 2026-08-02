@@ -2,27 +2,28 @@ import prisma from "../db/prisma_client";
 import { AppError } from "@/Errors";
 import { uploadOnCloudinary } from "@/utils/cloudinary";
 import replaceIdWithClip from "@/utils/replaceIdWithClip";
+import { CreateClimbRequest } from "@shared/types";
+import { Send } from "express";
 import type { Climb } from "generated/prisma/client";
 
-// function formatClimbData(input: Climb) {
-//   const { public_id, ...res } = input;
-//   const media = public_id
-//     ? getCloudinarySignedUrl(public_id, resource_type)
-//     : null;
-//   return { ...res, [resource_name]: media };
-// }
-
-type CreateClimbInput = {
-  grade?: string | null;
-  picture?: string | undefined;
-  sent?: boolean;
-  color: string;
-  uploadedAt: Date | undefined;
+type CreateClimbInput = Omit<CreateClimbRequest, "picture"> & {
+  picture?: string;
+  uploadedAt?: Date;
+  sent: boolean;
 };
 
 function formatClimbData(input: Climb) {
   const res = replaceIdWithClip(input, "image", "picture");
-  return { ...res, uploadedAt: res.uploadedAt.toJSON() };
+  const topHeight = input.topHeight ? Number(input.topHeight) : null;
+  const topLeftOffset = input.topLeftOffset
+    ? Number(input.topLeftOffset)
+    : null;
+  return {
+    ...res,
+    uploadedAt: res.uploadedAt.toJSON(),
+    topHeight,
+    topLeftOffset,
+  };
 }
 
 const climbQueries = {
@@ -94,6 +95,11 @@ const climbQueries = {
       where: {
         creatorId: user_id,
       },
+      orderBy: [
+        {
+          uploadedAt: "desc",
+        },
+      ],
     });
 
     const data_obj = climbs.map((climb) => {

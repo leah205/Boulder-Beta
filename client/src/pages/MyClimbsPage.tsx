@@ -26,7 +26,7 @@ function ClimbCard(props: climbCardProps) {
         )}
         {climb.grade && (
           <p
-            className="text-white bg-black rounded-sm"
+            className="text-white bg-black absolute bottom-0 w-full"
             style={{ backgroundColor: climb.color }}
           >
             {climb.grade}

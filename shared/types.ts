@@ -86,16 +86,7 @@ export type FollowResponse = {
   private: boolean;
 };
 
-// for climb page
-export type AttemptWithVideoResponse = {
-  id: number;
-  send: boolean;
-  climbId: number;
-  fallReason: string | null;
-  notes: string | null;
-  uploadedAt: string;
-  height: number | null;
-  leftOffset: number | null;
+export type AttemptWithVideoResponse = AttemptResponse & {
   video: {
     clip: string | null;
     post: {
@@ -122,18 +113,6 @@ export type VideoResponse = {
   clip: string;
   post: PostResponse | null;
 };
-
-// export type UserResponse = Omit<User, "password">;
-
-// const BetaWithUser = {
-//   include: {
-//     author: {
-//       select: { id: true, username: true },
-//     },
-//   },
-// } satisfies Prisma.BetaDefaultArgs;
-
-// export type BetaResponse = Prisma.BetaGetPayload<typeof BetaWithUser>;
 
 export type BetaResponse = {
   author: {
@@ -186,6 +165,9 @@ export const CreateClimbSchema = z.object({
   grade: z.string().nullable(),
   color: z.string(),
   picture: z.nullish(z.file()),
+  topHeight: z.nullish(z.number()),
+  topLeftOffset: z.nullish(z.number()),
+
   // uploadedAt: z.nullish(z.date()),
 });
 
