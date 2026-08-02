@@ -1,5 +1,5 @@
 import config from "./config";
-import initialize_app from "@/utils/express_app";
+import initialize_app from "@/express_app";
 
 const app = initialize_app();
 

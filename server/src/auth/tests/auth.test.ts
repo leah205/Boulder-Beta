@@ -1,6 +1,6 @@
 import request from "supertest";
 import { it, describe } from "vitest";
-import initialize_app from "@/utils/express_app";
+import initialize_app from "@/express_app";
 const app = initialize_app();
 
 describe("POST /signup", () => {

@@ -1,6 +1,6 @@
 import { it, describe } from "vitest";
 import AuthRequest from "@/tests/AuthRequest";
-import initialize_app from "@/utils/express_app";
+import initialize_app from "@/express_app";
 import {
   createTestAttempt,
   createTestAttemptWithVideo,
@@ -9,8 +9,7 @@ import {
   createTestUser,
   followTestUser,
 } from "@/tests/factories";
-import attemptQueries from "@/attempts/attemptQueries";
-
+import postQueries from "../postQueries";
 const app = initialize_app();
 
 const POST_URL = "/api/v1/posts";
@@ -22,8 +21,8 @@ const POST_URL = "/api/v1/posts";
 //   //     const attempt1 = await createTestAttemptWithVideo(climb1);
 //   //     const attempt2 = await createTestAttemptWithVideo(climb1);
 //   //     await createTestAttempt(climb1);
-//   //     await attemptQueries.postVideo(attempt1.id);
-//   //     await attemptQueries.postVideo(attempt2.id);
+//   //     await postQueries.postVideo(attempt1.id);
+//   //     await postQueries.postVideo(attempt2.id);
 //   //     const authRequest = new AuthRequest(app, user1.id, user1.username);
 //   //     await authRequest
 //   //       .get(`${POST_URL}`)
@@ -42,10 +41,10 @@ const POST_URL = "/api/v1/posts";
 //   //     const user3 = await createTestUser();
 //   //     const climb1 = await createTestClimb(user1);
 //   //     const attempt1 = await createTestAttemptWithVideo(climb1);
-//   //     await attemptQueries.postVideo(attempt1.id);
+//   //     await postQueries.postVideo(attempt1.id);
 //   //     const climb2 = await createTestClimb(user2);
 //   //     const attempt2 = await createTestAttemptWithVideo(climb2);
-//   //     await attemptQueries.postVideo(attempt2.id);
+//   //     await postQueries.postVideo(attempt2.id);
 //   //     await followTestUser(user3, user2);
 //   //     const authRequest = new AuthRequest(app, user3.id, user3.username);
 //   //     await authRequest
@@ -64,7 +63,7 @@ describe("GET /post", async () => {
     const user1 = await createTestUser();
     const climb1 = await createTestClimb(user1);
     const attempt1 = await createTestAttemptWithVideo(climb1);
-    const post = await attemptQueries.postVideo(attempt1.id);
+    const post = await postQueries.postVideo(attempt1.id);
     const beta = await createTestBeta(post, user1);
     const authRequest = new AuthRequest(app, user1.id, user1.username);
     await authRequest
@@ -89,9 +88,9 @@ describe("DELETE /posts", async () => {
     const climb1 = await createTestClimb(user1);
     const attempt1 = await createTestAttemptWithVideo(climb1);
     const attempt2 = await createTestAttemptWithVideo(climb1);
-    const post = await attemptQueries.postVideo(attempt1.id);
+    const post = await postQueries.postVideo(attempt1.id);
     await createTestBeta(post!, user1);
-    const post2 = await attemptQueries.postVideo(attempt2.id);
+    const post2 = await postQueries.postVideo(attempt2.id);
     const authRequest = new AuthRequest(app, user1.id, user1.username);
 
     await authRequest
@@ -122,9 +121,9 @@ describe("DELETE /posts", async () => {
     const climb1 = await createTestClimb(user1);
     const attempt1 = await createTestAttemptWithVideo(climb1);
     const attempt2 = await createTestAttemptWithVideo(climb1);
-    const post = await attemptQueries.postVideo(attempt1.id);
+    const post = await postQueries.postVideo(attempt1.id);
     await createTestBeta(post!, user1);
-    const post2 = await attemptQueries.postVideo(attempt2.id);
+    const post2 = await postQueries.postVideo(attempt2.id);
     const authRequest2 = new AuthRequest(app, user2.id, user2.username);
 
     await authRequest2.delete(`${POST_URL}/${post!.id}`).expect(403);

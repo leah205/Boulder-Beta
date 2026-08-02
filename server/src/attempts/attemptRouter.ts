@@ -5,6 +5,7 @@ import upload from "@/middleware/multer.middleware";
 import verifyToken from "@/middleware/authenticateToken";
 import ownAttemptAuth from "@/middleware/ownAttemptAuth";
 import parseFormData from "@/middleware/parseFormData";
+import postController from "@/posts/postController";
 
 const attemptRouter = express.Router();
 
@@ -22,7 +23,7 @@ attemptRouter.post(
   "/:attempt_id/video/post",
   verifyToken,
   ownAttemptAuth,
-  attemptController.postVideo,
+  postController.postVideo,
   // attemptController.createAttempt,
 );
 

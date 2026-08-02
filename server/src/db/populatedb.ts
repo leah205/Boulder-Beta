@@ -48,16 +48,13 @@ async function seed_db() {
     uploadedAt: faker.date.anytime(),
   });
 
-  const post1 = await attemptQueries.postVideo(
-    attempt2.id,
-    faker.date.anytime(),
-  );
+  const post1 = await postQueries.postVideo(attempt2.id, faker.date.anytime());
 
   const attempt3 = await createTestAttempt(climb2, {
     clip: "./src/assets/videos/send1.mp4",
   });
 
-  await attemptQueries.postVideo(attempt3.id, faker.date.anytime());
+  await postQueries.postVideo(attempt3.id, faker.date.anytime());
 
   const user2 = await createTestUser();
   user2.username;
@@ -76,14 +73,8 @@ async function seed_db() {
     clip: "./src/assets/videos/send2.mp4",
   });
 
-  const post3 = await attemptQueries.postVideo(
-    attempt4.id,
-    faker.date.anytime(),
-  );
-  const post4 = await attemptQueries.postVideo(
-    attempt5.id,
-    faker.date.anytime(),
-  );
+  const post3 = await postQueries.postVideo(attempt4.id, faker.date.anytime());
+  const post4 = await postQueries.postVideo(attempt5.id, faker.date.anytime());
 
   const user3 = await createTestUser();
   user3.username;
@@ -102,8 +93,8 @@ async function seed_db() {
     clip: "./src/assets/videos/send2.mp4",
   });
 
-  await attemptQueries.postVideo(attempt6.id, faker.date.anytime());
-  await attemptQueries.postVideo(attempt7.id, faker.date.anytime());
+  await postQueries.postVideo(attempt6.id, faker.date.anytime());
+  await postQueries.postVideo(attempt7.id, faker.date.anytime());
 }
 
 async function main() {

@@ -20,13 +20,6 @@ const attemptController = {
     res.status(200).json(attempt);
   },
 
-  postVideo: async (req: Request, res: Response) => {
-    const attempt_id = Number(req.params.attempt_id);
-
-    const attempt = await attemptQueries.postVideo(attempt_id);
-    res.status(200).json(attempt);
-  },
-
   getVideo: async (req: Request, res: Response) => {
     const attempt_id = Number(req.params.attempt_id);
     const attempt = await attemptQueries.getAttemptWithVideo(attempt_id);

@@ -108,6 +108,28 @@ const postQueries = {
     return formatData(post);
   },
 
+  postVideo: async (attempt_id: number, date: Date | undefined = undefined) => {
+    const attempt = await prisma.attempt.findUnique({
+      where: {
+        id: attempt_id,
+      },
+      include: {
+        video: true,
+      },
+    });
+
+    const video = await postRepository.postVideo(attempt_id, date);
+    if (!attempt) {
+      throw new AppError("attempt not found", 404);
+    }
+
+    if (!video.post) {
+      throw new Error("something went wrong...");
+    }
+
+    return video.post;
+  },
+
   deletePost: async (id: number) => {
     const post = await prisma.post.findUnique({
       where: { id: id },

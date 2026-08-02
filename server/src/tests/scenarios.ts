@@ -6,8 +6,7 @@ import {
   followTestUser,
 } from "@/tests/factories";
 
-import attemptQueries from "@/attempts/attemptQueries";
-
+import postQueries from "@/posts/postQueries";
 async function createFeedScenario() {
   const author1 = await createTestUser();
   const author2 = await createTestUser();
@@ -28,10 +27,10 @@ async function createFeedScenario() {
   await createTestAttempt(author2Climb1);
   await createTestAttempt(viewerClimb);
 
-  const author1Post1 = await attemptQueries.postVideo(author1Attempt1.id);
-  const author1Post2 = await attemptQueries.postVideo(author1Attempt2.id);
-  const author2Post1 = await attemptQueries.postVideo(author2Attempt1.id);
-  const viewerPost = await attemptQueries.postVideo(viewerAttempt.id);
+  const author1Post1 = await postQueries.postVideo(author1Attempt1.id);
+  const author1Post2 = await postQueries.postVideo(author1Attempt2.id);
+  const author2Post1 = await postQueries.postVideo(author2Attempt1.id);
+  const viewerPost = await postQueries.postVideo(viewerAttempt.id);
 
   await followTestUser(viewer, author1);
   await followTestUser(viewer, author2);

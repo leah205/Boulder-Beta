@@ -122,6 +122,25 @@ const postRepository = {
     });
     return firstPage;
   },
+
+  postVideo: async (attempt_id: number, date: Date | undefined) => {
+    const postCreateObj = date ? { uploadedAt: date } : null;
+
+    const video = await prisma.video.update({
+      data: {
+        post: {
+          create: postCreateObj || {},
+        },
+      },
+      where: {
+        attemptId: attempt_id,
+      },
+      include: {
+        post: {},
+      },
+    });
+    return video;
+  },
 };
 
 export default postRepository;

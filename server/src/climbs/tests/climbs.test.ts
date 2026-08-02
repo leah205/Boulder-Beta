@@ -1,6 +1,6 @@
 import { it, describe } from "vitest";
 import AuthRequest from "@/tests/AuthRequest";
-import initialize_app from "@/utils/express_app";
+import initialize_app from "@/express_app";
 const app = initialize_app();
 import { createTestUser } from "@/tests/factories";
 

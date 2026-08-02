@@ -1,7 +1,7 @@
 import { it, describe } from "vitest";
-import initialize_app from "@/utils/express_app";
+import initialize_app from "@/express_app";
 import AuthRequest from "@/tests/AuthRequest";
-import attemptQueries from "@/attempts/attemptQueries";
+import postQueries from "@/posts/postQueries";
 import {
   createTestAttempt,
   createTestUser,
@@ -115,11 +115,11 @@ describe("user tests", () => {
 
     const climb1 = await createTestClimb(user1);
     const attempt1 = await createTestAttemptWithVideo(climb1);
-    const post = await attemptQueries.postVideo(attempt1.id);
+    const post = await postQueries.postVideo(attempt1.id);
 
     const climb2 = await createTestClimb(user2);
     const attempt2 = await createTestAttemptWithVideo(climb2);
-    await attemptQueries.postVideo(attempt2.id);
+    await postQueries.postVideo(attempt2.id);
 
     const authRequest = new AuthRequest(app, user1.id, user1.username);
     await authRequest

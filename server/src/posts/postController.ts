@@ -41,6 +41,12 @@ const postController = {
     const post = (await postQueries.getPost(id)) satisfies PostResponse;
     res.json(post);
   },
+  postVideo: async (req: Request, res: Response) => {
+    const attempt_id = Number(req.params.attempt_id);
+
+    const attempt = await postQueries.postVideo(attempt_id);
+    res.status(200).json(attempt);
+  },
 };
 
 export default postController;
