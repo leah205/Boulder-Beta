@@ -3,7 +3,6 @@ import initialize_app from "@/express_app";
 import AuthRequest from "@/tests/AuthRequest";
 import postQueries from "@/posts/postQueries";
 import {
-  createTestAttempt,
   createTestUser,
   createTestClimb,
   followTestUser,

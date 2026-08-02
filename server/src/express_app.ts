@@ -69,12 +69,11 @@ export default function initialize_app() {
       res: Response,
       next: NextFunction,
     ) => {
-      console.log("helllllooooo");
       if (err instanceof ZodError) {
         console.log(err.issues);
-        return res.status(400).json("Validation failed");
+
+        return res.status(400).json({ errors: err.issues });
       }
-      console.log(err);
       const status = err instanceof AppError && err.status ? err.status : 500;
       res.status(status).json({ message: err.message });
     },

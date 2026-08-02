@@ -8,10 +8,14 @@ const attemptController = {
     req.body = CreateAttemptSchema.parse(req.body);
     const climb_id = Number(req.params.climb_id);
     const send = req.body.send;
-    const attempt = await attemptQueries.createAttempt(climb_id, {
-      clip: req.file?.path,
-      ...req.body,
-    });
+    const attempt = await attemptQueries.createAttempt(
+      climb_id,
+      req.climb?.topHeight || undefined,
+      {
+        clip: req.file?.path,
+        ...req.body,
+      },
+    );
 
     if (send) {
       await climbQueries.patchClimb({ sent: send }, climb_id);

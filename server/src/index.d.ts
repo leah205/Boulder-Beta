@@ -1,3 +1,4 @@
+import { ClimbResponse } from "@shared/types";
 import type { Climb } from "generated/prisma/client";
 type JWTUser = {
   username: string;
@@ -9,7 +10,7 @@ declare global {
     interface User extends JWTUser {}
 
     interface Request {
-      climb?: Climb;
+      climb?: ClimbResponse;
     }
   }
 }

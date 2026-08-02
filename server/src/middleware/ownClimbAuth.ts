@@ -7,7 +7,6 @@ const ownClimbAuth = async (
   res: Response,
   next: NextFunction,
 ) => {
-  ("authentcation");
   const climb_id = req.params.climb_id;
   const climb = await climbQueries.getClimb(Number(climb_id));
   if (!climb) {
@@ -16,10 +15,9 @@ const ownClimbAuth = async (
 
   const climbCreatorId = climb.creatorId;
   if (!req.user || req.user.id != climbCreatorId) {
-    ("yoohoo");
     throw new AppError(`User is forbidden to access this resource`, 403);
   }
-  //req.climb = climb;
+  req.climb = climb;
   next();
 };
 

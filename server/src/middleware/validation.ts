@@ -60,6 +60,17 @@ const validation = {
       .notEmpty()
       .withMessage("Please provide comment content"),
   ],
+  // logAttempt: [
+  //   body("height")
+  //     .trim()
+  //     .optional()
+  //     .custom((value, { req }) => {
+  //       console.log(req.climb);
+
+  //       return value ? req.climb.topHeight + 5 >= value : true;
+  //     })
+  //     .withMessage("Indicated height is greater than top height"),
+  // ],
 };
 
 export default validation;
