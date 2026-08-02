@@ -39,7 +39,7 @@ function ClimbCard(props: climbCardProps) {
 
 export default function MyClimbPage() {
   const { isPending, error, data } = useGetClimbs();
-
+  console.log(data);
   if (isPending) {
     return <Spinner></Spinner>;
   }

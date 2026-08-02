@@ -2,14 +2,13 @@ import ClimbPic from "../ClimbPic";
 import Modal from "@/components/Modal";
 import Button from "@/components/Button";
 import useClimb from "../../hooks/useClimb";
-import type React from "react";
 import { useState } from "react";
 import BoundingRect from "@/components/BoundingRect";
 import type { CoorType } from "@/components/BoundingRect";
 
 type AttemptTagModalProps = {
-  setTagModal: React.Dispatch<React.SetStateAction<boolean>>;
-  onSubmit: (
+  closeModal: () => void;
+  handleSubmit: (
     height: number | undefined,
     leftOffset: number | undefined,
   ) => void;
@@ -20,11 +19,12 @@ export default function AttemptTagModal(props: AttemptTagModalProps) {
   const climbData = useClimb();
 
   function handleSubmitClick() {
-    props.onSubmit(coors?.height, coors?.leftOffset);
+    props.handleSubmit(coors?.height, coors?.leftOffset);
   }
 
   return (
-    <Modal setModal={props.setTagModal}>
+    <Modal closeModal={props.closeModal}>
+      <p>Indicate the top hold you reached:</p>
       <BoundingRect coors={coors} setCoors={setCoors}>
         <ClimbPic
           picture={climbData.picture || undefined}

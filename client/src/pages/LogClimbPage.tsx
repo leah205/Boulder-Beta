@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import Form from "@/components/form/Form";
 import ClimbPic from "@/features/climbs/components/ClimbPic";
 import Button from "@/components/Button";
-import { useClimbLog } from "@/features/climbs/useLogClimb";
+import { useClimbLog } from "@/features/climbs/hooks/useLogClimb";
 import Spinner from "@/components/spinner/Spinner";
 import FormField from "@/components/form/FormField";
 import ErrorWrapper from "@/components/error/ErrorWrapper";

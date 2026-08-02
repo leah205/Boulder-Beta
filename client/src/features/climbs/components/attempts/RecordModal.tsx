@@ -2,23 +2,22 @@ import Button from "@/components/Button";
 import { useState } from "react";
 import ErrorWrapper from "@/components/error/ErrorWrapper";
 import Modal from "@/components/Modal";
+
+// type AttemptDataType = {
+//   send: boolean;
+//   clip: undefined | File;
+//   height: undefined | number;
+//   leftOffset: undefined | number;
+// };
+
 type RecordModalProps = {
-  setRecordModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setNewAttemptData: React.Dispatch<
-    React.SetStateAction<{
-      send: boolean;
-      clip: undefined | File;
-      height: undefined | number;
-      leftOffset: undefined | number;
-    }>
-  >;
-  setTagModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  handleSubmit: (clip: File, send: boolean) => void;
+  closeModal: () => void;
 };
 
 export default function RecordModal({
-  setNewAttemptData,
-  setTagModalOpen,
-  setRecordModal,
+  handleSubmit,
+  closeModal,
 }: RecordModalProps) {
   const [clip, setClip] = useState<File | null>(null);
   const [error, setError] = useState<Error | null>(null);
@@ -27,19 +26,12 @@ export default function RecordModal({
       setError(Error("Please attach recording"));
       return;
     }
-    setNewAttemptData({
-      send: send,
-      clip,
-      height: undefined,
-      leftOffset: undefined,
-    });
-    setRecordModal(false);
-    setTagModalOpen(true);
+    handleSubmit(clip, send);
   }
 
   return (
     // -translate-y-full
-    <Modal setModal={setRecordModal}>
+    <Modal closeModal={closeModal}>
       {error && <ErrorWrapper>{error.message}</ErrorWrapper>}
 
       <label

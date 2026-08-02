@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import climbApi from "./climbService";
+import climbApi from "@/features/climbs/climbService";
 import { CustomValidationError } from "@/utils/Error";
 import type { CreateClimbRequest, ClimbResponse } from "@shared/types";
 

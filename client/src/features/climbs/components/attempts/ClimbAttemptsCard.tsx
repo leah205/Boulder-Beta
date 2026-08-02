@@ -1,5 +1,4 @@
 import ContentSpinner from "@/components/spinner/ContentSpinner";
-import useLogAttempt from "@/features/climbs/useLogAttempt";
 import Button from "@/components/Button";
 import Spinner from "@/components/spinner/Spinner";
 import { useState } from "react";
@@ -8,57 +7,43 @@ import ClimbAttemptsList from "./ClimbAttemptsList";
 import type { AttemptWithVideoResponse } from "@shared/types";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import AttemptTagModal from "./AttemptTagModal";
-
-type AttemptDataType = {
-  send: boolean;
-  clip: undefined | File;
-  height: undefined | number;
-  leftOffset: undefined | number;
-};
+import useAttemptFlow from "../../hooks/useAttemptFlow";
 
 function AttemptsHeader() {
-  const [recordModal, setRecordModal] = useState(false);
-  const [tagModalOpen, setTagModalOpen] = useState(false);
-  const [newAttemptData, setNewAttemptData] = useState<AttemptDataType>({
-    send: false,
-    clip: undefined,
-    height: undefined,
-    leftOffset: undefined,
-  });
+  // function handleTagHeightSubmit(
+  //   height: number | undefined,
+  //   leftOffset: number | undefined,
+  // ) {
+  //   setTagModalOpen(false);
 
+  //   logAttempt({ ...newAttemptData, height, leftOffset });
+  // }
   const {
-    logAttempt,
-    isPending: logPending,
-    error: logError,
-  } = useLogAttempt();
-
-  function openRecord() {
-    setRecordModal(true);
-  }
-
-  function handleTagHeightSubmit(
-    height: number | undefined,
-    leftOffset: number | undefined,
-  ) {
-    setTagModalOpen(false);
-
-    logAttempt({ ...newAttemptData, height, leftOffset });
-  }
+    modal,
+    logPending,
+    logError,
+    handleClickLogAttempt,
+    handleSubmitHeightModal,
+    closeModal,
+    openRecord,
+  } = useAttemptFlow();
 
   return (
     <>
-      {recordModal && (
+      {modal == "record" && (
         <RecordModal
-          // logAttempt={logAttempt}
-          setNewAttemptData={setNewAttemptData}
-          setTagModalOpen={setTagModalOpen}
-          setRecordModal={setRecordModal}
+          handleSubmit={handleClickLogAttempt}
+          closeModal={closeModal}
+          // logAttempt={handleLogAttempt}
+          // setNewAttemptData={setNewAttemptData}
+          // setTagModalOpen={setTagModalOpen}
+          // setRecordModal={setRecordModal}
         ></RecordModal>
       )}
-      {tagModalOpen && (
+      {modal == "height" && (
         <AttemptTagModal
-          setTagModal={setTagModalOpen}
-          onSubmit={handleTagHeightSubmit}
+          closeModal={closeModal}
+          handleSubmit={handleSubmitHeightModal}
         ></AttemptTagModal>
       )}
       {logPending && <Spinner></Spinner>}
@@ -67,13 +52,7 @@ function AttemptsHeader() {
         <Button
           className="bg-red-400 block"
           onClick={() => {
-            setTagModalOpen(true);
-            setNewAttemptData({
-              send: false,
-              clip: undefined,
-              height: undefined,
-              leftOffset: undefined,
-            });
+            handleClickLogAttempt(undefined, false);
           }}
         >
           Log Attempt
@@ -81,13 +60,7 @@ function AttemptsHeader() {
         <Button
           className="block bg-green-400"
           onClick={() => {
-            setTagModalOpen(true);
-            setNewAttemptData({
-              send: true,
-              clip: undefined,
-              height: undefined,
-              leftOffset: undefined,
-            });
+            handleClickLogAttempt(undefined, true);
           }}
         >
           Log Send

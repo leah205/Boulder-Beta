@@ -6,11 +6,11 @@ import useFocusModal from "@/hooks/useFocusModal";
 
 type ModalProps = {
   children: React.ReactNode;
-  setModal: (value: React.SetStateAction<boolean>) => void;
+  closeModal: () => void;
 };
 export default function Modal(props: ModalProps) {
   const modalRef = useRef<HTMLDivElement | null>(null);
-  useFocusModal(modalRef, props.setModal);
+  useFocusModal(modalRef, props.closeModal);
 
   return (
     <div className="absolute inset-0 bg-black/50 h-screen z-150 ">
@@ -27,7 +27,7 @@ export default function Modal(props: ModalProps) {
               <Button
                 className="absolute top-2 right-2  rounded-xl bg-red-500 w-6 h-6 flex items-center justify-center"
                 type="button"
-                onClick={() => props.setModal(false)}
+                onClick={() => props.closeModal()}
               >
                 <span className="relative -top-0.5">x</span>
               </Button>

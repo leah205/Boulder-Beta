@@ -13,7 +13,7 @@ const climbApi = {
     const formData = new FormData();
     for (const [field, val] of Object.entries(data_obj)) {
       if (typeof val == "string" || typeof val == "number") {
-        formData.append(field, String(val) || "");
+        formData.append(field, val ? String(val) : "");
       } else {
         formData.append(field, val || "");
       }
@@ -40,6 +40,7 @@ const climbApi = {
     const formData = new FormData();
     formData.append("send", String(attempt.send));
     formData.append("height", attempt.height ? String(attempt.height) : "");
+    console.log(attempt.leftOffset);
     formData.append(
       "leftOffset",
       attempt.leftOffset ? String(attempt.leftOffset) : "",

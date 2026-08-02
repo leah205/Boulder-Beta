@@ -13,11 +13,11 @@ export default function useLogAttempt() {
     mutationFn: (attempt: CreateAttemptRequest) =>
       climbApi.logAttempt(Number(climbId), attempt),
     onSuccess: (res: AttemptResponse) => {
-      navigate(`/climbs/${climbId}`);
-      ["climb", climbId, "attempts"];
       queryClient.invalidateQueries({
         queryKey: ["climb", Number(climbId), "attempts"],
       });
+      navigate(`/climbs/${climbId}`);
+      console.log(["climb", climbId, "attempts"]);
 
       return res;
     },

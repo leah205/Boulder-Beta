@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 export default function useFocusModal(
   ref: React.RefObject<HTMLDivElement | null>,
-  setModal: (value: React.SetStateAction<boolean>) => void,
+  closeModal: () => void,
 ) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -17,7 +17,7 @@ export default function useFocusModal(
 
     function handleClickOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
-        setModal(false);
+        closeModal();
       }
     }
     function handleTabPress(e: KeyboardEvent) {
@@ -34,7 +34,7 @@ export default function useFocusModal(
 
     const handleEscapeKeyPress = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setModal(false);
+        closeModal();
       }
     };
 
