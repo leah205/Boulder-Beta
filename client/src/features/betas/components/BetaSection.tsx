@@ -73,13 +73,13 @@ export default function BetaSection({
 
   return (
     <BetasSectionLayout>
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-3">
         <button
           type="button"
           onClick={toggleBetaFormOpen}
           className="opacity-100 h-3 w-3 rounded-xl flex justify-center items-center p-3 bg-blue-300"
         >
-          <span className="-top-0.5 relative">{betaFormOpen ? "-" : "+"}</span>
+          <span className=" relative">{betaFormOpen ? "-" : "+"}</span>
         </button>
         <button
           type="button"

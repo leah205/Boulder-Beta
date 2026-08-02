@@ -25,13 +25,10 @@ export type CoorType = {
   leftOffset: number;
 } | null;
 
-export default function BoundingRect({
-  children,
-  setCoors,
-  coors,
-}: BoundingRectType) {
+export default function BoundingRect({ children, setCoors }: BoundingRectType) {
   const boundingRef = useRef<HTMLDivElement>(null);
   const [boxCoors, setBoxCoors] = useState<number[] | null>(null);
+  console.log(boxCoors);
 
   function handleClick(e: React.MouseEvent<HTMLDivElement>) {
     console.log("yoohoo");
@@ -43,12 +40,14 @@ export default function BoundingRect({
     const x = e.clientX - rect!.left;
     const y = rect!.bottom - e.clientY;
     const boxHeight = rect.bottom - rect.top;
-    console.log(x);
+    const boxWidth = rect.right - rect.left;
+    console.log(y / boxHeight);
+    console.log(x / boxWidth);
     setBoxCoors([x, y]);
 
     setCoors({
       height: y / boxHeight,
-      leftOffset: x / boxHeight,
+      leftOffset: x / boxWidth,
     });
   }
 

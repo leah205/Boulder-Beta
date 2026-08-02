@@ -2,9 +2,10 @@ import type { ValidationError } from "express-validator";
 
 class CustomValidationError extends Error {
   validation_errors: string[];
-  constructor(message: string, errors: ValidationError[]) {
+  constructor(message: string, errors: string[]) {
     super(message);
-    this.validation_errors = errors.map((error) => error.msg);
+    console.log(errors);
+    this.validation_errors = errors;
   }
 }
 

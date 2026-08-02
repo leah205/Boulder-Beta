@@ -29,7 +29,7 @@ export default function Modal(props: ModalProps) {
                 type="button"
                 onClick={() => props.closeModal()}
               >
-                <span className="relative -top-0.5">x</span>
+                <span className="relative">x</span>
               </Button>
             </div>
             {props.children}

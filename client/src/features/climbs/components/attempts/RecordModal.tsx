@@ -58,7 +58,7 @@ export default function RecordModal({
       {clip && (
         <>
           <video
-            className="h-100"
+            className="h-100 mt-8"
             width="320"
             height="100"
             controls

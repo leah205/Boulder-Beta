@@ -43,8 +43,8 @@ export default function useAttemptFlow() {
   }
 
   function handleSubmitHeightModal(
-    leftOffset: number | undefined,
     height: number | undefined,
+    leftOffset: number | undefined,
   ) {
     handleLogAttempt({ height, leftOffset });
     setNewAttemptData({ ...emptyAttempt });

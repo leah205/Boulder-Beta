@@ -22,18 +22,16 @@ export default function responseErrorHandler(error: AxiosError) {
       const statusCode = response?.status;
       if (statusCode == 400) {
         const data = "data" in response ? (response.data as Data) : null;
-        console.log(data);
         if (data && data.errors?.length) {
           console.log(data.errors);
           throw new CustomValidationError(
             "invalid form entries",
-            data.errors as ValidationError[],
+            data.errors as unknown as string[],
           );
         }
         if (data && data.message) {
           throw new ServerError(data.message, 400);
         }
-        ("user request malconfigured");
         throw new ServerError("User request malfigured", 400);
       }
       if (statusCode == 401) {
