@@ -25,12 +25,12 @@ export default function AttemptTagModal(props: AttemptTagModalProps) {
   return (
     <Modal closeModal={props.closeModal}>
       <p>Indicate the top hold you reached:</p>
-      <BoundingRect coors={coors} setCoors={setCoors}>
-        <ClimbPic
-          picture={climbData.picture || undefined}
-          color={climbData.color}
-        ></ClimbPic>
-      </BoundingRect>
+      <ClimbPic
+        picture={climbData.picture || undefined}
+        color={climbData.color}
+      >
+        <BoundingRect coors={coors} setCoors={setCoors}></BoundingRect>
+      </ClimbPic>
 
       <Button onClick={handleSubmitClick}>Submit</Button>
     </Modal>
