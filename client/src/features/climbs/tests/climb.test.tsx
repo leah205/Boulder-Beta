@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+// import { describe, it, expect } from "vitest";
 import { render, screen, waitFor, within } from "@testing-library/react";
 
 import "@testing-library/jest-dom/vitest";
@@ -15,14 +15,14 @@ vi.mock("@/features/authentication/auth_service");
 vi.mock("@/features/climbs/climbService");
 vi.mock("@/features/users/userService");
 
-const user1 = createTestUser(1, "leah");
+const user1 = createTestUser();
 const climb1 = createTestClimb({
   creatorId: user1.id,
   id: 1,
   grade: "V3",
   sent: false,
   color: "blue",
-  picture: undefined,
+  picture: null,
 });
 const climb2 = createTestClimb({
   creatorId: user1.id,
@@ -30,7 +30,7 @@ const climb2 = createTestClimb({
   grade: null,
   color: "pink",
   sent: true,
-  picture: undefined,
+  picture: null,
 });
 
 vi.mocked(auth_api.getUserFromToken).mockResolvedValue(user1);
