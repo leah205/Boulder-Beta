@@ -6,7 +6,7 @@ import Spinner from "@/components/spinner/Spinner";
 import { Link } from "react-router-dom";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import { useParams } from "react-router-dom";
-import formatDate from "@/utils/formatDate";
+import { getDateAndTime } from "@/utils/formatDate";
 
 // type ManageClipProps = {
 //   clip: string | null | undefined;
@@ -66,7 +66,7 @@ export default function AttemptRow({ attempt }: AttemptRowProps) {
       <div className="flex gap-3 mb-3 items-center" key={attempt.id}>
         {attempt.send && <p className="text-green-400">Send </p>}
         {!attempt.send && <p className="text-red-400">Attempt</p>}
-        <p>{formatDate(attempt.uploadedAt)}</p>
+        <p>{getDateAndTime(attempt.uploadedAt)}</p>
         {attempt.video?.clip && (
           <Button
             type="button"

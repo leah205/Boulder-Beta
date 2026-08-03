@@ -10,8 +10,6 @@ import type {
   VideoResponse,
 } from "@shared/types";
 
-let id = 0;
-
 export function createTestUser(overrides: Partial<UserResponse> = {}) {
   const user_id = faker.number.int();
   return {
@@ -26,7 +24,7 @@ export function createTestUser(overrides: Partial<UserResponse> = {}) {
   } satisfies UserResponse;
 }
 
-export function createTestClimb(climb_input: Partial<ClimbResponse>) {
+export function createTestClimb(climb_input: Partial<ClimbResponse> = {}) {
   return {
     id: faker.number.int(),
     grade: null,
@@ -37,6 +35,8 @@ export function createTestClimb(climb_input: Partial<ClimbResponse>) {
     picture: null,
     public: false,
     rating: null,
+    topHeight: null,
+    topLeftOffset: null,
     ...climb_input,
   } satisfies ClimbResponse;
 }
@@ -94,6 +94,8 @@ export function createTestAttemptWithVideo(
     notes: null,
     send: false,
     video: null,
+    height: null,
+    leftOffset: null,
     ...attempt_input,
   } satisfies AttemptWithVideoResponse;
 }

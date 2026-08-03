@@ -3,7 +3,7 @@ import type { PostResponse } from "@shared/types";
 import { useState } from "react";
 import Button from "@/components/Button";
 import betasIcon from "@assets/betas.svg";
-import formatDate from "@/utils/formatDate";
+import { getDateAndTime } from "@/utils/formatDate";
 
 type PostCardProps = {
   post: PostResponse;
@@ -41,7 +41,7 @@ export default function PostCard({ post }: PostCardProps) {
           ></BetaSection>
         )}
       </div>
-      <p>{formatDate(post.uploadedAt)}</p>
+      <p>{getDateAndTime(post.uploadedAt)}</p>
     </div>
   );
 }

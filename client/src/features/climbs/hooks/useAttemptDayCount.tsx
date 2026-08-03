@@ -1,4 +1,5 @@
 type useAttemptHeightProgressProps = {};
+import { getDate } from "@/utils/formatDate";
 import type { AttemptWithVideoResponse } from "@shared/types";
 import Chart from "chart.js/auto";
 import { useEffect } from "react";
@@ -18,10 +19,7 @@ export default function useAttemptDayCount({
     }
 
     if (data) {
-      const days = data.map((row) => {
-        const date = new Date(row.uploadedAt);
-        return date.getDay();
-      });
+      const days = data.map((row) => getDate(row.uploadedAt));
       const dayObj = days.reduce(
         (acc, day) => {
           acc[day] = (acc[day] || 0) + 1;
@@ -37,7 +35,7 @@ export default function useAttemptDayCount({
 
           datasets: [
             {
-              label: "Attempts per day",
+              label: "# of Attempts",
               data: Object.values(dayObj),
             },
           ],
