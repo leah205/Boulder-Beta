@@ -3,6 +3,9 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 import useFollowUser from "@/hooks/useFollowUser";
 import Spinner from "@/components/spinner/Spinner";
 import ErrorMessage from "@/components/error/ErrorMessage";
+import { useState } from "react";
+import expandSvg from "@assets/expand.svg";
+import collapseSvg from "@assets/collapse.svg";
 
 type FollowingRowProps = {
   user: {
@@ -36,22 +39,42 @@ function FollowingRow({ user }: FollowingRowProps) {
 
 export default function ProfilePage() {
   const currentUser = useCurrentUser();
+  const [followingOpen, setFollowingOpen] = useState(false);
+  const [followersOpen, setFollowersOpen] = useState(false);
 
   return (
     <div className="w-80 m-auto border-1 h-100 my-10 p-6 max-w-4/5 bg-mist-50">
       <p className="text-xl mb-5">{currentUser.username}</p>
       <div>
-        <p className=" bg-blue-100 rounded-md p-3 my-3">Following: </p>
+        <div className="flex gap-6">
+          <p className=" bg-blue-100 rounded-md p-3 my-3">Following </p>
+          <button onClick={(e) => setFollowingOpen(!followingOpen)}>
+            <img
+              src={followingOpen ? collapseSvg : expandSvg}
+              className="w-10"
+            ></img>
+          </button>
+        </div>
         <ul>
-          {currentUser.following.map((user) => {
-            return <FollowingRow user={user} key={user.id}></FollowingRow>;
-          })}
+          {followingOpen &&
+            currentUser.following.map((user) => {
+              return <FollowingRow user={user} key={user.id}></FollowingRow>;
+            })}
         </ul>
-        <p className=" bg-blue-100 rounded-md p-3 my-3">Followers: </p>
+        <div className="flex gap-6">
+          <p className=" bg-blue-100 rounded-md p-3 my-3">Followers </p>
+          <button onClick={(e) => setFollowersOpen(!followersOpen)}>
+            <img
+              src={followersOpen ? collapseSvg : expandSvg}
+              className="w-10"
+            ></img>
+          </button>
+        </div>
         <ul>
-          {currentUser.followedBy.map((user) => {
-            return <p key={user.id}>{user.username}</p>;
-          })}
+          {followersOpen &&
+            currentUser.followedBy.map((user) => {
+              return <p key={user.id}>{user.username}</p>;
+            })}
         </ul>
       </div>
     </div>
