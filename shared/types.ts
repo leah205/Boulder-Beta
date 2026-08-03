@@ -2,17 +2,6 @@ import prisma from "../server/src/db/prisma_client";
 
 import * as z from "zod";
 
-import type {
-  Climb,
-  User,
-  Attempt,
-  Post,
-  Prisma,
-  Beta,
-  Video,
-} from "../server/generated/prisma/client";
-import { UserMaxOrderByAggregateInput } from "generated/prisma/models";
-
 // response types
 
 //export type AuthResponse = Pick<User, "id" | "username"> | undefined;
@@ -47,6 +36,8 @@ export type ClimbResponse = {
   sent: boolean;
   creatorId: number;
   picture?: string | null;
+  topHeight: number | null;
+  topLeftOffset: number | null;
 };
 
 // export type UserResponse = Omit<User, "password"> & {

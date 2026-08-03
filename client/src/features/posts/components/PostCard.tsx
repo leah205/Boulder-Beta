@@ -41,7 +41,9 @@ export default function PostCard({ post }: PostCardProps) {
           ></BetaSection>
         )}
       </div>
-      <p>{getDateAndTime(post.uploadedAt)}</p>
+      <p className=" bg-blue-100 rounded-md p-3">
+        {getDateAndTime(post.uploadedAt)}
+      </p>
     </div>
   );
 }

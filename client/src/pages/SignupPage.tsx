@@ -55,7 +55,8 @@ export default function SignupPage() {
           Sign up
         </Button>
         <Link className="block" to="/signin">
-          Already have an account? <b>Sign in</b>
+          Already have an account?{" "}
+          <button className="hover:bg-mist-100 p-3 rounded-xs">Sign in</button>
         </Link>
       </Form>
     </>

@@ -35,11 +35,11 @@ export default function ProgressTracker({}: ProgressTrackerProps) {
 
   return (
     <>
-      <div className=" w-full flex items-center flex-col">
-        <div className="h-50">
+      <div className=" w-full flex items-center flex-col px-5">
+        <div className="">
           <canvas ref={heightChartRef}></canvas>
         </div>
-        <div className="h-50">
+        <div className=" ">
           <canvas ref={countChartRef}></canvas>
         </div>
       </div>

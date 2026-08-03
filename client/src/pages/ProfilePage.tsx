@@ -38,16 +38,16 @@ export default function ProfilePage() {
   const currentUser = useCurrentUser();
 
   return (
-    <div className="w-80 m-auto border-1 h-100 my-10 p-6 max-w-4/5">
-      <p>{currentUser.username}</p>
+    <div className="w-80 m-auto border-1 h-100 my-10 p-6 max-w-4/5 bg-mist-50">
+      <p className="text-xl mb-5">{currentUser.username}</p>
       <div>
-        <p>Following: </p>
+        <p className=" bg-blue-100 rounded-md p-3 my-3">Following: </p>
         <ul>
           {currentUser.following.map((user) => {
             return <FollowingRow user={user} key={user.id}></FollowingRow>;
           })}
         </ul>
-        <p>Followers: </p>
+        <p className=" bg-blue-100 rounded-md p-3 my-3">Followers: </p>
         <ul>
           {currentUser.followedBy.map((user) => {
             return <p key={user.id}>{user.username}</p>;

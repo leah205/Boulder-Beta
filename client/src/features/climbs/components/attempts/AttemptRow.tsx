@@ -64,9 +64,11 @@ export default function AttemptRow({ attempt }: AttemptRowProps) {
   return (
     <div data-testid="attempt-row">
       <div className="flex gap-3 mb-3 items-center" key={attempt.id}>
-        {attempt.send && <p className="text-green-400">Send </p>}
-        {!attempt.send && <p className="text-red-400">Attempt</p>}
-        <p>{getDateAndTime(attempt.uploadedAt)}</p>
+        <div className="flex gap-3 bg-blue-100 rounded-md p-3">
+          {attempt.send && <p className="text-green-400">Send </p>}
+          {!attempt.send && <p className="text-red-400">Attempt</p>}
+          <p>{getDateAndTime(attempt.uploadedAt)}</p>
+        </div>
         {attempt.video?.clip && (
           <Button
             type="button"
