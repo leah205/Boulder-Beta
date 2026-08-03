@@ -24,7 +24,7 @@ export default function AttemptTagModal(props: AttemptTagModalProps) {
 
   return (
     <Modal closeModal={props.closeModal}>
-      <p>Indicate the top hold you reached:</p>
+      <p data-testid="modal-text">Indicate the top hold you reached:</p>
       <ClimbPic
         picture={climbData.picture || undefined}
         color={climbData.color}

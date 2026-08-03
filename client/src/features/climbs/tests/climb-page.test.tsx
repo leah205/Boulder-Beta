@@ -118,7 +118,7 @@ describe("attempts rendering", () => {
     render(<ProviderWrapper initRoute={`/climbs/${climb1.id}`} />);
     const recordButton = await screen.findByRole("button", { name: "Record" });
     await user.click(recordButton);
-    const input = screen.queryByLabelText("Upload a video:");
+    const input = screen.queryByLabelText("Upload a video");
     expect(input).toBeInTheDocument();
     const closeBtn = screen.getByRole("button", { name: "x" });
     await user.click(closeBtn);
@@ -154,9 +154,8 @@ describe("attempts rendering", () => {
     ).not.toBeInTheDocument();
 
     const file = new File(["hello"], "hello.png", { type: "video/mp4" });
-    const input = screen.getByLabelText("Upload a video:");
+    const input = screen.getByLabelText("Upload a video");
     await user.upload(input, file);
-    screen.debug();
 
     expect(within(recordModal).getByText("Log Attempt")).toBeInTheDocument();
   });
