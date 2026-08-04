@@ -25,8 +25,9 @@ export default function Modal(props: ModalProps) {
           >
             <div className="mb-10">
               <Button
-                className="absolute top-2 right-2  rounded-xl bg-red-500 w-6 h-6 flex items-center justify-center"
+                className="absolute top-2 right-2  rounded-xl w-6 h-6 flex items-center justify-center"
                 type="button"
+                variant="red"
                 onClick={() => props.closeModal()}
               >
                 <span className="relative">x</span>

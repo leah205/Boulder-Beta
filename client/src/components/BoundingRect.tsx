@@ -9,7 +9,7 @@ type HeightTagProps = {
 function HeightTag({ x, y }: HeightTagProps) {
   return (
     <div
-      className="bg-red-500 w-2 h-2 rounded-full absolute z-1000 "
+      className="bg-white w-2 h-2 rounded-full absolute z-1000 "
       style={{ bottom: y, left: x }}
     ></div>
   );

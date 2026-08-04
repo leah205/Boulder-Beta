@@ -58,7 +58,8 @@ export default function RecordModal({
           <>
             <div className="flex gap-2 mt-10">
               <Button
-                className="bg-red-400 block"
+                className="block"
+                variant="red"
                 onClick={() => handleClick(false)}
               >
                 Log Attempt

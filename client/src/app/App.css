@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 @import "tailwindcss";
+@tailwind components
 
 @plugin "@tailwindcss/forms";
 
@@ -21,5 +22,11 @@ body {
     html {
       font-size: 20px;
     }
+  }
+}
+
+@layer components {
+  .red-btn {
+    @apply bg-mist-200 hover:bg-mist-300;
   }
 }

@@ -36,11 +36,7 @@ export default function MyPostCard({ post, navigateOut }: MyPostCardProps) {
         </video>
       )} */}
       <PostCard post={post}></PostCard>
-      <Button
-        className="bg-red-400"
-        onClick={() => onDelete(post.id)}
-        type="submit"
-      >
+      <Button variant="red" onClick={() => onDelete(post.id)} type="submit">
         Delete Post
       </Button>
     </div>

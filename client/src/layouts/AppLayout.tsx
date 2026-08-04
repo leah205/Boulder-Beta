@@ -73,7 +73,7 @@ export default function AppLayout() {
           <Sidebar>
             <NavContents url={url}></NavContents>
           </Sidebar>
-          <div className="w-full pt-16 pb-16">
+          <div className="w-full pt-30 pb-16 lg:w-3/5 lg:ml-100 ">
             <Outlet />
           </div>
         </div>

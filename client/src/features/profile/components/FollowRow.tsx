@@ -22,7 +22,8 @@ export default function FollowingRow({ user }: FollowingRowProps) {
       {error && <ErrorMessage error={error}></ErrorMessage>}
       <p>{user.username}</p>
       <button
-        className="bg-red-400 p-3 h-5 text-xs flex items-center rounded-sm text-white"
+        className="p-3 h-5 text-xs flex items-center rounded-sm text-white"
+        variant="red"
         onClick={clickUnfollow}
       >
         Unfollow

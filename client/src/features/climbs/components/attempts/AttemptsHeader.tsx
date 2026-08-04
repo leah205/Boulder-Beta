@@ -35,7 +35,8 @@ export default function AttemptsHeader() {
       {logError && <ErrorMessage error={logError}></ErrorMessage>}
       <div className="flex justify-center py-5 gap-3">
         <Button
-          className="bg-red-300 block"
+          className="block"
+          variant="red"
           onClick={() => {
             handleClickLogAttempt(undefined, false);
           }}
@@ -43,7 +44,7 @@ export default function AttemptsHeader() {
           Log Attempt
         </Button>
         <Button
-          className="block bg-green-300"
+          className="block bg-green-300 hover:bg-green-500"
           onClick={() => {
             handleClickLogAttempt(undefined, true);
           }}

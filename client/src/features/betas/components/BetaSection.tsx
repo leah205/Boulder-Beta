@@ -74,20 +74,22 @@ export default function BetaSection({
   return (
     <BetasSectionLayout>
       <div className="flex justify-between mb-3">
-        <button
+        <Button
           type="button"
           onClick={toggleBetaFormOpen}
-          className="opacity-100 h-3 w-3 rounded-xl flex justify-center items-center p-3 bg-blue-300"
+          variant="blue"
+          className="opacity-100 h-3 w-3 rounded-xl flex justify-center items-center p-3"
         >
           <span className=" relative">{betaFormOpen ? "-" : "+"}</span>
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={() => setBetasOpen(false)}
-          className="opacity-100 h-3 w-3 rounded-xl flex justify-center items-center bg-red-400 flex justify-center items-center p-3"
+          variant="red"
+          className="opacity-100 h-3 w-3 rounded-xl flex justify-center items-center  flex justify-center items-center p-3"
         >
           <span className="-top-0.5 relative ">x</span>
-        </button>
+        </Button>
       </div>
       {betaFormOpen && (
         <BetaForm

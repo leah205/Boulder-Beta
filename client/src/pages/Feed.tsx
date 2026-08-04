@@ -16,7 +16,7 @@ type FeedTypeButtonsProps = {
 function FeedTypeButtons({ setFeedType, feedType }: FeedTypeButtonsProps) {
   const feedTypeClass = "p-3 rounded-sm text-black";
   const currentFeedClass = `bg-mist-300 ${feedTypeClass}`;
-  const otherFeedClass = `bg-mist-100 ${feedTypeClass}`;
+  const otherFeedClass = `bg-mist-100 hover:bg-mist-200 ${feedTypeClass} `;
 
   return (
     <div className="flex w-60 justify-between m-auto px-8">

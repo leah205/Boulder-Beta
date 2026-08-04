@@ -40,8 +40,14 @@ function AttemptVideoSection({ attempt }: AttemptVideoSectionProps) {
           type="video/mp4"
         ></source>
       </video>
+      {postPending && <Spinner></Spinner>}
       {attempt.video?.post ? (
-        <Link to={`/posts/${attempt.video.post?.id}`}>Go to post</Link>
+        <Link
+          to={`/posts/${attempt.video.post?.id}`}
+          className="bg-mist-100 hover:bg-mist-200 p-3 rounded-md"
+        >
+          <p>Go to post</p>
+        </Link>
       ) : (
         <Button type="submit" onClick={postAttempt}>
           Publish
