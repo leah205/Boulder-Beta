@@ -8,12 +8,9 @@ https://boulder-beta-1.onrender.com/
 
 ## Features
 
-- Upload a climbing project that you are working on
-- Log attempts to keep track of progress
-- Upload climbing videos
+- Track progress in climbing projects
 - Post your sends and get advice from other climbers on beta
-- Follow other users
-- Get access to analytics on climbing projects
+- View analytics on climbing projects
 
 ## Installation
 
@@ -23,7 +20,13 @@ https://boulder-beta-1.onrender.com/
   - run `npm install` to install dependencies
   - run `npm run dev` to start the development server
 
-## Usage
+<!-- ## Usage
+
+Frontend:
+.env: - VITE_API_URL = your vite server url
+Backend:
+.env
+-  -->
 
 ## Tools
 
