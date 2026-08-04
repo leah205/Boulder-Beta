@@ -10,7 +10,7 @@ interface Props {
 export default function Button({ children, type, className, onClick }: Props) {
   return (
     <button
-      className={`bg-blue-500 text-white p-3 rounded-sm ${className}`}
+      className={`bg-blue-300 text-white p-3 rounded-sm ${className}`}
       type={type || "button"}
       onClick={(e) => {
         e.preventDefault();

@@ -20,7 +20,7 @@ export default function Modal(props: ModalProps) {
       >
         <div ref={modalRef} className="max-w-4/5">
           <Form
-            className=" h-50  w-full bg-white relative m-auto min-h-70 overflow-scroll p-5 "
+            className=" h-4/5  w-full bg-white relative m-auto min-h-70 overflow-scroll p-5 "
             enctype="multipart/form-data"
           >
             <div className="mb-10">

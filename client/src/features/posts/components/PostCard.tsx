@@ -16,7 +16,7 @@ export default function PostCard({ post }: PostCardProps) {
     betasOpen ? setBetasOpen(false) : setBetasOpen(true);
   return (
     <div className="flex flex-col justify-center items-center gap-3">
-      <div className=" relative mb-5 w-60">
+      <div className=" relative mb-5 w-80">
         <video className="w-full" width="320" height="100" controls>
           <source src={post.clip || undefined} type="video/mp4"></source>
         </video>

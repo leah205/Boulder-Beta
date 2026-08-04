@@ -34,75 +34,56 @@ export default function RecordModal({
     <Modal closeModal={closeModal}>
       {error && <ErrorWrapper>{error.message}</ErrorWrapper>}
 
-      <label
-        className="mt-7 border-1 border-black hover:bg-mist-200 rounded-sm bg-mist-100 p-5"
-        htmlFor="clip"
-      >
-        Upload a video
-      </label>
-
-      <input
-        type="file"
-        name="clip"
-        id="clip"
-        capture="environment"
-        hidden
-        accept="video/*"
-        onChange={(e) => {
-          if (e.target.files) {
-            setClip(e.target.files[0]);
-          } else setClip(null);
-        }}
-      />
-
-      {clip && (
-        <>
-          <video
-            className="h-100 mt-8"
-            width="320"
-            height="100"
-            controls
-            src={URL.createObjectURL(clip)}
-          >
-            {/* <source src={URL.createObjectURL(clip)} type="video/mp4"></source> */}
-          </video>
-          <div className="flex gap-2 mt-10">
-            <Button
-              className="bg-red-400 block"
-              onClick={() => handleClick(false)}
+      <div className="w-full flex flex-col items-center">
+        <label
+          className="mt-7 border-1 border-mist-300 hover:bg-mist-200 rounded-sm bg-mist-100 p-5"
+          htmlFor="clip"
+        >
+          Upload a video
+        </label>
+        <input
+          type="file"
+          name="clip"
+          id="clip"
+          capture="environment"
+          hidden
+          accept="video/*"
+          onChange={(e) => {
+            if (e.target.files) {
+              setClip(e.target.files[0]);
+            } else setClip(null);
+          }}
+        />
+        {clip && (
+          <>
+            <div className="flex gap-2 mt-10">
+              <Button
+                className="bg-red-400 block"
+                onClick={() => handleClick(false)}
+              >
+                Log Attempt
+              </Button>
+              <Button
+                className="block bg-green-400"
+                onClick={() => {
+                  handleClick(true);
+                }}
+              >
+                Log Send
+              </Button>
+            </div>
+            <video
+              className="h-100 mt-8"
+              width="320"
+              height="100"
+              controls
+              src={URL.createObjectURL(clip)}
             >
-              Log Attempt
-            </Button>
-            <Button
-              className="block bg-green-400"
-              onClick={() => {
-                handleClick(true);
-              }}
-            >
-              Log Send
-            </Button>
-
-            {/* <Button
-              type="submit"
-              className="bg-red-400"
-              onClick={() =>
-                handleSubmit({ send: false, clip: clip || undefined })
-              }
-            >
-              Log Attempt
-            </Button>
-            <Button
-              type="submit"
-              className="bg-green-400"
-              onClick={() =>
-                handleSubmit({ send: true, clip: clip || undefined })
-              }
-            >
-              Log Send
-            </Button> */}
-          </div>
-        </>
-      )}
+              {/* <source src={URL.createObjectURL(clip)} type="video/mp4"></source> */}
+            </video>
+          </>
+        )}
+      </div>
     </Modal>
   );
 }
