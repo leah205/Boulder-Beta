@@ -6,7 +6,6 @@ export default function usePostAttempt(attempt_id: number, climb_id: number) {
   const queryClient = useQueryClient();
   const [error, setError] = useState<Error | null>(null);
 
-  ["attempts", "climb", climb_id];
   const { mutate: postAttempt, isPending } = useMutation({
     mutationFn: () => attemptApi.postAttempt(attempt_id),
     onSuccess: () => {
@@ -15,7 +14,7 @@ export default function usePostAttempt(attempt_id: number, climb_id: number) {
         queryKey: ["posts"],
       });
       queryClient.invalidateQueries({
-        queryKey: ["attempts", "climb", climb_id],
+        queryKey: ["climb", climb_id, "attempts"],
       });
     },
     onError: (err) => {
