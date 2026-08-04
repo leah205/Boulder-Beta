@@ -55,7 +55,7 @@ export default function AppLayout() {
 
   return (
     <>
-      <main className="flex  box-border">
+      <main className="flex text-mist-700 box-border">
         <TopNav>
           <NavLink>
             <Link onClick={signout} to="/">
