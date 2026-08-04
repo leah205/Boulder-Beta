@@ -1,6 +1,7 @@
 import Spinner from "@/components/spinner/Spinner";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import useFollowUser from "@/hooks/useFollowUser";
+import Button from "@/components/Button";
 
 type FollowingRowProps = {
   user: {
@@ -21,13 +22,13 @@ export default function FollowingRow({ user }: FollowingRowProps) {
       {isPending && <Spinner></Spinner>}
       {error && <ErrorMessage error={error}></ErrorMessage>}
       <p>{user.username}</p>
-      <button
+      <Button
         className="p-3 h-5 text-xs flex items-center rounded-sm text-white"
         variant="red"
         onClick={clickUnfollow}
       >
         Unfollow
-      </button>
+      </Button>
     </div>
   );
 }
