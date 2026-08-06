@@ -18,13 +18,18 @@ export default function useAttemptHeightProgress({
       return;
     }
 
-    const attemptsWithHeight = data?.filter((attempt) => attempt.height);
+    const attemptsWithHeight = data?.filter((attempt) => {
+      return attempt.height || attempt.send;
+    });
 
     if (topHeight && attemptsWithHeight && attemptsWithHeight.length) {
       const attemptHeights = attemptsWithHeight.map((attempt) => {
-        return (attempt!.height! / topHeight) * 100;
+        const height = attempt.send ? topHeight : attempt.height;
+        return (height! / topHeight) * 100;
       });
-      console.log(attemptHeights);
+      const sendColors = attemptsWithHeight.map((attempt) => {
+        return attempt.send ? "rgb(165, 255, 181)" : "rgb(255, 188, 188)";
+      });
 
       chart = new Chart(heightChartRef.current, {
         type: "line",
@@ -32,8 +37,12 @@ export default function useAttemptHeightProgress({
           labels: attemptsWithHeight.map((row, i) => i),
           datasets: [
             {
+              borderColor: "rgb(176, 224, 255)",
+              borderWidth: 1,
               label: "Attempt progress",
               data: attemptHeights,
+              pointBackgroundColor: sendColors,
+              pointBorderColor: sendColors,
             },
           ],
         },
@@ -41,7 +50,13 @@ export default function useAttemptHeightProgress({
           scales: {
             y: {
               min: 0,
-              max: 100,
+              max: 105,
+              ticks: {
+                stepSize: 20,
+                callback: (value) => {
+                  return Number(value) <= 100 ? value : "";
+                },
+              },
             },
           },
         },
