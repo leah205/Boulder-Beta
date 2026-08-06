@@ -1,7 +1,7 @@
 import type { AttemptWithVideoResponse } from "@shared/types";
 import Chart from "chart.js/auto";
 import useClimb from "../hooks/useClimb";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type ParamTypes = {
   heightChartRef: React.RefObject<HTMLCanvasElement | null>;
@@ -12,6 +12,7 @@ export default function useAttemptHeightProgress({
   data,
 }: ParamTypes) {
   const { topHeight } = useClimb();
+  const [isProgressChart, setIsProgressChart] = useState(false);
   useEffect(() => {
     let chart: Chart | null;
     if (!heightChartRef.current) {
@@ -23,6 +24,7 @@ export default function useAttemptHeightProgress({
     });
 
     if (topHeight && attemptsWithHeight && attemptsWithHeight.length) {
+      setIsProgressChart(true);
       const attemptHeights = attemptsWithHeight.map((attempt) => {
         const height = attempt.send ? topHeight : attempt.height;
         return (height! / topHeight) * 100;
@@ -61,9 +63,13 @@ export default function useAttemptHeightProgress({
           },
         },
       });
+    } else {
+      setIsProgressChart(false);
     }
     return () => {
       if (chart) chart.destroy();
     };
   }, [data]);
+
+  return { isProgressChart };
 }

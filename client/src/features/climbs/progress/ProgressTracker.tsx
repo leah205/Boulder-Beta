@@ -20,7 +20,10 @@ export default function ProgressTracker({}: ProgressTrackerProps) {
   const { picture } = useClimb();
   const { pending, error, data } = useOutletContext<AttemptContext>();
 
-  useAttemptHeightProgress({ heightChartRef, data });
+  const { isProgressChart } = useAttemptHeightProgress({
+    heightChartRef,
+    data,
+  });
   useAttemptDayCount({ countChartRef, data });
 
   if (pending) {
@@ -38,7 +41,7 @@ export default function ProgressTracker({}: ProgressTrackerProps) {
   return (
     <>
       <div className=" w-full flex items-center flex-col px-5">
-        {picture && (
+        {isProgressChart && (
           <div className="">
             <canvas className="lg:w-130" ref={heightChartRef}></canvas>
           </div>
