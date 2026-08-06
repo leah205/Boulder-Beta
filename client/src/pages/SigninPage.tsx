@@ -21,6 +21,10 @@ export default function SigninPage() {
     login({ username, password });
   }
 
+  function handleSubmitGuest() {
+    login({ username: "guest", password: "password" });
+  }
+
   return (
     <>
       {isPending && <Spinner></Spinner>}
@@ -47,9 +51,18 @@ export default function SigninPage() {
             type="text"
           ></InputField>
         </FormField>
-        <Button type="submit" className="auth_btn" onClick={handleSubmit}>
-          Sign In
-        </Button>
+        <div className="flex gap-3 mb-3">
+          <Button type="submit" className="auth_btn" onClick={handleSubmit}>
+            Sign In
+          </Button>
+          <Button
+            type="submit"
+            className="auth_btn"
+            onClick={handleSubmitGuest}
+          >
+            Sign In as Guest
+          </Button>
+        </div>
         <Link className="block" to="/signup">
           Don't have an account?{" "}
           <button className="hover:bg-mist-100 p-3 rounded-xs">Sign up</button>

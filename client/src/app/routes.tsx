@@ -13,8 +13,8 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import PostPage from "@/pages/PostPage";
 import ProfilePage from "@/pages/ProfilePage";
-import ClimbAttemptsCard from "@/features/climbs/components/attempts/ClimbAttemptsCard";
-import ProgressTracker from "@/features/climbs/components/ProgressTracker";
+import ClimbAttemptsCard from "@/features/climbs/attempts/components/ClimbAttemptsCard";
+import ProgressTracker from "@/features/climbs/progress/ProgressTracker";
 export default function RouteElements() {
   return (
     <Routes>

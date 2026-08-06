@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import ClimbAttemptsCard from "@/features/climbs/components/attempts/ClimbAttemptsCard";
 import ClimbCard from "@/features/climbs/components/ClimbCard";
 import { ServerError } from "@/utils/Error";
 import ErrorMessage from "@/components/error/ErrorMessage";
@@ -8,7 +7,6 @@ import { useGetAttempts, useGetClimb } from "@/features/climbs/queries";
 import ClimbDataContext from "@/features/climbs/context/ClimbDataContext";
 import type React from "node_modules/@types/react/index";
 import { Outlet } from "react-router-dom";
-import type { ClimbResponse } from "@shared/types";
 import ClimbPageNav from "@/features/climbs/components/ClimbPageNav";
 
 type ClimbPageLayoutProps = {

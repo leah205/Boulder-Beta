@@ -23,7 +23,7 @@ export default function InputField(props: InputProps) {
   const inputClass = getClass(props.type);
   return (
     <input
-      className={`border-mist-300  border-2 rounded-xs shadow-xs ml-3 items-center ${props.className}  ${inputClass}`}
+      className={`border-mist-300  border-2 p-2 rounded-xs shadow-xs ml-3 items-center ${props.className}  ${inputClass}`}
       type={props.type}
       onChange={props.onChange}
       id={props.name}

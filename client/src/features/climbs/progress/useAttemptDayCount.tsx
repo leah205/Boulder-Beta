@@ -23,6 +23,7 @@ export default function useAttemptDayCount({
 
   useEffect(() => {
     let chart: Chart | null;
+
     if (!countChartRef.current) {
       setIsCountChart(false);
       return;

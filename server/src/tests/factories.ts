@@ -38,6 +38,15 @@ async function createTestClimb(
     ]),
     sent: faker.helpers.arrayElement([true, false]),
     uploadedAt: faker.date.anytime(),
+    grade: faker.helpers.arrayElement([
+      "V1",
+      "V3",
+      "V9",
+      "V4",
+      "V5",
+      "V6",
+      "V2",
+    ]),
     ...properties,
   });
 }
@@ -58,7 +67,11 @@ async function createTestAttempt(
     uploadedAt: faker.date.anytime(),
     ...properties,
   };
-  const res = await attemptQueries.createAttempt(climb.id, attempt);
+  const res = await attemptQueries.createAttempt(
+    climb.id,
+    climb.topHeight || undefined,
+    attempt,
+  );
   return res;
 }
 
@@ -72,7 +85,11 @@ async function createTestAttemptWithVideo(
     uploadedAt: faker.date.anytime(),
     ...properties,
   };
-  const res = await attemptQueries.createAttempt(climb.id, attempt);
+  const res = await attemptQueries.createAttempt(
+    climb.id,
+    climb.topHeight || undefined,
+    attempt,
+  );
   return res;
 }
 

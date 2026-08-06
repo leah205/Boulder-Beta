@@ -74,6 +74,7 @@ export default function initialize_app() {
 
         return res.status(400).json({ errors: err.issues });
       }
+      console.error(err);
       const status = err instanceof AppError && err.status ? err.status : 500;
       res.status(status).json({ message: err.message });
     },

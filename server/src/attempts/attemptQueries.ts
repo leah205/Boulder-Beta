@@ -26,7 +26,12 @@ const attemptQueries = {
     climbHeight: number | undefined,
     attemptInput: AttemptInput,
   ) => {
-    const { clip, height, ...input_data } = attemptInput;
+    const {
+      height = undefined,
+      clip = undefined,
+      ...input_data
+    } = attemptInput;
+
     const newHeight =
       climbHeight && height && height > climbHeight ? climbHeight : height;
 
