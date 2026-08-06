@@ -1,5 +1,5 @@
 import AttemptTagModal from "./AttemptTagModal";
-import useAttemptFlow from "../../hooks/useAttemptFlow";
+import useAttemptFlow from "../hooks/useAttemptFlow";
 
 import Button from "@/components/Button";
 import Spinner from "@/components/spinner/Spinner";

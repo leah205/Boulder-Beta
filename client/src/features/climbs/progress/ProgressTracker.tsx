@@ -3,8 +3,8 @@ import { useEffect, useRef } from "react";
 import type { AttemptWithVideoResponse } from "@shared/types";
 import ContentSpinner from "@/components/spinner/ContentSpinner";
 import ErrorMessage from "@/components/error/ErrorMessage";
-import useAttemptHeightProgress from "../hooks/useAttemptHeightProgress";
-import useAttemptDayCount from "../hooks/useAttemptDayCount";
+import useAttemptHeightProgress from "./useAttemptHeightProgress";
+import useAttemptDayCount from "./useAttemptDayCount";
 
 type AttemptContext = {
   pending: boolean;

@@ -1,4 +1,4 @@
-import ClimbPic from "../ClimbPic";
+import ClimbPic from "../../components/ClimbPic";
 import Modal from "@/components/Modal";
 import Button from "@/components/Button";
 import useClimb from "../../hooks/useClimb";

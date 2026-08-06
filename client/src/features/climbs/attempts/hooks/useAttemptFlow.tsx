@@ -1,6 +1,6 @@
 import { useState } from "react";
-import useLogAttempt from "@/features/climbs/hooks/useLogAttempt";
-import useClimb from "./useClimb";
+import useLogAttempt from "@/features/climbs/attempts/hooks/useLogAttempt";
+import useClimb from "../../hooks/useClimb";
 
 type AttemptDataType = {
   send: boolean;

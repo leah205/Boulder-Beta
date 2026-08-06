@@ -1,7 +1,7 @@
 import type { AttemptWithVideoResponse } from "@shared/types";
 import Button from "@/components/Button";
 import { useState } from "react";
-import usePostAttempt from "@/features/attempts/usePostAttempt";
+import usePostAttempt from "@/features/climbs/attempts/hooks/usePostAttempt";
 import Spinner from "@/components/spinner/Spinner";
 import { Link } from "react-router-dom";
 import ErrorMessage from "@/components/error/ErrorMessage";

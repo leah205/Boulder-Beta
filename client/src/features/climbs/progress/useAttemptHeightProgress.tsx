@@ -1,7 +1,20 @@
 type useAttemptHeightProgressProps = {};
 import type { AttemptWithVideoResponse } from "@shared/types";
 import Chart from "chart.js/auto";
+import { getDate } from "./utils/getDateRange";
 import { useEffect } from "react";
+
+function getCountsObj(data: AttemptWithVideoResponse[]) {
+  const days = data.map((row) => getDate(new Date(row.uploadedAt)));
+  const dayObj = days.reduce(
+    (acc, day) => {
+      acc[day] = (acc[day] || 0) + 1;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
+  return dayObj;
+}
 
 type ParamTypes = {
   heightChartRef: React.RefObject<HTMLCanvasElement | null>;
