@@ -16,6 +16,7 @@ export default function useAttemptHeightProgress({
   useEffect(() => {
     let chart: Chart | null;
     if (!heightChartRef.current) {
+      setIsProgressChart(false);
       return;
     }
 

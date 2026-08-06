@@ -3,6 +3,7 @@ import Chart from "chart.js/auto";
 import { useEffect } from "react";
 import "chartjs-adapter-date-fns";
 import getDayCountChartData from "./utils/getDayCountChartData";
+import { useState } from "react";
 
 type ChartPoint = {
   x: Date;
@@ -17,13 +18,21 @@ export default function useAttemptDayCount({
   countChartRef,
   data,
 }: ParamTypes) {
+  const [isCountChart, setIsCountChart] = useState(false);
+  console.log("dijffadskldasjkl");
+
   useEffect(() => {
     let chart: Chart | null;
     if (!countChartRef.current) {
+      setIsCountChart(false);
       return;
     }
+    console.log("fdjsklfs");
 
     if (data) {
+      setIsCountChart(true);
+      console.log("yoohoo");
+      console.log("hello????");
       const sends = data.filter((row) => row.send == true);
       const attempts = data.filter((row) => row.send == false);
 
@@ -58,9 +67,12 @@ export default function useAttemptDayCount({
           ],
         },
       });
+    } else {
+      setIsCountChart(false);
     }
     return () => {
       if (chart) chart.destroy();
     };
   }, [data]);
+  return { isCountChart };
 }

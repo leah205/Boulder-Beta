@@ -24,7 +24,7 @@ export default function ProgressTracker({}: ProgressTrackerProps) {
     heightChartRef,
     data,
   });
-  useAttemptDayCount({ countChartRef, data });
+  const { isCountChart } = useAttemptDayCount({ countChartRef, data });
 
   if (pending) {
     return <ContentSpinner></ContentSpinner>;
@@ -41,13 +41,18 @@ export default function ProgressTracker({}: ProgressTrackerProps) {
   return (
     <>
       <div className=" w-full flex items-center flex-col px-5">
-        {isProgressChart && (
-          <div className="">
-            <canvas className="lg:w-130" ref={heightChartRef}></canvas>
-          </div>
-        )}
+        <div className="">
+          <canvas
+            className={`lg:w-130 ${isProgressChart ? "" : "hidden"}`}
+            ref={heightChartRef}
+          ></canvas>
+        </div>
+
         <div className=" ">
-          <canvas className="lg:w-130" ref={countChartRef}></canvas>
+          <canvas
+            className={`lg:w-130 ${isCountChart ? "" : "hidden"}`}
+            ref={countChartRef}
+          ></canvas>
         </div>
       </div>
     </>
