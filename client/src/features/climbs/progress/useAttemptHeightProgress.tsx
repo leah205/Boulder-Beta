@@ -1,20 +1,7 @@
-type useAttemptHeightProgressProps = {};
 import type { AttemptWithVideoResponse } from "@shared/types";
 import Chart from "chart.js/auto";
-import { getDate } from "./utils/getDateRange";
+import useClimb from "../hooks/useClimb";
 import { useEffect } from "react";
-
-function getCountsObj(data: AttemptWithVideoResponse[]) {
-  const days = data.map((row) => getDate(new Date(row.uploadedAt)));
-  const dayObj = days.reduce(
-    (acc, day) => {
-      acc[day] = (acc[day] || 0) + 1;
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
-  return dayObj;
-}
 
 type ParamTypes = {
   heightChartRef: React.RefObject<HTMLCanvasElement | null>;
@@ -24,14 +11,21 @@ export default function useAttemptHeightProgress({
   heightChartRef,
   data,
 }: ParamTypes) {
+  const { topHeight } = useClimb();
   useEffect(() => {
     let chart: Chart | null;
     if (!heightChartRef.current) {
       return;
     }
+
     const attemptsWithHeight = data?.filter((attempt) => attempt.height);
 
-    if (attemptsWithHeight && attemptsWithHeight.length) {
+    if (topHeight && attemptsWithHeight && attemptsWithHeight.length) {
+      const attemptHeights = attemptsWithHeight.map((attempt) => {
+        return (attempt!.height! / topHeight) * 100;
+      });
+      console.log(attemptHeights);
+
       chart = new Chart(heightChartRef.current, {
         type: "line",
         data: {
@@ -39,9 +33,17 @@ export default function useAttemptHeightProgress({
           datasets: [
             {
               label: "Attempt progress",
-              data: attemptsWithHeight.map((row) => row.height),
+              data: attemptHeights,
             },
           ],
+        },
+        options: {
+          scales: {
+            y: {
+              min: 0,
+              max: 100,
+            },
+          },
         },
       });
     }

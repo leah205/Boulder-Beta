@@ -25,8 +25,6 @@ const monthAbbr = [
 ];
 
 export function getDate(date: Date) {
-  console.log(date);
-  console.log(monthAbbr[date.getMonth()] + " " + date.getDate());
   return monthAbbr[date.getMonth()] + " " + date.getDate();
 }
 
@@ -38,8 +36,6 @@ export default function getRangeOfDateArr(dateArr: string[]) {
     datesSorted[0],
     datesSorted[datesSorted.length - 1],
   );
-  console.log(arr);
   const res = arr.map((date) => getDate(date));
-  console.log(res);
   return res;
 }
