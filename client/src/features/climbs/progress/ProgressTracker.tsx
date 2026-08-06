@@ -5,6 +5,7 @@ import ContentSpinner from "@/components/spinner/ContentSpinner";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import useAttemptHeightProgress from "./useAttemptHeightProgress";
 import useAttemptDayCount from "./useAttemptDayCount";
+import useClimb from "../hooks/useClimb";
 
 type AttemptContext = {
   pending: boolean;
@@ -16,6 +17,7 @@ type ProgressTrackerProps = {};
 export default function ProgressTracker({}: ProgressTrackerProps) {
   const heightChartRef = useRef<HTMLCanvasElement | null>(null);
   const countChartRef = useRef<HTMLCanvasElement | null>(null);
+  const { picture } = useClimb();
   const { pending, error, data } = useOutletContext<AttemptContext>();
 
   useAttemptHeightProgress({ heightChartRef, data });
@@ -36,9 +38,11 @@ export default function ProgressTracker({}: ProgressTrackerProps) {
   return (
     <>
       <div className=" w-full flex items-center flex-col px-5">
-        <div className="">
-          <canvas className="lg:w-130" ref={heightChartRef}></canvas>
-        </div>
+        {picture && (
+          <div className="">
+            <canvas className="lg:w-130" ref={heightChartRef}></canvas>
+          </div>
+        )}
         <div className=" ">
           <canvas className="lg:w-130" ref={countChartRef}></canvas>
         </div>
