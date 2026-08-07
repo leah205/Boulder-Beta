@@ -30,6 +30,7 @@ export default function FeedPostHeader({ author }: FeedPostHeaderProps) {
             type="submit"
             className="text-xs height-5 py-1"
             onClick={toggleFollowUser}
+            variant={isFollowing ? "red" : "blue"}
           >
             {isFollowing ? "Unfollow" : "Follow"}
           </Button>

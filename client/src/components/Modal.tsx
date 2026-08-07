@@ -13,14 +13,14 @@ export default function Modal(props: ModalProps) {
   useFocusModal(modalRef, props.closeModal);
 
   return (
-    <div className="absolute inset-0 bg-black/50 h-screen z-150 ">
+    <div className="absolute inset-0 bg-black/50 z-150 ">
       <div
         data-testid="record-modal"
-        className="absolute top-30 flex justify-center w-full "
+        className="absolute top-5 h-5/6 flex justify-center w-full "
       >
         <div ref={modalRef} className="max-w-4/5">
           <Form
-            className=" h-4/5  w-full bg-white relative m-auto min-h-70 overflow-scroll p-5 "
+            className=" h-4/5  w-full bg-white relative m-auto min-h-70 overflow-scroll p-5 rounded-lg "
             enctype="multipart/form-data"
           >
             <div className="mb-10">

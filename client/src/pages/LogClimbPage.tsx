@@ -78,7 +78,7 @@ export default function LogClimbPage() {
         </FormField>
 
         <label
-          className="my-4 border-1 border-mist-300 hover:bg-mist-200 rounded-sm bg-mist-100 p-5 vlock"
+          className="my-4 border-1 border-mist-300 hover:bg-mist-200 rounded-sm bg-mist-100 p-5 block w-50"
           htmlFor="picture"
         >
           Upload a photo

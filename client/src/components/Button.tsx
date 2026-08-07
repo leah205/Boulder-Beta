@@ -5,7 +5,7 @@ const ButtonVariants = cva("text-white p-3 rounded-sm ", {
   variants: {
     variant: {
       red: "hover:bg-red-400 bg-red-300 active:bg-blue-400",
-      blue: "bg-blue-300 hover:bg-blue-400 active:bg-blue-400",
+      blue: "bg-blue-300 hover:bg-blue-400 active:bg-red-400",
     },
   },
 });

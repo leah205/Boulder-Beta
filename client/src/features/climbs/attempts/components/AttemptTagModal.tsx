@@ -24,15 +24,17 @@ export default function AttemptTagModal(props: AttemptTagModalProps) {
 
   return (
     <Modal closeModal={props.closeModal}>
-      <p data-testid="modal-text">Indicate the top hold you reached:</p>
-      <ClimbPic
-        picture={climbData.picture || undefined}
-        color={climbData.color}
-      >
-        <BoundingRect coors={coors} setCoors={setCoors}></BoundingRect>
-      </ClimbPic>
-
-      <Button onClick={handleSubmitClick}>Submit</Button>
+      <div className="flex flex-col items-center gap-6">
+        <p data-testid="modal-text">Indicate the top hold you reached:</p>
+        <ClimbPic
+          picture={climbData.picture || undefined}
+          color={climbData.color}
+          className="h-80 w-80"
+        >
+          <BoundingRect coors={coors} setCoors={setCoors}></BoundingRect>
+        </ClimbPic>
+        <Button onClick={handleSubmitClick}>Submit</Button>
+      </div>
     </Modal>
   );
 }
