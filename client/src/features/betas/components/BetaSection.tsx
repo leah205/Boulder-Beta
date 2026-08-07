@@ -31,7 +31,7 @@ function BetaForm({ post_id, setBetaFormOpen }: BetaFormProps) {
         })}
       {isPending && <Spinner></Spinner>}
       <textarea
-        className="text-black w-full"
+        className="text-black w-full bg-mist-100 p-2 rounded-sm"
         value={content}
         data-testid="new-comment-text"
         onChange={(e) => setContent(e.target.value)}
