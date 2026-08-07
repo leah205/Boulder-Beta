@@ -50,6 +50,14 @@ export default function useAttemptDayCount({
             },
             x: {
               type: "time",
+              time: {
+                minUnit: "hour",
+              },
+            },
+          },
+          datasets: {
+            bar: {
+              maxBarThickness: 40,
             },
           },
         },
