@@ -123,6 +123,12 @@ const attemptQueries = {
           },
         },
       },
+      orderBy: [
+        {
+          uploadedAt: "desc",
+        },
+        { id: "asc" },
+      ],
     });
 
     const res = attemptsData.map((attempt) => {
