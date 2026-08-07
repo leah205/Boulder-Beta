@@ -6,6 +6,7 @@
 
 @theme {
   --font-roboto: "Roboto", sans-serif;
+  --breakpoint-md: 56rem;
 }
 
 body {
@@ -15,12 +16,12 @@ body {
 
 @layer base {
   html {
-    font-size: 12px;
+    font-size: 18px;
   }
 
   @media (min-width: 768px) {
     html {
-      font-size: 12px;
+      font-size: 18px;
     }
   }
 }

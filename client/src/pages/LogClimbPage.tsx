@@ -77,20 +77,25 @@ export default function LogClimbPage() {
           </select>
         </FormField>
 
-        <FormField name="picture" label="Photo">
-          <input
-            type="file"
-            id="picture"
-            name="picture"
-            accept="image/*"
-            capture="environment"
-            onChange={(e) => {
-              if (e.target.files) {
-                setPicture(e.target.files[0]);
-              } else setPicture(null);
-            }}
-          />
-        </FormField>
+        <label
+          className="my-4 border-1 border-mist-300 hover:bg-mist-200 rounded-sm bg-mist-100 p-5 vlock"
+          htmlFor="picture"
+        >
+          Upload a photo
+        </label>
+        <input
+          type="file"
+          id="picture"
+          name="picture"
+          accept="image/*"
+          hidden
+          capture="environment"
+          onChange={(e) => {
+            if (e.target.files) {
+              setPicture(e.target.files[0]);
+            } else setPicture(null);
+          }}
+        />
 
         <FormField name="color" label="Color">
           <input
