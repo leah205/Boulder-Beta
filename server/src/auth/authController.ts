@@ -48,7 +48,6 @@ const userController = {
         (err: Error, user: LoginRequest, info: authInfo) => {
           if (err || !user) {
             return res.status(400).json({
-              message: info.message,
               user: user,
             });
           }

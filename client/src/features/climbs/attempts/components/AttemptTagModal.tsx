@@ -29,7 +29,7 @@ export default function AttemptTagModal(props: AttemptTagModalProps) {
         <ClimbPic
           picture={climbData.picture || undefined}
           color={climbData.color}
-          className="h-80 w-80"
+          className=" w-40 h-40 lg:h-80 lg:w-80"
         >
           <BoundingRect coors={coors} setCoors={setCoors}></BoundingRect>
         </ClimbPic>
