@@ -12,6 +12,7 @@ type PostCardProps = {
 export default function PostCard({ post }: PostCardProps) {
   const [betasOpen, setBetasOpen] = useState(false);
   const [videoError, setVideoError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const toggleBetasOpen = () =>
     betasOpen ? setBetasOpen(false) : setBetasOpen(true);
@@ -23,15 +24,20 @@ export default function PostCard({ post }: PostCardProps) {
             <p>There was an error playing this clip.</p>
           </ErrorWrapper>
         )}
-        <video className={`w-full ${videoError ? "h-120" : ""}`} controls>
+        <video
+          className={`w-full ${videoError || loading ? "h-120" : ""}`}
+          controls
+        >
           <source
             src={post.clip || undefined}
             type="video/mp4"
             onError={() => {
               setVideoError(true);
             }}
+            onLoadStart={() => setLoading(true)}
             onCanPlay={() => {
               setVideoError(false);
+              setLoading(false);
             }}
           ></source>
         </video>
