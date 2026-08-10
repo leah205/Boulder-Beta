@@ -13,14 +13,11 @@ export default function ClimbPic({
   color,
   className,
 }: ClimbPicProps) {
-  const style = picture
-    ? {
-        backgroundImage: `url(${picture})`,
-      }
-    : {
-        backgroundImage: `url("${mountainSvg}")`,
-        backgroundColor: "rgb(235, 235, 235)",
-      };
+  console.log("yooohooo");
+  const style = {
+    backgroundImage: `url(${picture}), url("${mountainSvg}")`,
+    backgroundColor: "rgb(235, 235, 235)",
+  };
 
   return (
     <div
