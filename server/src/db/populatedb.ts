@@ -8,6 +8,7 @@ import {
   createTestBeta,
 } from "@/tests/factories";
 import { faker } from "@faker-js/faker";
+import config from "@/config";
 
 async function reset_db() {
   // await prisma.$queryRaw`DROP schema public CASCADE`;
@@ -21,15 +22,23 @@ async function reset_db() {
   ]);
 }
 
+console.log(config.cloudinary_folder);
+
 async function reset_cloudinary() {
-  await cloudinary.api.delete_resources_by_prefix("boulder_beta/", {
-    type: "authenticated",
-    resource_type: "image",
-  });
-  await cloudinary.api.delete_resources_by_prefix("boulder_beta/", {
-    type: "authenticated",
-    resource_type: "video",
-  });
+  await cloudinary.api.delete_resources_by_prefix(
+    `${config.cloudinary_folder}/`,
+    {
+      type: "authenticated",
+      resource_type: "image",
+    },
+  );
+  await cloudinary.api.delete_resources_by_prefix(
+    `${config.cloudinary_folder}/`,
+    {
+      type: "authenticated",
+      resource_type: "video",
+    },
+  );
 }
 
 async function seed_db() {
