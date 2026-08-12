@@ -15,6 +15,7 @@ import PostPage from "@/pages/PostPage";
 import ClimbAttemptsCard from "@/features/climbs/attempts/components/ClimbAttemptsCard";
 import ProfilePage from "@/pages/ProfilePage";
 import ProgressTracker from "@/features/climbs/progress/ProgressTracker";
+import NotFound from "@/pages/NotFound";
 export default function RouteElements() {
   return (
     <Routes>
@@ -50,6 +51,7 @@ export default function RouteElements() {
           <Route path="signup" element={<SignupPage />}></Route>
         </Route>
       </Route>
+      <Route path = "*" element = {<NotFound></NotFound>}></Route>
     </Routes>
   );
 }
