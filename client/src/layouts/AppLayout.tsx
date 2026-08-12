@@ -49,7 +49,7 @@ function NavContents({ url }: { url: string }) {
 }
 
 export default function AppLayout() {
-  const { signout } = useAuth();
+  const { signout, user } = useAuth();
   const location = useLocation();
   const url = location.pathname;
 
@@ -62,8 +62,8 @@ export default function AppLayout() {
               Signout
             </Link>
           </NavLink>
-          <NavLink selected={url == "/my-profile-page"}>
-            <Link to="my-profile-page">
+          <NavLink selected={url == `/profile-page/${user!.id}`}>
+            <Link to={`/profile-page/${user!.id}`}>
               <img className="h-10" src={ProfileSvg}></img>
             </Link>
           </NavLink>

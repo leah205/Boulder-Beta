@@ -9,11 +9,11 @@ type FollowingRowProps = {
     id: number;
     username: string;
   };
+  isSelf: boolean;
 };
 
-export default function FollowingRow({ user }: FollowingRowProps) {
-  const currentUser = useCurrentUser();
-  const isSelf = currentUser.id == user.id;
+export default function FollowingRow({ user, isSelf}: FollowingRowProps) {
+  console.log(isSelf);
   const { toggleFollowUser, isPending, error } = useFollowUser(user.id);
 
   function clickUnfollow() {

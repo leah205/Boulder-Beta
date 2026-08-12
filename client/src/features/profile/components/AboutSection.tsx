@@ -1,7 +1,8 @@
 import type { UserResponse } from "@shared/types"
 
 type AboutSectionProps = {
-    user: UserResponse
+    user: UserResponse;
+    isSelf: boolean;
 }
 
 export default function AboutSection({user}: AboutSectionProps){

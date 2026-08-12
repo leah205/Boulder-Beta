@@ -5,10 +5,11 @@ import collapseSvg from "@assets/collapse.svg";
 import FollowingRow from "@/features/profile/components/FollowRow";
 
 type RelationshipSectionProps = {
-    user: UserResponse
+    user: UserResponse;
+    isSelf: boolean;
 }
 
-export default function RelationshipSection({user}: RelationshipSectionProps){
+export default function RelationshipSection({user, isSelf}: RelationshipSectionProps){
   const [followingOpen, setFollowingOpen] = useState(false);
   const [followersOpen, setFollowersOpen] = useState(false);
     return    <div>
@@ -24,7 +25,7 @@ export default function RelationshipSection({user}: RelationshipSectionProps){
         <ul>
           {followingOpen &&
             user.following.map((user) => {
-              return <FollowingRow user={user} key={user.id}></FollowingRow>;
+              return <FollowingRow user={user} key={user.id} isSelf = {isSelf}></FollowingRow>;
             })}
         </ul>
         <div className="flex gap-6 justify-between pr-5">
