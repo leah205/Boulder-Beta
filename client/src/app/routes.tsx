@@ -7,7 +7,7 @@ import LogClimbPage from "@/pages/LogClimbPage";
 import MyClimbsPage from "@/pages/MyClimbsPage";
 import ClimbPage from "@/pages/ClimbPage";
 import Feed from "@/pages/Feed";
-import MyPostsPage from "@/pages/MyPostsPage";
+import PostsPage from "@/pages/PostsPage";
 import "./App.css";
 import { Route, Routes, Navigate } from "react-router-dom";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
@@ -36,14 +36,13 @@ export default function RouteElements() {
             </Route>
             <Route path="/feed" element={<Feed />}></Route>
             <Route path="/profile-page/:id" element={<ProfilePage />}></Route>
-            
+           
             <Route
-              path="my-posts"
-              element={<MyPostsPage></MyPostsPage>}
+              path="users/posts/:id"
+              element={<PostsPage/>}
             ></Route>
             <Route path="posts/:id" element={<PostPage />}></Route>
 
-            {/* <Route path="/attempts/:id" element={<AttemptPage />}></Route> */}
           </Route>
         </Route>
         <Route element={<AuthLayout />}>

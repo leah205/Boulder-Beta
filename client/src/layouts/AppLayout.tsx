@@ -28,7 +28,7 @@ function Sidebar({ children }: { children: React.ReactNode }) {
   );
 }
 
-function NavContents({ url }: { url: string }) {
+function NavContents({ url, id}: { url: string, id: number }) {
   return (
     <>
       <NavLink selected={url == "/log-climb"}>
@@ -41,8 +41,8 @@ function NavContents({ url }: { url: string }) {
         <Link to="feed">Feed</Link>
       </NavLink>
 
-      <NavLink selected={url == "/my-posts"}>
-        <Link to="my-posts">My Posts</Link>
+      <NavLink selected={url == `/users/posts/${id}`}>
+        <Link to={`/users/posts/${id}`}>My Posts</Link>
       </NavLink>
     </>
   );
@@ -71,7 +71,7 @@ export default function AppLayout() {
         {/* for desktop */}
         <div className="flex w-full">
           <Sidebar>
-            <NavContents url={url}></NavContents>
+            <NavContents id = {user!.id} url={url}></NavContents>
           </Sidebar>
           <div className="w-full pt-30 pb-16 lg:w-3/5 lg:ml-100 ">
             <Outlet />
@@ -79,7 +79,7 @@ export default function AppLayout() {
         </div>
         {/* for mobile/tablet */}
         <BottomNav>
-          <NavContents url={url}></NavContents>
+          <NavContents id = {user!.id} url={url}></NavContents>
         </BottomNav>
       </main>
     </>

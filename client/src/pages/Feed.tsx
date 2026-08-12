@@ -70,7 +70,6 @@ export default function Feed() {
     error,
   } = useGetAllPosts(feedType);
   const isData = !!data;
-  ("is there data?", isData);
   const { scrolledBottom, scrolledTop } = useInfiniteScroll(
     prevRef,
     nextRef,

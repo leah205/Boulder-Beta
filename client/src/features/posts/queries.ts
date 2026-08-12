@@ -53,7 +53,7 @@ export function useGetUserPosts(id: number) {
     queryKey: postKeys.user(id),
     queryFn: async () => userApi.getUserPosts(id),
   });
-  return { isPending, error, data };
+  return { isPending, error, userPosts: data };
 }
 
 export function useGetPost(id: number) {
