@@ -3,13 +3,10 @@ import useFollowUser from "@/hooks/useFollowUser";
 import Spinner from "@/components/spinner/Spinner";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import useCurrentUser from "@/hooks/useCurrentUser";
-import { Link } from "react-router-dom";
+import UserTag from "@/components/UserTag";
 
 
 
-function Wrapper({children}: {children: React.ReactNode}){
-
-}
 type FeedPostHeaderProps = {
   author: {
     username: string;
@@ -36,11 +33,9 @@ export default function FeedPostHeader({ author }: FeedPostHeaderProps) {
 
       <div className="flex gap-3 my-3">
         {isPending && <Spinner></Spinner>}
-        {isSelfPost && <p className="text-left ml-7">{author.username}</p>}
-        
+        <UserTag user = {author}></UserTag>
         {!isSelfPost && (
           <>
-          <Link to = {`/profile-page/${author.id}`}>{author.username}</Link>
           <Button
             type="submit"
             className="text-xs height-5 py-1"

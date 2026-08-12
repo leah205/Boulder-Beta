@@ -2,7 +2,7 @@ import Spinner from "@/components/spinner/Spinner";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import useFollowUser from "@/hooks/useFollowUser";
 import Button from "@/components/Button";
-import useCurrentUser from "@/hooks/useCurrentUser";
+import UserTag from "@/components/UserTag";
 
 type FollowingRowProps = {
   user: {
@@ -13,7 +13,6 @@ type FollowingRowProps = {
 };
 
 export default function FollowingRow({ user, isSelf}: FollowingRowProps) {
-  console.log(isSelf);
   const { toggleFollowUser, isPending, error } = useFollowUser(user.id);
 
   function clickUnfollow() {
@@ -24,7 +23,7 @@ export default function FollowingRow({ user, isSelf}: FollowingRowProps) {
     <div className="flex gap-3">
       {isPending && <Spinner></Spinner>}
       {error && <ErrorMessage error={error}></ErrorMessage>}
-      <p>{user.username}</p>
+      <UserTag user = {user}></UserTag>
       {isSelf && <Button
         className="p-3 h-5 text-xs flex items-center rounded-sm text-white"
         variant="red"

@@ -3,6 +3,7 @@ import { useState } from "react";
 import expandSvg from "@assets/expand.svg";
 import collapseSvg from "@assets/collapse.svg";
 import FollowingRow from "@/features/profile/components/FollowRow";
+import UserTag from "@/components/UserTag";
 
 type RelationshipSectionProps = {
     user: UserResponse;
@@ -40,7 +41,7 @@ export default function RelationshipSection({user, isSelf}: RelationshipSectionP
         <ul>
           {followersOpen &&
             user.followedBy.map((user) => {
-              return <p key={user.id}>{user.username}</p>;
+              return <UserTag user = {user}></UserTag>;
             })}
         </ul>
       </div>
