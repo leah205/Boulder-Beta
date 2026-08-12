@@ -8,11 +8,9 @@ import RelationshipSection from "@/features/profile/components/RelationshipSecti
 import ErrorMessage from "@/components/error/ErrorMessage";
 
 export default function ProfilePage() {
-  const {id: userId} = useParams()
+  const {id: userId} = useParams();
   const {isPending, error, user} = useGetUser(Number(userId));
-  if(!user){
-    throw new Error("User does not exist");
-  }
+ 
 
   if(error){
     return <ErrorMessage error = {error}></ErrorMessage>
@@ -20,6 +18,10 @@ export default function ProfilePage() {
 
   if(isPending){
     return <Spinner></Spinner>
+  }
+
+   if(!user){
+    throw new Error("User does not exist");
   }
 
   return (

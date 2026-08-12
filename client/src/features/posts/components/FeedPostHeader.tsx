@@ -3,13 +3,21 @@ import useFollowUser from "@/hooks/useFollowUser";
 import Spinner from "@/components/spinner/Spinner";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import useCurrentUser from "@/hooks/useCurrentUser";
+import { Link } from "react-router-dom";
 
+
+
+function Wrapper({children}: {children: React.ReactNode}){
+
+}
 type FeedPostHeaderProps = {
   author: {
     username: string;
     id: number;
   };
 };
+
+
 
 export default function FeedPostHeader({ author }: FeedPostHeaderProps) {
   const currentUser = useCurrentUser();
@@ -18,14 +26,21 @@ export default function FeedPostHeader({ author }: FeedPostHeaderProps) {
     author.id,
   );
 
+  if(isSelfPost){
+
+  }
+
   return (
     <div>
       {error && <ErrorMessage error={error}></ErrorMessage>}
 
       <div className="flex gap-3 my-3">
         {isPending && <Spinner></Spinner>}
-        <p className="text-left ml-7">{author.username}</p>
+        {isSelfPost && <p className="text-left ml-7">{author.username}</p>}
+        
         {!isSelfPost && (
+          <>
+          <Link to = {`/profile-page/${author.id}`}>{author.username}</Link>
           <Button
             type="submit"
             className="text-xs height-5 py-1"
@@ -34,7 +49,9 @@ export default function FeedPostHeader({ author }: FeedPostHeaderProps) {
           >
             {isFollowing ? "Unfollow" : "Follow"}
           </Button>
+          </>
         )}
+        
       </div>
     </div>
   );

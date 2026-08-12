@@ -22,7 +22,7 @@ const userApi = {
   getUserData: async (id: number | undefined) => {
     if (!id) {
       throw new Error("Cannot get user data");
-    }
+    };
     const response = await http.get<UserResponse>(`${API_URL}/${id}`);
     return response.data;
   },

@@ -1,5 +1,5 @@
 import type { UserResponse } from "@shared/types"
-import { useState } from "node_modules/@types/react/index";
+import { useState } from "react";
 import expandSvg from "@assets/expand.svg";
 import collapseSvg from "@assets/collapse.svg";
 import FollowingRow from "@/features/profile/components/FollowRow";
