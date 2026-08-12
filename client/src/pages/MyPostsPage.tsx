@@ -5,6 +5,7 @@ import MyPostWrapper from "@/features/posts/components/MyPostWrapper";
 import { useGetUserPosts } from "@/features/posts/queries";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import PageHeader from "@/components/PageHeader";
+import PageLayout from "@/layouts/PageLayout";
 
 export default function MyPostsPage() {
   const currentUser = useCurrentUser();
@@ -27,7 +28,9 @@ export default function MyPostsPage() {
 
   return (
     <>
+    <PageLayout>
       <PageHeader>My Posts</PageHeader>
+      
       <PostsListLayout>
         {data.map((post) => {
           return (
@@ -39,6 +42,7 @@ export default function MyPostsPage() {
           );
         })}
       </PostsListLayout>
+      </PageLayout>
     </>
   );
 }

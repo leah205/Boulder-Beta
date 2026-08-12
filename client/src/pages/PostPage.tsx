@@ -8,18 +8,8 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 import useAuth from "@/features/authentication/useAuth";
 import PostCard from "@/features/posts/components/PostCard";
 import type React from "node_modules/@types/react/index";
+import PageLayout from "@/layouts/PageLayout";
 
-function PostPageLayout({ children }: { children: React.ReactNode }) {
-  const navigate = useNavigate();
-  return (
-    <div>
-      <Button type="button" onClick={() => navigate(-1)}>
-        Back
-      </Button>
-      {children}
-    </div>
-  );
-}
 
 export default function PostPage() {
   const { id } = useParams();
@@ -44,15 +34,15 @@ export default function PostPage() {
 
   if (isMyPost) {
     return (
-      <PostPageLayout>
-        <MyPostWrapper post={data} navigateOut={true}></MyPostWrapper>
-      </PostPageLayout>
+      <PageLayout><MyPostWrapper post={data} navigateOut={true}></MyPostWrapper></PageLayout>
+        
+  
     );
   } else {
     return (
-      <PostPageLayout>
+      <PageLayout>
         <PostCard post={data}></PostCard>
-      </PostPageLayout>
+      </PageLayout>
     );
   }
 }
