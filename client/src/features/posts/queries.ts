@@ -1,7 +1,6 @@
 import postApi from "@/features/posts/postService";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import userApi from "../users/userService";
-import { useState } from "react";
 
 type PageParam =
   | {
@@ -31,10 +30,10 @@ export function useGetAllPosts(feedType: "following" | "all") {
       lastPage?.nextCursor
         ? { cursorType: "next", cursor: lastPage.nextCursor }
         : undefined,
-    getPreviousPageParam: (firstPage) =>
-      firstPage?.prevCursor
-        ? { cursorType: "prev", cursor: firstPage.nextCursor }
-        : undefined,
+    // getPreviousPageParam: (firstPage) =>
+    //   firstPage?.prevCursor
+    //     ? { cursorType: "prev", cursor: firstPage.nextCursor }
+    //     : undefined,
   });
 
   return {

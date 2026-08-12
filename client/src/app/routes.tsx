@@ -12,8 +12,9 @@ import "./App.css";
 import { Route, Routes, Navigate } from "react-router-dom";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import PostPage from "@/pages/PostPage";
-import ProfilePage from "@/pages/ProfilePage";
+import MyProfilePage from "@/pages/MyProfilePage";
 import ClimbAttemptsCard from "@/features/climbs/attempts/components/ClimbAttemptsCard";
+import ProfilePage from "@/pages/ProfilePage";
 import ProgressTracker from "@/features/climbs/progress/ProgressTracker";
 export default function RouteElements() {
   return (
@@ -34,7 +35,9 @@ export default function RouteElements() {
               <Route element={<ProgressTracker />} path="progress"></Route>
             </Route>
             <Route path="/feed" element={<Feed />}></Route>
-            <Route path="/my-profile-page" element={<ProfilePage />}></Route>
+            <Route path="/my-profile-page" element={<MyProfilePage />}></Route>
+            <Route path="/profile-page/:id" element={<ProfilePage />}></Route>
+            
             <Route
               path="my-posts"
               element={<MyPostsPage></MyPostsPage>}
