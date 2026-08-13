@@ -6,6 +6,13 @@ type AboutSectionProps = {
 }
 
 export default function AboutSection({user}: AboutSectionProps){
-    return <p className="text-xl mb-5">{user.username}</p>
+    return <div>
+            <p className="text-xl mb-5">{user.username}</p>
+            <p>Followers: {user.followedBy.length}</p>
+            <p>Following: {user.following.length}</p>
+            <hr className = "mt-5"></hr>
+    </div>
+    
+
 
 }

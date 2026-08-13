@@ -19,8 +19,7 @@ export default function useAttemptDayCount({
   data,
 }: ParamTypes) {
   const [isCountChart, setIsCountChart] = useState(false);
-  console.log("dijffadskldasjkl");
-
+  console.log(data);
   useEffect(() => {
     let chart: Chart | null;
 
@@ -36,6 +35,7 @@ export default function useAttemptDayCount({
       console.log("hello????");
       const sends = data.filter((row) => row.send == true);
       const attempts = data.filter((row) => row.send == false);
+      console.log(attempts)
 
       chart = new Chart<"bar", ChartPoint[]>(countChartRef.current, {
         type: "bar",
@@ -50,9 +50,10 @@ export default function useAttemptDayCount({
             },
             x: {
               type: "time",
-              time: {
-                minUnit: "hour",
-              },
+              offset: true,
+              // time: {
+              //   minUnit: "hour",
+              // },
             },
           },
           datasets: {

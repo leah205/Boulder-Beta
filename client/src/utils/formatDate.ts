@@ -1,7 +1,8 @@
 export function getDateAndTime(date: string) {
   const date_obj = new Date(date);
+  console.log(date_obj)
   return (
-    date_obj.getMonth() +
+    date_obj.getMonth() + 1+
     "/" +
     date_obj.getDate() +
     "/" +
