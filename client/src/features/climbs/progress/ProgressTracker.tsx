@@ -17,12 +17,11 @@ type ProgressTrackerProps = {};
 export default function ProgressTracker({}: ProgressTrackerProps) {
   const heightChartRef = useRef<HTMLCanvasElement | null>(null);
   const countChartRef = useRef<HTMLCanvasElement | null>(null);
-  const { picture } = useClimb();
   const { pending, error, data } = useOutletContext<AttemptContext>();
-
   const { isProgressChart } = useAttemptHeightProgress({
     heightChartRef,
-    data,
+    data
+  
   });
   const { isCountChart } = useAttemptDayCount({ countChartRef, data });
 

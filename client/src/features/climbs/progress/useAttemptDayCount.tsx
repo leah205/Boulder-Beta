@@ -13,10 +13,12 @@ type ChartPoint = {
 type ParamTypes = {
   countChartRef: React.RefObject<HTMLCanvasElement | null>;
   data: AttemptWithVideoResponse[] | undefined;
+
 };
 export default function useAttemptDayCount({
   countChartRef,
   data,
+
 }: ParamTypes) {
   const [isCountChart, setIsCountChart] = useState(false);
   useEffect(() => {
