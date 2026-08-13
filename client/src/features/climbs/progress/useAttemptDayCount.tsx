@@ -19,7 +19,6 @@ export default function useAttemptDayCount({
   data,
 }: ParamTypes) {
   const [isCountChart, setIsCountChart] = useState(false);
-  console.log(data);
   useEffect(() => {
     let chart: Chart | null;
 
@@ -27,7 +26,6 @@ export default function useAttemptDayCount({
       setIsCountChart(false);
       return;
     }
-    console.log("fdjsklfs");
 
     if (data) {
       setIsCountChart(true);
@@ -50,10 +48,13 @@ export default function useAttemptDayCount({
             },
             x: {
               type: "time",
-              offset: true,
-              // time: {
-              //   minUnit: "hour",
-              // },
+              afterDataLimits: (scale) => {
+                const range = scale.max - scale.min;
+                const padding = range * 0.1;
+                scale.min -= padding;
+                scale.max += padding;
+              }
+             
             },
           },
           datasets: {
