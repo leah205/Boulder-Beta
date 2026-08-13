@@ -44,6 +44,9 @@ function NavContents({ url, id}: { url: string, id: number }) {
       <NavLink selected={url == `/users/posts/${id}`}>
         <Link to={`/users/posts/${id}`}>My Posts</Link>
       </NavLink>
+      <NavLink selected={url == `/users`}> 
+        <Link to={`/users`}>Users</Link>
+</NavLink>
     </>
   );
 }

@@ -16,6 +16,7 @@ import ClimbAttemptsCard from "@/features/climbs/attempts/components/ClimbAttemp
 import ProfilePage from "@/pages/ProfilePage";
 import ProgressTracker from "@/features/climbs/progress/ProgressTracker";
 import NotFound from "@/pages/NotFound";
+import UsersPage from "@/pages/UsersPage";
 export default function RouteElements() {
   return (
     <Routes>
@@ -25,6 +26,7 @@ export default function RouteElements() {
             <Route index element={<Navigate to="my-climbs" replace />}></Route>
             <Route path="log-climb" element={<LogClimbPage />}></Route>
             <Route path="my-climbs" element={<MyClimbsPage />}></Route>
+            <Route path="users" element={<UsersPage/>}></Route>
             <Route path="climbs/:id" element={<ClimbPage />}>
               <Route
                 index

@@ -139,4 +139,18 @@ describe("user tests", () => {
       .send({ user_id: user.id })
       .expect(400);
   });
+
+  it('gets all users', async () => {
+    const user1 = await createTestUser();
+    const user2 = await createTestUser();
+    const authRequest = new AuthRequest(app, user1.id, user1.username);
+     return authRequest
+      .get(`${USER_URL}/${user1.id}/posts`)
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toHaveLength(1);
+      });
+
+
+  })
 });

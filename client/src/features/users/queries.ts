@@ -4,7 +4,6 @@ import userApi from "./userService";
 export function useGetUser(id: number, options: {
     enabled: boolean 
 } = {enabled: true}) {
-    console.log(id);
     const {isPending, error, data} = useQuery({
         queryKey: userKeys.user(id),
         queryFn: async () => userApi.getUserData(id),
@@ -13,6 +12,15 @@ export function useGetUser(id: number, options: {
     return {isPending, error, userData: data}
 }
 
+export function useGetAllUsers() {
+    const {isPending, error, data} = useQuery({
+        queryKey: userKeys.all,
+        queryFn: async () => userApi.getAllUsers(),
+    });
+    return {isPending, error, userData: data}
+}
+
 export const userKeys = {
-    user: (id: number) => ["user", id] as const
+    all: ["users"] as const,
+    user: (id: number) => ["users", id] as const
 }

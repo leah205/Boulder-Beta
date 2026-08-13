@@ -21,5 +21,6 @@ userRouter.post(
 );
 userRouter.get("/:id", verifyToken, userController.getUser);
 userRouter.get("/:id/posts", verifyToken, userController.getUserPosts);
+userRouter.get("/", verifyToken, userController.getAllUsers);
 
 export default userRouter;

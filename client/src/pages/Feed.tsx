@@ -1,9 +1,8 @@
 import ErrorMessage from "@/components/error/ErrorMessage";
-import ContentSpinner from "@/components/spinner/ContentSpinner";
 import PostsListLayout from "@/features/posts/components/PostsListLayout";
+import UserRelationTag from "@/components/UserRelationTag";
 import type React from "node_modules/@types/react/index";
 import PostCard from "@/features/posts/components/PostCard";
-import FeedPostHeader from "@/features/posts/components/FeedPostHeader";
 import { useGetAllPosts } from "@/features/posts/queries";
 import { useEffect, Fragment, useState, useRef } from "react";
 import useInfiniteScroll from "@/features/posts/hooks/useInfiniteScroll";
@@ -122,7 +121,7 @@ export default function Feed() {
               {page.data.map((post) => {
                 return (
                   <div key={post.id} className="w-70 text-center ">
-                    <FeedPostHeader author={post.author}></FeedPostHeader>
+                    <UserRelationTag user={post.author}></UserRelationTag>
                     <PostCard key={post.attemptId} post={post}></PostCard>
                   </div>
                 );

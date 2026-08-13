@@ -2,8 +2,8 @@ import type { UserResponse } from "@shared/types"
 import { useState } from "react";
 import expandSvg from "@assets/expand.svg";
 import collapseSvg from "@assets/collapse.svg";
-import FollowingRow from "@/features/profile/components/FollowRow";
-import UserTag from "@/components/UserTag";
+
+import UserRelationTag from "@/components/UserRelationTag";
 
 type RelationshipSectionProps = {
     user: UserResponse;
@@ -26,7 +26,7 @@ export default function RelationshipSection({user, isSelf}: RelationshipSectionP
         <ul>
           {followingOpen &&
             user.following.map((user) => {
-              return <FollowingRow user={user} key={user.id} isSelf = {isSelf}></FollowingRow>;
+              return <UserRelationTag user = {user}></UserRelationTag>
             })}
         </ul>
         <div className="flex gap-6 justify-between pr-5">
@@ -41,7 +41,7 @@ export default function RelationshipSection({user, isSelf}: RelationshipSectionP
         <ul>
           {followersOpen &&
             user.followedBy.map((user) => {
-              return <UserTag user = {user}></UserTag>;
+              return <UserRelationTag user = {user}></UserRelationTag>;
             })}
         </ul>
       </div>
