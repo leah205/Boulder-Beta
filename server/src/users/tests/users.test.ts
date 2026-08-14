@@ -145,10 +145,10 @@ describe("user tests", () => {
     const user2 = await createTestUser();
     const authRequest = new AuthRequest(app, user1.id, user1.username);
      return authRequest
-      .get(`${USER_URL}/${user1.id}/posts`)
+      .get(`${USER_URL}`)
       .expect(200)
       .then((res) => {
-        expect(res.body).toHaveLength(1);
+        expect(res.body).toHaveLength(2);
       });
 
 

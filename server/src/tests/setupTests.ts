@@ -9,15 +9,19 @@ vi.mock(import("@/utils/cloudinary"), () => ({
 }));
 
 beforeEach(async () => {
-  await prisma.$transaction([
-    prisma.beta.deleteMany(),
-    prisma.post.deleteMany(),
-    prisma.video.deleteMany(),
-
-    prisma.attempt.deleteMany(),
-    prisma.climb.deleteMany(),
-    prisma.user.deleteMany(),
-  ]);
+   try {
+    await prisma.$transaction([
+      prisma.beta.deleteMany(),
+      prisma.post.deleteMany(),
+      prisma.video.deleteMany(),
+      prisma.attempt.deleteMany(),
+      prisma.climb.deleteMany(),
+      prisma.user.deleteMany(),
+    ]);
+  } catch (error) {
+    console.error("TEST DATABASE CLEANUP FAILED:", error);
+    throw error;
+  }
 });
 
 // afterEach(async () => {

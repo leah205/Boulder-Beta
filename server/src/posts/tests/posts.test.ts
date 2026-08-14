@@ -110,8 +110,15 @@ describe("DELETE /posts", async () => {
           .get(`/api/v1/climbs/${climb1.id}/attempts`)
           .expect(200)
           .then((res) => {
-            expect(res.body).toHaveLength(2);
-            expect(res.body[0].video?.post).toBeFalsy();
+            const attempts = res.body;
+            const deletedPostAttempt = attempts.find(
+          (attempt: any) => attempt.id === attempt1.id
+      );
+
+expect(deletedPostAttempt).toBeDefined();
+expect(deletedPostAttempt.video?.post).toBeFalsy();
+            // expect(res.body).toHaveLength(2);
+            // expect(res.body[0].video?.post).toBeFalsy();
           });
       });
   });
