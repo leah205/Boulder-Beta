@@ -3,7 +3,7 @@ import useAuth from "../features/authentication/useAuth";
 import { Outlet, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import NavLink from "@/components/NavLink";
-import ProfileSvg from "@assets/profile.svg";
+import ProfilePic from "@/components/ProfilePic";
 
 function TopNav({ children }: { children: React.ReactNode }) {
   return (
@@ -53,6 +53,7 @@ function NavContents({ url, id}: { url: string, id: number }) {
 
 export default function AppLayout() {
   const { signout, user } = useAuth();
+
   const location = useLocation();
   const url = location.pathname;
 
@@ -66,8 +67,8 @@ export default function AppLayout() {
             </Link>
           </NavLink>
           <NavLink selected={url == `/profile-page/${user!.id}`}>
-            <Link to={`/profile-page/${user!.id}`}>
-              <img className="h-10" src={ProfileSvg}></img>
+            <Link to={`/profile-page/${user!.id}`} >
+              <ProfilePic size = '50' username = {user!.username}></ProfilePic>
             </Link>
           </NavLink>
         </TopNav>
