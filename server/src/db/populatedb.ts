@@ -46,10 +46,12 @@ async function seed_db() {
 
   const climb1 = await createTestClimb(user1, {
     picture: "./src/assets/images/climb1.jpeg",
+    topHeight: 0.9,
     sent: false,
   });
   const climb2 = await createTestClimb(user1, {
     picture: "./src/assets/images/climb2.jpeg",
+    topHeight: 0.8,
     sent: true,
   });
 
@@ -71,6 +73,7 @@ async function seed_db() {
 
   const climb3 = await createTestClimb(user2, {
     picture: "./src/assets/images/climb3.jpeg",
+    topHeight: 0.7,
     sent: true,
   });
 
@@ -91,6 +94,7 @@ async function seed_db() {
 
   const climb = await createTestClimb(user3, {
     picture: "./src/assets/images/climb3.jpeg",
+    topHeight: 0.8,
     sent: true,
   });
 

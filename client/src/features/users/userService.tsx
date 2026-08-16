@@ -1,5 +1,6 @@
 import http from "@/services/axiosInstance";
 import type {
+  AuthResponse,
   ClimbResponse,
   followUserRequest,
   PostResponse,
@@ -22,7 +23,7 @@ const userApi = {
   getUserData: async (id: number | undefined) => {
     if (!id) {
       throw new Error("Cannot get user data");
-    }
+    };
     const response = await http.get<UserResponse>(`${API_URL}/${id}`);
     return response.data;
   },
@@ -40,6 +41,12 @@ const userApi = {
       `${API_URL}/me/following/unfollow`,
       req_body,
     );
+    return response.data;
+  },
+
+  getAllUsers: async () => {
+  
+    const response = await http.get<AuthResponse[]>(`${API_URL}`);
     return response.data;
   },
 };

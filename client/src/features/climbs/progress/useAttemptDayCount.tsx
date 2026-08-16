@@ -13,14 +13,14 @@ type ChartPoint = {
 type ParamTypes = {
   countChartRef: React.RefObject<HTMLCanvasElement | null>;
   data: AttemptWithVideoResponse[] | undefined;
+
 };
 export default function useAttemptDayCount({
   countChartRef,
   data,
+
 }: ParamTypes) {
   const [isCountChart, setIsCountChart] = useState(false);
-  console.log("dijffadskldasjkl");
-
   useEffect(() => {
     let chart: Chart | null;
 
@@ -28,7 +28,6 @@ export default function useAttemptDayCount({
       setIsCountChart(false);
       return;
     }
-    console.log("fdjsklfs");
 
     if (data) {
       setIsCountChart(true);
@@ -36,6 +35,7 @@ export default function useAttemptDayCount({
       console.log("hello????");
       const sends = data.filter((row) => row.send == true);
       const attempts = data.filter((row) => row.send == false);
+      console.log(attempts)
 
       chart = new Chart<"bar", ChartPoint[]>(countChartRef.current, {
         type: "bar",
@@ -50,9 +50,13 @@ export default function useAttemptDayCount({
             },
             x: {
               type: "time",
-              time: {
-                minUnit: "hour",
-              },
+              afterDataLimits: (scale) => {
+                const range = scale.max - scale.min;
+                const padding = range * 0.1;
+                scale.min -= padding;
+                scale.max += padding;
+              }
+             
             },
           },
           datasets: {

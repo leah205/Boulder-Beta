@@ -6,24 +6,25 @@ import { useEffect, useState } from "react";
 type ParamTypes = {
   heightChartRef: React.RefObject<HTMLCanvasElement | null>;
   data: AttemptWithVideoResponse[] | undefined;
+  
 };
 export default function useAttemptHeightProgress({
   heightChartRef,
-  data,
+  data
 }: ParamTypes) {
-  const { topHeight } = useClimb();
+  const { topHeight, picture } = useClimb();
   const [isProgressChart, setIsProgressChart] = useState(false);
   useEffect(() => {
     let chart: Chart | null;
-    if (!heightChartRef.current) {
+    if (!heightChartRef.current || !picture) {
       setIsProgressChart(false);
       return;
     }
 
     const attemptsWithHeight = data?.filter((attempt) => {
       return attempt.height || attempt.send;
-    });
-
+    }).reverse();
+    
     if (topHeight && attemptsWithHeight && attemptsWithHeight.length) {
       setIsProgressChart(true);
       const attemptHeights = attemptsWithHeight.map((attempt) => {

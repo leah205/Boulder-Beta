@@ -8,6 +8,7 @@ import ClimbDataContext from "@/features/climbs/context/ClimbDataContext";
 import type React from "node_modules/@types/react/index";
 import { Outlet } from "react-router-dom";
 import ClimbPageNav from "@/features/climbs/components/ClimbPageNav";
+import PageLayout from "@/layouts/PageLayout";
 
 type ClimbPageLayoutProps = {
   children: React.ReactNode;
@@ -27,9 +28,11 @@ export default function ClimbPage() {
 
   if (climbLoading) {
     return (
+      <PageLayout>
       <ClimbPageLayout>
         <ContentSpinner></ContentSpinner>
       </ClimbPageLayout>
+      </PageLayout>
     );
   }
 
@@ -40,6 +43,7 @@ export default function ClimbPage() {
   }
   return (
     <>
+    <PageLayout>
       <ClimbPageLayout>
         <ClimbCard
           pending={climbLoading}
@@ -62,6 +66,7 @@ export default function ClimbPage() {
           ></ClimbAttemptsCard> */}
         </ClimbDataContext>
       </ClimbPageLayout>
+      </PageLayout>
     </>
   );
 }

@@ -35,9 +35,9 @@ describe("attempt integration", () => {
           .expect(200)
           .then((res) => {
             expect(res.body).toHaveLength(2);
-            expect(res.body[0].send).toBeFalsy();
-            expect(res.body[0]).toHaveProperty("uploadedAt");
-            expect(res.body[1].send).toBeTruthy();
+            expect(res.body[1].send).toBeFalsy();
+            expect(res.body[1]).toHaveProperty("uploadedAt");
+            expect(res.body[0].send).toBeTruthy();
           });
       })
       .then(() => {

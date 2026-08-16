@@ -7,14 +7,16 @@ import LogClimbPage from "@/pages/LogClimbPage";
 import MyClimbsPage from "@/pages/MyClimbsPage";
 import ClimbPage from "@/pages/ClimbPage";
 import Feed from "@/pages/Feed";
-import MyPostsPage from "@/pages/MyPostsPage";
+import PostsPage from "@/pages/PostsPage";
 import "./App.css";
 import { Route, Routes, Navigate } from "react-router-dom";
 import ProtectedRoute from "@/layouts/ProtectedRoute";
 import PostPage from "@/pages/PostPage";
-import ProfilePage from "@/pages/ProfilePage";
 import ClimbAttemptsCard from "@/features/climbs/attempts/components/ClimbAttemptsCard";
+import ProfilePage from "@/pages/ProfilePage";
 import ProgressTracker from "@/features/climbs/progress/ProgressTracker";
+import NotFound from "@/pages/NotFound";
+import UsersPage from "@/pages/UsersPage";
 export default function RouteElements() {
   return (
     <Routes>
@@ -24,6 +26,7 @@ export default function RouteElements() {
             <Route index element={<Navigate to="my-climbs" replace />}></Route>
             <Route path="log-climb" element={<LogClimbPage />}></Route>
             <Route path="my-climbs" element={<MyClimbsPage />}></Route>
+            <Route path="users" element={<UsersPage/>}></Route>
             <Route path="climbs/:id" element={<ClimbPage />}>
               <Route
                 index
@@ -34,14 +37,14 @@ export default function RouteElements() {
               <Route element={<ProgressTracker />} path="progress"></Route>
             </Route>
             <Route path="/feed" element={<Feed />}></Route>
-            <Route path="/my-profile-page" element={<ProfilePage />}></Route>
+            <Route path="/profile-page/:id" element={<ProfilePage />}></Route>
+           
             <Route
-              path="my-posts"
-              element={<MyPostsPage></MyPostsPage>}
+              path="users/posts/:id"
+              element={<PostsPage/>}
             ></Route>
             <Route path="posts/:id" element={<PostPage />}></Route>
 
-            {/* <Route path="/attempts/:id" element={<AttemptPage />}></Route> */}
           </Route>
         </Route>
         <Route element={<AuthLayout />}>
@@ -49,6 +52,7 @@ export default function RouteElements() {
           <Route path="signup" element={<SignupPage />}></Route>
         </Route>
       </Route>
+      <Route path = "*" element = {<NotFound></NotFound>}></Route>
     </Routes>
   );
 }

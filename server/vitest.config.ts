@@ -6,6 +6,7 @@ export default defineConfig({
     globals: true, // allows describe/it/expect without imports
     setupFiles: "./src/tests/setupTests.ts",
     fileParallelism: false,
+    isolate: true,
   },
   resolve: {
     alias: {

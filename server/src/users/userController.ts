@@ -7,6 +7,7 @@ import {
   type FollowResponse,
   type ClimbResponse,
   type PostResponse,
+  AuthResponse,
 } from "@shared/types";
 import climbQueries from "@/climbs/climbQueries";
 
@@ -33,6 +34,12 @@ const userController = {
       Number(id),
     )) satisfies FollowResponse[];
     return res.json(data_obj);
+  },
+
+  getAllUsers: async (req: Request, res: Response) => {
+    const data = await userQueries.getAllUsers() satisfies AuthResponse[];
+    return res.json(data)
+
   },
 
   followUser: async (req: Request, res: Response) => {

@@ -65,7 +65,7 @@ export default function LogClimbPage() {
             })}
         </ul>
 
-        <FormField name="grade" label="Grade: ">
+        <FormField name="grade" label="Grade ">
           <select
             name="grade"
             onChange={(e) => handleGradeChange(e.target.value)}

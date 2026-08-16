@@ -86,7 +86,8 @@ describe("POST /login", () => {
       })
       .expect(400)
       .then((res) => {
-        expect(res.body.message).toEqual("Username not registered");
+        
+        expect(res.body.message).toEqual("username not registered");
       });
   });
 });

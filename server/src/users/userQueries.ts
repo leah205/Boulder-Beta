@@ -40,6 +40,16 @@ const userQueries = {
     });
     return following;
   },
+  getAllUsers: async () => {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        username: true,
+      }
+    }
+    )
+    return users;
+  },
   getUser: async (user_id: number) => {
     const user = await prisma.user.findUnique({
       where: {

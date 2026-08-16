@@ -2,17 +2,19 @@ import Spinner from "@/components/spinner/Spinner";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import PostsListLayout from "@/features/posts/components/PostsListLayout";
 import MyPostWrapper from "@/features/posts/components/MyPostWrapper";
-import { useGetUserPosts } from "@/features/posts/queries";
+import usePostsPage from "@/features/posts/hooks/usePostsPage";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import PageHeader from "@/components/PageHeader";
+import PageLayout from "@/layouts/PageLayout";
+import PostCard from "@/features/posts/components/PostCard";
 
-export default function MyPostsPage() {
-  const currentUser = useCurrentUser();
+export default function PostsPage() {
   const {
     isPending: isPendingPosts,
     error: errorPosts,
-    data,
-  } = useGetUserPosts(currentUser.id);
+    userPosts,
+    isSelf,
+  } = usePostsPage();
 
   if (isPendingPosts) {
     return <Spinner></Spinner>;
@@ -21,15 +23,15 @@ export default function MyPostsPage() {
     return <ErrorMessage error={errorPosts}></ErrorMessage>;
   }
 
-  if (!data || !data.length) {
+  if (!userPosts || !userPosts.length) {
     return <p className="text-center p-5">No posts found!</p>;
   }
 
-  return (
-    <>
-      <PageHeader>My Posts</PageHeader>
-      <PostsListLayout>
-        {data.map((post) => {
+  if(isSelf){
+    return <PageLayout>
+        <PageHeader>My Posts</PageHeader>
+        <PostsListLayout>
+        {userPosts.map((post) => {
           return (
             <MyPostWrapper
               navigateOut={false}
@@ -39,6 +41,25 @@ export default function MyPostsPage() {
           );
         })}
       </PostsListLayout>
+    </PageLayout>
+  }
+
+  return (
+    <>
+    <PageLayout>
+      <PageHeader>Posts</PageHeader>
+      
+      <PostsListLayout>
+        {userPosts.map((post) => {
+          return (
+            <PostCard
+              key={post.id}
+              post={post}
+            ></PostCard>
+          );
+        })}
+      </PostsListLayout>
+      </PageLayout>
     </>
   );
 }

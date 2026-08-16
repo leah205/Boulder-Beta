@@ -61,7 +61,7 @@ type AttemptRowProps = {
   attempt: AttemptWithVideoResponse;
 };
 export default function AttemptRow({ attempt }: AttemptRowProps) {
-  typeof attempt.uploadedAt;
+  console.log(attempt.uploadedAt)
   const [showVideo, setShowVideo] = useState(false);
 
   function toggleShowVideo() {

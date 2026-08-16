@@ -12,6 +12,7 @@ import {
   LoginResponse,
   SignupSchema,
 } from "@shared/types";
+import {AppError} from "@/Errors";
 
 type authInfo = {
   message?: string;
@@ -47,9 +48,8 @@ const userController = {
         { session: false },
         (err: Error, user: LoginRequest, info: authInfo) => {
           if (err || !user) {
-            return res.status(400).json({
-              user: user,
-            });
+            next(new AppError("username not registered", 400));
+            return;
           }
 
           const authenticatedUser = user as unknown as AuthenticatedUser;
