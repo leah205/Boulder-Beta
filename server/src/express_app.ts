@@ -12,6 +12,7 @@ import attemptRouter from "@/attempts/attemptRouter";
 import climb_router from "@/climbs/climbRoutes";
 import auth_router from "@/auth/auth_routes";
 import postRouter from "@/posts/postRoutes";
+import clap_router from "@/claps/clapRoutes"
 import { ErrorResponse } from "@shared/types";
 
 import beta_router from "@/betas/betaRoutes";
@@ -57,6 +58,7 @@ export default function initialize_app() {
   app.use("/api/v1/attempts", attemptRouter);
   app.use("/api/v1/posts", postRouter);
   app.use("/api/v1/posts", beta_router);
+  app.use("/api/v1/posts", clap_router);
 
   app.use(
     (

@@ -12,6 +12,7 @@ beforeEach(async () => {
    try {
     await prisma.$transaction([
       prisma.beta.deleteMany(),
+      prisma.clap.deleteMany(),
       prisma.post.deleteMany(),
       prisma.video.deleteMany(),
       prisma.attempt.deleteMany(),

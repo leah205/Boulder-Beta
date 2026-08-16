@@ -1,11 +1,12 @@
 import prisma from "@/db/prisma_client";
-import { postPayload } from "./prismaBlocks";
+import { getPostPayload } from "./prismaBlocks";
 
 const postRepository = {
   getNextFeedPage: async (
     limit: number,
     cursorId: number,
     cursorCreatedAt: Date,
+    userId: number,
   ) => {
     const nextPage = await prisma.post.findMany({
       where: {
@@ -24,7 +25,7 @@ const postRepository = {
         ],
       },
       take: limit,
-      ...postPayload,
+      ...getPostPayload(userId),
       orderBy: [
         {
           uploadedAt: "desc",
@@ -35,9 +36,9 @@ const postRepository = {
     return nextPage;
   },
 
-  getFirstFeedPage: async (limit: number) => {
+  getFirstFeedPage: async (limit: number, userId: number) => {
     const firstPage = await prisma.post.findMany({
-      ...postPayload,
+      ...getPostPayload(userId),
       take: limit,
       orderBy: [
         {
@@ -67,6 +68,7 @@ const postRepository = {
     cursorId: number,
     cursorCreatedAt: Date,
     followIds: number[],
+    userId: number
   ) => {
     const nextPage = await prisma.post.findMany({
       where: {
@@ -87,7 +89,7 @@ const postRepository = {
         },
       },
       take: limit,
-      ...postPayload,
+      ...getPostPayload(userId),
       orderBy: [
         {
           uploadedAt: "desc",
@@ -98,9 +100,9 @@ const postRepository = {
     return nextPage;
   },
 
-  getFirstFollowingPage: async (limit: number, followIds: number[]) => {
+  getFirstFollowingPage: async (limit: number, followIds: number[], userId: number) => {
     const firstPage = await prisma.post.findMany({
-      ...postPayload,
+      ...getPostPayload(userId),
       take: limit,
       where: {
         video: {
