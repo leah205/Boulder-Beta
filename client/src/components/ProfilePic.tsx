@@ -37,7 +37,7 @@ type props = {
 }
 
 export default function ProfilePic({username, size}: props){
-        return <div style = {{height: size + 'px', width: size + 'px'}} dangerouslySetInnerHTML={{__html: generateAvatar(username)}}></div>
+        return <div style = {{height: size + 'px', width: size + 'px', borderRadius: '50%'}} dangerouslySetInnerHTML={{__html: generateAvatar(username)}}></div>
 
 }
 
