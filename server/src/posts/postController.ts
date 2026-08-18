@@ -50,6 +50,7 @@ const postController = {
     const attempt = await postQueries.postVideo(attempt_id);
     res.status(200).json(attempt);
   },
+  
 };
 
 export default postController;

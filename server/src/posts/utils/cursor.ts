@@ -1,6 +1,6 @@
 import { json } from "zod";
 
-const encodeCursor = (data) => {
+const encodeCursor = (data: any) => {
   return Buffer.from(JSON.stringify(data)).toString("base64");
 };
 

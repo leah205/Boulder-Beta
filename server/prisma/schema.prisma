@@ -110,6 +110,7 @@ model Clap {
   user  User    @relation(fields: [userId], references: [id])
   userId Int
   postId Int
+  @@unique(name: "clapId", [postId, userId])
   @@map("claps")
 }
 

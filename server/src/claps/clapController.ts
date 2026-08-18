@@ -17,6 +17,20 @@ const clapController = {
     )) satisfies ClapResponse;
     res.json(clap);
   },
+  postUnclap: async (req: Request, res: Response) => {
+    if (!req.user) {
+      throw new AppError("user does not exist", 404);
+    }
+    const user_id = req.user?.id;
+
+    const post_id = Number(req.params.post_id);
+
+    const clap = (await clapQueries.removeClap(
+      post_id,
+      user_id,
+    )) satisfies ClapResponse;
+    res.json(clap);
+  }
 };
 
 export default clapController;

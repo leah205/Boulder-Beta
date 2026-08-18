@@ -6,7 +6,7 @@ import { getPostPayload } from "../prismaBlocks";
 type PayloadType = ReturnType<typeof getPostPayload>
 export type PostPayloadType = Prisma.PostGetPayload<PayloadType>;
 
-export default function formatData(data: PayloadType) {
+export default function formatData(data: PostPayloadType) {
   const { video, _count, claps, ...post } = data;
 
   if (!video) {

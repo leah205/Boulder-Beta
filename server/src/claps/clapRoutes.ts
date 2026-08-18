@@ -7,5 +7,7 @@ const clapRouter = express.Router();
 
 
 clapRouter.post("/:post_id/clap", verifyToken, clapController.postClap)
+clapRouter.post("/:post_id/unclap", verifyToken, clapController.postUnclap)
+
 
 export default clapRouter;
