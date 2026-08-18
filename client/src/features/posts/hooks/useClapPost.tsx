@@ -1,28 +1,27 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import postApi from "./postService";
+import postApi from "../postService";
 import type { PostResponse } from "@shared/types";
 
-export default function useDeletePost() {
+export default function useClapPost(post: PostResponse) {
   const queryClient = useQueryClient();
   const [error, setError] = useState<Error | null>(null);
+  const userHasClapped = post.currentUserLiked;
+
   const { mutate, isPending } = useMutation({
-    mutationFn: (post_id: number) => postApi.deletePost(post_id),
+    mutationFn: () => {
+      return userHasClapped ? postApi.unclapPost(post.id): postApi.clapPost(post.id)}
+      ,
     onSuccess: (res: PostResponse) => {
-      res.climb_id;
       queryClient.invalidateQueries({
         queryKey: ["posts"],
       });
-
-      queryClient.invalidateQueries({
-        queryKey: ["attempts", "climb", res.climb_id],
-      });
-      //queryClient.setQueriesData(['posts'])
+      setError(null)
     },
     onError: (err) => {
       setError(err);
     },
   });
 
-  return { mutate, isPending, error };
+  return { toggleClapPost: mutate, clapPending: isPending, clapError: error, userHasClapped };
 }

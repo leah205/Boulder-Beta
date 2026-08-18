@@ -47,7 +47,9 @@ const userController = {
         "local",
         { session: false },
         (err: Error, user: LoginRequest, info: authInfo) => {
+          console.log(user)
           if (err || !user) {
+            console.log(err)
             next(new AppError("username not registered", 400));
             return;
           }

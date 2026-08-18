@@ -1,5 +1,5 @@
 import type { PostResponse } from "@shared/types";
-import useDeletePost from "../useDeletePost";
+import useDeletePost from "../hooks/useDeletePost";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import Spinner from "@/components/spinner/Spinner";
 import Button from "@/components/Button";

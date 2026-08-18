@@ -39,6 +39,16 @@ const postApi = {
     return response.data;
   },
 
+  clapPost: async (id: number) => {
+    const response = await http.post<PostResponse>(`${POST_URL}/${id}/clap`);
+    return response.data;
+  },
+
+  unclapPost: async (id: number) => {
+    const response = await http.post<PostResponse>(`${POST_URL}/${id}/unclap`);
+    return response.data;
+  },
+
   getPost: async (id: number) => {
     const response = await http.get<PostResponse>(`${POST_URL}/${id}`);
 
