@@ -49,7 +49,7 @@ export default function PostCard({ post }: PostCardProps) {
             }}
           ></source>
         </video>
-        {!betasOpen && <div className="bg-black/50 absolute z-10 bottom-50 right-0 rounded-md flex flex-col gap-3 px-2 py-5 bg-mist">
+        {!betasOpen && !loading &&  <div className="bg-black/50 absolute z-10 bottom-50 right-0 rounded-md flex flex-col gap-3 px-2 py-5 bg-mist">
            <button onClick = {(e) => toggleClapPost()} >
            <img src = {userHasClapped ? ClappedIcon: ClapIcon} className = "h-12"></img>
            <div className = "text-white">{clapCount}</div>
