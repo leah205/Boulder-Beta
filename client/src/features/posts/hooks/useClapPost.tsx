@@ -23,5 +23,5 @@ export default function useClapPost(post: PostResponse) {
     },
   });
 
-  return { toggleClapPost: mutate, clapPending: isPending, clapError: error, userHasClapped };
+  return { toggleClapPost: mutate, clapPending: isPending, clapError: error, userHasClapped, clapCount: post.clapCount };
 }
