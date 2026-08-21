@@ -30,7 +30,9 @@ const clapController = {
       user_id,
     )) satisfies ClapResponse;
     res.json(clap);
-  }
+  },
+
+ 
 };
 
 export default clapController;

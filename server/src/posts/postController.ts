@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import postQueries from "./postQueries";
-import { FeedResponse, PostResponse } from "@shared/types";
+import { ClapResponse, FeedResponse, PostResponse } from "@shared/types";
 import { id } from "zod/v4/locales";
+import clapQueries from "@/claps/clapQueries";
 
 const postController = {
   getFeedPage: async (req: Request, res: Response) => {
@@ -50,6 +51,12 @@ const postController = {
     const attempt = await postQueries.postVideo(attempt_id);
     res.status(200).json(attempt);
   },
+
+  getClaps: async (req: Request, res: Response) => {
+    const postId = Number(req.params.id);
+    const claps = await clapQueries.getClaps(postId) satisfies ClapResponse[]
+    res.json(claps)
+  }
   
 };
 
