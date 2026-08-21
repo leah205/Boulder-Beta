@@ -1,5 +1,5 @@
 import http from "@/services/axiosInstance";
-import type { PostResponse, FeedResponse } from "@shared/types";
+import { type PostResponse, type FeedResponse, type ClapResponse } from "@shared/types";
 
 const POST_URL = `${import.meta.env.VITE_API_URL}/posts`;
 
@@ -54,6 +54,12 @@ const postApi = {
 
     return response.data;
   },
+
+  getClaps: async (postId: number) => {
+    console.log(postId);
+    const response = await http.get<ClapResponse[]>(`${POST_URL}/${postId}/claps`);
+    return response.data;
+  }
 };
 
 export default postApi;

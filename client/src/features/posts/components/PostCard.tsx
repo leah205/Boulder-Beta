@@ -19,7 +19,6 @@ export default function PostCard({ post }: PostCardProps) {
   const [videoError, setVideoError] = useState(false);
   const [loading, setLoading] = useState(false);
   const {toggleClapPost, clapPending, clapError, userHasClapped, clapCount} = useClapPost(post);
-  console.log(clapError)
 
   const toggleBetasOpen = () =>
     betasOpen ? setBetasOpen(false) : setBetasOpen(true);
