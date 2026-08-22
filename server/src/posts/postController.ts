@@ -53,6 +53,7 @@ const postController = {
   },
 
   getClaps: async (req: Request, res: Response) => {
+    console.log('hello world');
     const postId = Number(req.params.id);
     const claps = await clapQueries.getClaps(postId) satisfies ClapResponse[]
     res.json(claps)

@@ -37,10 +37,11 @@ export default function MyPostCard({ post, navigateOut }: MyPostCardProps) {
         </video>
       )} */}
       <PostCard post={post}></PostCard>
-      <ClapSection postId = {post.id}></ClapSection>
       <Button variant="red" onClick={() => onDelete(post.id)} type="submit">
         Delete Post
       </Button>
+                  <ClapSection postId = {post.id}></ClapSection>
+
     </div>
   );
 }

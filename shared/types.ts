@@ -93,6 +93,7 @@ export type ClapResponse = {
  id: number;
  userId: number;
  postId: number;
+ username: string;
 
 }
 

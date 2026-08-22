@@ -9,6 +9,7 @@ import ClapIcon from "@assets/clap.svg"
 import ClappedIcon from "@assets/clapped.svg"
 import useClapPost from "../hooks/useClapPost";
 import ErrorMessage from "@/components/error/ErrorMessage";
+import ClapSection from "./ClapSection";
 
 type PostCardProps = {
   post: PostResponse;
@@ -79,6 +80,7 @@ export default function PostCard({ post }: PostCardProps) {
           ></BetaSection>
         )}
       </div>
+      
       <p className=" bg-blue-100 rounded-md p-3">
         {getDateAndTime(post.uploadedAt)}
       </p>
