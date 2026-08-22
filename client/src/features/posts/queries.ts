@@ -64,9 +64,18 @@ export function useGetPost(id: number) {
   return { isPending, error, data };
 }
 
+export function useGetClaps(id: number) {
+  const { isPending, error, data } = useQuery({
+    queryKey: postKeys.claps(id),
+    queryFn: async () => postApi.getClaps(id),
+  });
+  return { isPending, error, data };
+}
+
 export const postKeys = {
   all: ["posts"] as const,
   following: ["posts", "following"] as const,
   post: (id: number) => [...postKeys.all, id],
   user: (id: number) => [...postKeys.all, "user", id],
+  claps: (id: number) => [...postKeys.all, id, "claps"]
 };

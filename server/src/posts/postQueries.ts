@@ -1,7 +1,7 @@
 import prisma from "@/db/prisma_client";
 import { AppError } from "@/Errors";
 import { decodeCursor, encodeCursor } from "./utils/cursor";
-import { mostRecent, postPayload } from "./prismaBlocks";
+import { mostRecent, getPostPayload } from "./prismaBlocks";
 import formatData from "./utils/formatData";
 import postRepository from "./postRepository";
 
@@ -27,7 +27,7 @@ function getNextCursor(page: HasIdAndUploadedAt[], limit: number) {
 }
 
 const postQueries = {
-  getFeedPage: async (cursor: string | null, limit: number) => {
+  getFeedPage: async (userId: number, cursor: string | null, limit: number) => {
     let page;
 
     if (cursor) {
@@ -38,9 +38,9 @@ const postQueries = {
       }
       const { id, createdAt } = decoded;
 
-      page = await postRepository.getNextFeedPage(limit, id, createdAt);
+      page = await postRepository.getNextFeedPage(limit, id, createdAt, userId);
     } else {
-      page = await postRepository.getFirstFeedPage(limit);
+      page = await postRepository.getFirstFeedPage(limit, userId);
     }
 
     // const prevCursor = encodeCursor({
@@ -81,9 +81,10 @@ const postQueries = {
         id,
         createdAt,
         followIds,
+        user_id
       );
     } else {
-      page = await postRepository.getFirstFollowingPage(limit, followIds);
+      page = await postRepository.getFirstFollowingPage(limit, followIds, user_id);
     }
     const data = page.map((post) => {
       return formatData(post);
@@ -94,12 +95,12 @@ const postQueries = {
     };
   },
 
-  getPost: async (post_id: number) => {
+  getPost: async (post_id: number, userId: number) => {
     const post = await prisma.post.findUnique({
       where: {
         id: post_id,
       },
-      ...postPayload,
+      ...getPostPayload(userId),
     });
     if (!post) {
       throw new AppError("Post not found", 404);
@@ -130,10 +131,10 @@ const postQueries = {
     return video.post;
   },
 
-  deletePost: async (id: number) => {
+  deletePost: async (id: number, userId: number) => {
     const post = await prisma.post.findUnique({
       where: { id: id },
-      ...postPayload,
+      ...getPostPayload(userId),
     });
     if (!post) {
       throw new AppError("Post not found", 404);
@@ -143,7 +144,7 @@ const postQueries = {
       where: {
         id: id,
       },
-      ...postPayload,
+      ...getPostPayload(userId),
     });
 
     return formatData(post);
@@ -170,7 +171,7 @@ const postQueries = {
           },
         },
       },
-      ...postPayload,
+      ...getPostPayload(user_id),
     });
 
     const data_obj = posts.map((post) => {

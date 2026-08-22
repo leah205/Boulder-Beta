@@ -10,6 +10,7 @@ import {
   followTestUser,
 } from "@/tests/factories";
 import postQueries from "../postQueries";
+import clapQueries from "@/claps/clapQueries";
 const app = initialize_app();
 
 const POST_URL = "/api/v1/posts";
@@ -75,6 +76,52 @@ describe("GET /post", async () => {
         expect(res.body.betas[0].content).toBe(beta.content);
       });
   });
+
+  it('gets clap count', async () => {
+    const user1 = await createTestUser();
+    const user2 = await createTestUser();
+    const climb1 = await createTestClimb(user2);
+    const attempt1 = await createTestAttemptWithVideo(climb1);
+    const post = await postQueries.postVideo(attempt1.id);
+    await clapQueries.createClap(post.id, user1.id);
+    const beta = await createTestBeta(post, user1);
+    const authRequest = new AuthRequest(app, user1.id, user1.username);
+    await authRequest
+      .get(`${POST_URL}/${post?.id}`)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.clapCount).toBe(1);
+      });
+  });
+
+  
+
+  it('gets whether current user liked post', async () => {
+    const user1 = await createTestUser();
+    const climb1 = await createTestClimb(user1);
+    const attempt1 = await createTestAttemptWithVideo(climb1);
+    const attempt2 = await createTestAttemptWithVideo(climb1);
+    const post1  = await postQueries.postVideo(attempt1.id);
+    const post2 = await postQueries.postVideo(attempt2.id);
+    await clapQueries.createClap(post1.id, user1.id);
+    const authRequest = new AuthRequest(app, user1.id, user1.username);
+    await authRequest
+      .get(`${POST_URL}/${post1.id}`)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.currentUserLiked).toBeTruthy()
+      }).then(() => {
+            return authRequest.get(`${POST_URL}/${post2.id}`)
+            .expect(200)
+      .then((res) => {
+        expect(res.body.currentUserLiked).toBeFalsy()
+      })
+
+      }
+      )
+  })
+
+  
 });
 it("throws error when post not found", async () => {
   const user1 = await createTestUser();
@@ -136,3 +183,41 @@ expect(deletedPostAttempt.video?.post).toBeFalsy();
     await authRequest2.delete(`${POST_URL}/${post!.id}`).expect(403);
   });
 });
+
+
+describe("GET /claps", async () => {
+  it('gets all claps', async () => {
+     const user1 = await createTestUser();
+    const user2 = await createTestUser();
+    const climb1 = await createTestClimb(user2);
+    const attempt1 = await createTestAttemptWithVideo(climb1);
+    const post = await postQueries.postVideo(attempt1.id);
+    await clapQueries.createClap(post.id, user1.id);
+    await clapQueries.createClap(post.id, user2.id)
+    const authRequest = new AuthRequest(app, user2.id, user2.username);
+    await authRequest
+      .get(`${POST_URL}/${post?.id}/claps`)
+      .expect(200)
+      .then((res) => {
+        expect(res.body.length).toBe(2);
+        const usernames = res.body.map((clap: any) => clap.username);
+        expect(usernames).toContain(user1.username);
+        expect(usernames).toContain(user2.username);
+      });
+  })
+
+  it('throws forbidden if not post owner', async () => {
+     const user1 = await createTestUser();
+    const user2 = await createTestUser();
+    const climb1 = await createTestClimb(user2);
+    const attempt1 = await createTestAttemptWithVideo(climb1);
+    const post = await postQueries.postVideo(attempt1.id);
+    await clapQueries.createClap(post.id, user1.id);
+    await clapQueries.createClap(post.id, user2.id)
+    const authRequest = new AuthRequest(app, user1.id, user1.username);
+    await authRequest
+      .get(`${POST_URL}/${post?.id}/claps`)
+      .expect(403)
+      
+  })
+})

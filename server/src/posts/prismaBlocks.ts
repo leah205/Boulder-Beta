@@ -9,8 +9,23 @@ const mostRecent = {
     },
   },
 } satisfies Prisma.PostOrderByWithRelationInput;
-const postPayload = {
+
+function getPostPayload(userId: number){
+  const postPayload = {
   include: {
+    _count: {
+      select: {
+        claps: true
+      }
+    },
+    claps: {
+      where: {
+        userId: userId
+      },
+      select: {
+        userId: true
+      }
+    },
     betas: {
       include: {
         author: {
@@ -45,6 +60,9 @@ const postPayload = {
     },
   },
 } satisfies Prisma.PostDefaultArgs;
+return postPayload
+
+}
 
 const nextPageQuery = {};
 
@@ -52,4 +70,4 @@ const firstPageQuery = {};
 
 const prevPageQuery = {};
 
-export { mostRecent, postPayload };
+export { mostRecent, getPostPayload};

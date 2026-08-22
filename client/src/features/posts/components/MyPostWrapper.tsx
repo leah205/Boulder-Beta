@@ -1,10 +1,11 @@
 import type { PostResponse } from "@shared/types";
-import useDeletePost from "../useDeletePost";
+import useDeletePost from "../hooks/useDeletePost";
 import ErrorMessage from "@/components/error/ErrorMessage";
 import Spinner from "@/components/spinner/Spinner";
 import Button from "@/components/Button";
 import { useNavigate } from "react-router-dom";
 import PostCard from "./PostCard";
+import ClapSection from "./ClapSection";
 
 type MyPostCardProps = {
   post: PostResponse;
@@ -36,9 +37,12 @@ export default function MyPostCard({ post, navigateOut }: MyPostCardProps) {
         </video>
       )} */}
       <PostCard post={post}></PostCard>
+            <ClapSection postId = {post.id}></ClapSection>
+
       <Button variant="red" onClick={() => onDelete(post.id)} type="submit">
         Delete Post
       </Button>
+
     </div>
   );
 }

@@ -88,6 +88,15 @@ export type AttemptWithVideoResponse = AttemptResponse & {
   } | null;
 };
 
+export type ClapResponse = {
+  
+ id: number;
+ userId: number;
+ postId: number;
+ username: string;
+
+}
+
 export type AttemptResponse = {
   id: number;
   climbId: number;
@@ -126,10 +135,12 @@ export type PostResponse = {
   clip?: string | null;
   climb_id: number;
   uploadedAt: string;
+  clapCount: number;
   author: {
     id: number;
     username: string;
   };
+  currentUserLiked: boolean;
 } & {
   betas: BetaResponse[];
 };

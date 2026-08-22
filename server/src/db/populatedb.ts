@@ -13,6 +13,7 @@ import config from "@/config";
 async function reset_db() {
   // await prisma.$queryRaw`DROP schema public CASCADE`;
   await prisma.$transaction([
+    prisma.clap.deleteMany(),
     prisma.beta.deleteMany(),
     prisma.post.deleteMany(),
     prisma.video.deleteMany(),
