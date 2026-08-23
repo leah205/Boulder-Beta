@@ -20,7 +20,7 @@ export default function UsersPage(){
     }
     return <div>
         <PageHeader>Users</PageHeader>
-        <ul className = "list-style-none">
+        <ul className = "list-style-none p-8">
         {userData.map((user: AuthResponse) => {
             if(user){
                 return <li><UserRelationTag user = {user}></UserRelationTag></li>

@@ -13,7 +13,6 @@ export default function ClimbPic({
   color,
   className,
 }: ClimbPicProps) {
-  console.log("yooohooo");
   const style = {
     backgroundImage: `url(${picture}), url("${mountainSvg}")`,
     backgroundColor: "rgb(235, 235, 235)",
@@ -21,7 +20,7 @@ export default function ClimbPic({
 
   return (
     <div
-      className={`text-center my-3 hover:bg-mist-50 rounded-md border-1 border-mist-300 shadow-sm w-50 h-50 border-5 relative ${className}`}
+      className={`text-center my-3 hover:bg-mist-50 rounded-md border-1 border-mist-300 shadow-sm w-70 h-70 md:w-50 md:h-50 border-5 relative ${className}`}
       style={{ ...style, borderColor: color, backgroundSize: "cover" }}
       data-testid="climb-pic"
     >
