@@ -48,7 +48,7 @@ export default function MyClimbPage() {
   }
   return (
     <>
-      <div className="flex flex-row gap-10 p-5 pb-20 w-full justify-center flex-wrap">
+      <div className="flex flex-col md:flex-row gap-10 p-5 pb-20 w-full justify-center flex-wrap items-center">
         {data &&
           data.map((climb) => {
             return <ClimbCard key={climb.id} climb={climb}></ClimbCard>;

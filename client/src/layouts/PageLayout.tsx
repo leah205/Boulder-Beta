@@ -5,7 +5,7 @@ export default function PageLayout({ children }: { children: React.ReactNode }) 
   const navigate = useNavigate();
   return (
     <div>
-      <Button type="button" onClick={() => navigate(-1)}>
+      <Button className = "m-5" type="button" onClick={() => navigate(-1)}>
         Back
       </Button>
       {children}
