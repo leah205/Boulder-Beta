@@ -18,7 +18,7 @@ type PostCardProps = {
 export default function PostCard({ post }: PostCardProps) {
   const [betasOpen, setBetasOpen] = useState(false);
   const [videoError, setVideoError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const {toggleClapPost, clapPending, clapError, userHasClapped, clapCount} = useClapPost(post);
 
   const toggleBetasOpen = () =>
@@ -35,11 +35,7 @@ export default function PostCard({ post }: PostCardProps) {
         <video
           className={`w-full ${videoError || loading ? "h-120" : ""}`}
           controls
-        >
-          <source
-            src={post.clip || undefined}
-            type="video/mp4"
-            onError={() => {
+           onError={() => {
               setVideoError(true);
             }}
             onLoadStart={() => setLoading(true)}
@@ -47,6 +43,11 @@ export default function PostCard({ post }: PostCardProps) {
               setVideoError(false);
               setLoading(false);
             }}
+        >
+          <source
+            src={post.clip || undefined}
+            type="video/mp4"
+           
           ></source>
         </video>
         {!betasOpen && !loading &&  <div className="bg-black/50 absolute z-10 bottom-50 right-0 rounded-md flex flex-col gap-3 px-2 py-5 bg-mist">

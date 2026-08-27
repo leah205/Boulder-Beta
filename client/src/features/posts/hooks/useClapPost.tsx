@@ -2,9 +2,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import postApi from "../postService";
 import type { PostResponse } from "@shared/types";
+import useAuth from "@/features/authentication/useAuth";
 
 export default function useClapPost(post: PostResponse) {
   const queryClient = useQueryClient();
+  const {user} = useAuth()
   const [error, setError] = useState<Error | null>(null);
   const userHasClapped = post.currentUserLiked;
 
@@ -12,6 +14,9 @@ export default function useClapPost(post: PostResponse) {
     mutationFn: () => {
       return userHasClapped ? postApi.unclapPost(post.id): postApi.clapPost(post.id)}
       ,
+  
+
+
     onSuccess: (res: PostResponse) => {
       queryClient.invalidateQueries({
         queryKey: ["posts"],
