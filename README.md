@@ -106,3 +106,15 @@ All API routes are prefixed with `/api/v1`. Protected routes require an
 | `POST`   | `/posts/:post_id/betas`            | Bearer token                | Add beta to a post                                                     |
 | `POST`   | `/posts/:post_id/clap`             | Bearer token                | Clap a post                                                            |
 | `POST`   | `/posts/:post_id/unclap`           | Bearer token                | Remove a clap from a post                                              |
+
+## Screenshots
+
+![home page](images/beta.png)
+
+![profile page](images/beta_profile.png)
+
+![climb page](images/beta_climb.png)
+
+![analytics page](images/analytics_profile.png)
+
+![feed page](images/beta_feed.png)
