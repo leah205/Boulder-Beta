@@ -115,6 +115,6 @@ All API routes are prefixed with `/api/v1`. Protected routes require an
 
 ![climb page](images/beta_climb.png)
 
-![analytics page](images/analytics_profile.png)
+![analytics page](images/analytics.png)
 
 ![feed page](images/beta_feed.png)
